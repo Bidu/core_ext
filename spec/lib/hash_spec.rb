@@ -303,36 +303,6 @@ describe Hash do
     end
   end
 
-  describe :deep_stringfy_keys do
-    it 'Converts keys to string' do
-      { 'a' => 1, b: 2 }.deep_stringfy_keys.should eq({ 'a' => 1, 'b' => 2 })
-    end
-    it 'Works on empty hash' do
-      expect({}.deep_stringfy_keys).to eq({})
-    end
-    it 'Converts keys to string recursively' do
-      { 'a' => 1, b:  { c: 3, d: 4 } }.deep_stringfy_keys.should eq({ 'a' => 1, 'b' =>  { 'c' => 3, 'd' => 4 } })
-    end
-    it 'Applies to arrays as well' do
-      { a: [{ b: 1 }, { c: 2 }] }.deep_stringfy_keys.should eq({ 'a' => [{ 'b' => 1 }, { 'c' => 2 }] })
-    end
-  end
-
-  describe :deep_symbolize_keys do
-    it 'Converts keys to symbol' do
-      { 'a' => 1, b: 2 }.deep_symbolize_keys.should eq({ a: 1, b: 2 })
-    end
-    it 'Works on empty hash' do
-      expect({}.deep_symbolize_keys).to eq({})
-    end
-    it 'Converts keys to symbol recursively' do
-      { 'a' => 1, b:  { c: 3, 'd' => 4 } }.deep_symbolize_keys.should eq({ a: 1, b:  { c: 3, d: 4 } })
-    end
-    it 'Applies to arrays as well' do
-      { 'a' => [{ 'b' => 1 }, { 'c' => 2 }] }.deep_symbolize_keys.should eq({ a: [{ b: 1 }, { c: 2 }] })
-    end
-  end
-
   describe :change_keys do
     it 'accepts block to change the keys' do
       { 'a' => 1, b: 2 }.change_keys { |k| "foo_#{k}" }.should eq({ 'foo_a' => 1, 'foo_b' => 2 })

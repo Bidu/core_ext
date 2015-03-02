@@ -43,18 +43,6 @@ class Hash
     end
   end
 
-  # change keys to stringrecursively
-  # { :a=>1, :b => { c:2 } }.deep_stringfy_keys == { "a"=>1, "b" => { "c" => 2 } }
-  def deep_stringfy_keys
-    change_keys({ recursive: true }) { |key| key.to_s }
-  end
-
-  # change keys to symbols
-  # { "a"=>1, "b" => { "c" => 2 } }.deep_symbolize_keys == { :a=>1, :b => { c:2 } }
-  def deep_symbolize_keys
-    change_keys({ recursive: true }) { |key| key.to_sym }
-  end
-
   # change all keys returning the new map
   # options: { recursive: true }
   # ex: { "a":1 }.change_keys{ |key| key.upcase } == { "A":1 }
