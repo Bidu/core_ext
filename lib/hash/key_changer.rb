@@ -1,15 +1,16 @@
-class Hash::KeyTextChanger
+class Hash::KeyChanger
   attr_reader :options, :hash, :block
 
-  def initialize(hash, options = {}, &block)
+  def initialize(hash)
     @hash = hash
+  end
+
+  def change_text(options = {}, &block)
     @options = {
       type: :keep
     }.merge(options)
     @block = block
-  end
 
-  def change
     hash.change_keys(options) do |key|
       cast_new_key block.call(key), key.class
     end

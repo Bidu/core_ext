@@ -1,6 +1,6 @@
 require 'hash/value_changer'
 require 'hash/deep_hash_constructor'
-require 'hash/key_text_changer'
+require 'hash/key_changer'
 
 class Hash
   def squash
@@ -136,6 +136,6 @@ class Hash
   # }
   # ex: { :a => 1, "b"=> 2 }.change_key_text{ |key| key.upcase } == { :A => 1, "B"=> 2 }
   def change_key_text(options = {}, &block)
-    Hash::KeyTextChanger.new(self, options, &block).change
+    Hash::KeyChanger.new(self).change_text(options, &block)
   end
 end
