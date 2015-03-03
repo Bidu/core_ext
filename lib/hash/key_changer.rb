@@ -5,6 +5,18 @@ class Hash::KeyChanger
     @hash = hash
   end
 
+  def change_keys(options = {}, &block)
+    @options = {
+      recursive: true
+    }.merge(options)
+
+    if @options[:recursive]
+      hash.deep_transform_keys!(&block)
+    else
+      hash.transform_keys!(&block)
+    end
+  end
+
   def change_text(options = {}, &block)
     @options = {
       type: :keep

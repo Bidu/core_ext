@@ -55,15 +55,7 @@ class Hash
   # options: { recursive: true }
   # ex: { "a":1 }.change_keys{ |key| key.upcase } == { "A":1 }
   def change_keys!(options = {}, &block)
-    options = {
-      recursive: true
-    }.merge(options)
-
-    if options[:recursive]
-      deep_transform_keys!(&block)
-    else
-      transform_keys!(&block)
-    end
+    Hash::KeyChanger.new(self).change_keys(options, &block)
   end
 
   # prepend a string to all keys
