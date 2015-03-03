@@ -1,14 +1,14 @@
 class Hash::KeyChanger
-  attr_reader :options, :hash, :block
+  attr_reader :hash, :block
 
   def initialize(hash)
     @hash = hash
   end
 
   def change_keys(options = {}, &block)
-    @options = {
+    merge_options({
       recursive: true
-    }.merge(options)
+    }, options)
 
     if @options[:recursive]
       hash.deep_transform_keys!(&block)
@@ -18,17 +18,24 @@ class Hash::KeyChanger
   end
 
   def change_text(options = {}, &block)
-    @options = {
+    merge_options({
       type: :keep
-    }.merge(options)
-    @block = block
+    }, options)
 
-    hash.change_keys(options) do |key|
+    change_keys do |key|
       cast_new_key block.call(key), key.class
     end
   end
 
   private
+
+  def merge_options(default, custom)
+    options.merge!(default).merge!(custom)
+  end
+
+  def options
+    @options ||= {}
+  end
 
   def cast_new_key(key, old_clazz)
     case class_cast(old_clazz)
