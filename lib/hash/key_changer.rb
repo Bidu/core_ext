@@ -42,7 +42,7 @@ class Hash::KeyChanger
   private
 
   def merge_options(default, custom)
-    options.merge!(default).merge!(custom)
+    @options = {}.merge!(default).merge!(custom).merge!(options)
   end
 
   def options
