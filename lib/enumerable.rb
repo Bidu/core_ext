@@ -1,4 +1,8 @@
 module Enumerable
+  def clean
+    deep_dup.clean!
+  end
+
   # delete hash or array values if value is nil
   # ex: { a: nil, b: 2 }.clean! => { b: 2 }
   def clean!
