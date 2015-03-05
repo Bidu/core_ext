@@ -33,15 +33,7 @@ class Hash
   end
 
   def camelize_keys!(options = {})
-    options = {
-      uppercase_first_letter: true
-    }.merge(options)
-
-    type = options[:uppercase_first_letter] ? :upper : :lower
-
-    change_keys!(options) do |k|
-      k.camelize(type)
-    end
+    Hash::KeyChanger.new(self).camelize_keys(options)
   end
 
   # change all keys returning the new map

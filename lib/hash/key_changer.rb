@@ -5,15 +5,27 @@ class Hash::KeyChanger
     @hash = hash
   end
 
-  def change_keys(options = {}, &block)
+  def change_keys(settings = {}, &block)
     merge_options({
       recursive: true
-    }, options)
+    }, settings)
 
-    if @options[:recursive]
+    if options[:recursive]
       hash.deep_transform_keys!(&block)
     else
       hash.transform_keys!(&block)
+    end
+  end
+
+  def camelize_keys(settings = {})
+    merge_options({
+      uppercase_first_letter: true
+    }, settings)
+
+    type = options[:uppercase_first_letter] ? :upper : :lower
+
+    change_keys do |k|
+      k.camelize(type)
     end
   end
 
