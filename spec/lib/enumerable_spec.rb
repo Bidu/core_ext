@@ -1,143 +1,31 @@
 describe Enumerable do
   describe '#clean!' do
-    context 'when array has one level' do
-      let(:subject) do
-        [1, nil, '', {}, []]
-      end
+    it_behaves_like 'an array clean method', :clean!
+    it_behaves_like 'a hash clean method', :clean!
 
-      let(:expected) do
-        [1]
-      end
-
-      it 'cleans the hash from empty and nil values' do
-        expect(subject.clean!).to eq(expected)
-      end
+    it 'changes the original hash' do
+      hash = { a: nil}
+      expect { hash.clean! }.to change { hash }
     end
 
-    context 'when array has many levels' do
-      let(:subject) do
-        [1, nil, '', {}, [[[{ a: [[[[[[[]]]]]]] }]]], [[[[[[[2]]]]]]], [{ a: [2] }]]
-      end
+    it 'changes original array' do
+      array = [{ a: nil}]
+      expect { array.clean! }.to change { array }
+    end
+  end
 
-      let(:expected) do
-        [1, [[[[[[[2]]]]]]], [{ a: [2] }]]
-      end
+  describe '#clean' do
+    it_behaves_like 'an array clean method', :clean
+    it_behaves_like 'a hash clean method', :clean
 
-      it 'cleans the hash from empty and nil values' do
-        expect(subject.clean!).to eq(expected)
-      end
+    it 'does not change the original hash' do
+      hash = { a: nil}
+      expect { hash.clean }.not_to change { hash }
     end
 
-    context 'when hash has one level' do
-      let(:subject) do
-        { a: 1, b: nil, c: '', d: {} }
-      end
-
-      let(:expected) do
-        { a: 1 }
-      end
-
-      it 'cleans the hash from empty and nil values' do
-        expect(subject.clean!).to eq(expected)
-      end
-    end
-
-    context 'when hash has two levels' do
-      let(:subject) do
-        { a: 1, c: '', d: { e: 1 }, f: { g: { b: nil } } }
-      end
-
-      let(:expected) do
-        { a: 1, d: { e: 1 } }
-      end
-
-      it 'cleans the hash from empty and nil values' do
-        expect(subject.clean!).to eq(expected)
-      end
-    end
-
-    context 'when hash has many levels' do
-      let(:subject) do
-        { a: 1, d: { e: { k: { l: { m: { n: 1 } } } } }, f: { g: { h: { i: { j: { c: '' } } } } } }
-      end
-
-      let(:expected) do
-        { a: 1, d: { e: { k: { l: { m: { n: 1 } } } } } }
-      end
-
-      it 'cleans the hash from empty and nil values' do
-        expect(subject.clean!).to eq(expected)
-      end
-    end
-
-    context 'when hash has one nil value and one valid value' do
-      let(:subject) do
-        { a: { b: 1, c: nil } }
-      end
-
-      let(:expected) do
-        { a: { b: 1 } }
-      end
-
-      it 'cleans the hash from empty and nil values' do
-        expect(subject.clean!).to eq(expected)
-      end
-    end
-
-    context 'when hash has arrays' do
-      let(:subject) do
-        { a: [] }
-      end
-
-      let(:expected) do
-        {}
-      end
-
-      it 'cleans the hash from empty and nil values' do
-        expect(subject.clean!).to eq(expected)
-      end
-    end
-
-    context 'when hash has arrays with hashes' do
-      let(:subject) do
-        { a: [{ c: nil }] }
-      end
-
-      let(:expected) do
-        {}
-      end
-
-      it 'cleans the hash from empty and nil values' do
-        expect(subject.clean!).to eq(expected)
-      end
-    end
-
-    context 'when hash has arrays with hashes with valid values' do
-      let(:subject) do
-        { a: [{ c: 1 }] }
-      end
-
-      let(:expected) do
-        { a: [{ c: 1 }] }
-      end
-
-      it 'cleans the hash from empty and nil values' do
-        expect(subject.clean!).to eq(expected)
-      end
-    end
-
-    context 'when hash has arrays with hashes with valid and invalid values' do
-      let(:subject) do
-        { a: [{ c: nil }, { d: 1 }] }
-      end
-
-      let(:expected) do
-        { a: [{ d: 1 }] }
-      end
-
-      it 'cleans the hash from empty and nil values' do
-        expect(subject.clean!).to eq(expected)
-      end
+    it 'does not change the original array' do
+      array = [{ a: nil}]
+      expect { array.clean }.not_to change { array }
     end
   end
 end

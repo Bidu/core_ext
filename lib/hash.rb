@@ -1,5 +1,6 @@
 require 'hash/value_changer'
 require 'hash/deep_hash_constructor'
+require 'hash/key_changer'
 
 class Hash
   def squash
@@ -32,15 +33,7 @@ class Hash
   end
 
   def camelize_keys!(options = {})
-    options = {
-      uppercase_first_letter: true
-    }.merge(options)
-
-    type = options[:uppercase_first_letter] ? :upper : :lower
-
-    change_keys!(options) do |k|
-      k.camelize(type)
-    end
+    Hash::KeyChanger.new(self).camelize_keys(options)
   end
 
   # change all keys returning the new map
@@ -54,15 +47,7 @@ class Hash
   # options: { recursive: true }
   # ex: { "a":1 }.change_keys{ |key| key.upcase } == { "A":1 }
   def change_keys!(options = {}, &block)
-    options = {
-      recursive: true
-    }.merge(options)
-
-    if options[:recursive]
-      deep_transform_keys!(&block)
-    else
-      transform_keys!(&block)
-    end
+    Hash::KeyChanger.new(self).change_keys(options, &block)
   end
 
   # prepend a string to all keys
@@ -134,16 +119,7 @@ class Hash
   #  type: :keep [keep, string, symbol] (key type to be returned)
   # }
   # ex: { :a => 1, "b"=> 2 }.change_key_text{ |key| key.upcase } == { :A => 1, "B"=> 2 }
-  def change_key_text(options = {})
-    options = {
-      type: :keep
-    }.merge(options)
-
-    change_keys(options) do |key|
-      str = yield(key)
-      str = str.to_sym if options[:type] == :symbol || (key.is_a?(Symbol) && options[:type] == :keep)
-      str = str.to_s if options[:type] == :string || (key.is_a?(String) && options[:type] == :keep)
-      str
-    end
+  def change_key_text(options = {}, &block)
+    Hash::KeyChanger.new(self).change_text(options, &block)
   end
 end
