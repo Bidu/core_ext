@@ -31,4 +31,31 @@ describe Array do
       it { expect { array.as_hash(keys) rescue nil }.not_to change { array } }
     end
   end
+
+  describe '#find_map' do
+    let(:array) { [1, 2, 3] }
+    let(:value) { array.find_map(&block) }
+
+    context 'when block returns nil' do
+      let(:block) { Proc.new {} }
+      it { expect(value).to be_nil }
+    end
+
+    context 'when block returns false' do
+      let(:block) { Proc.new { false } }
+      it { expect(value).to be_nil }
+    end
+
+    context 'when block returns a true evaluated value' do
+      let(:block) { Proc.new { |v| v.to_s } }
+
+      it { expect(value).to eq('1') }
+
+      context 'but not for the first value' do
+        let(:block) { Proc.new { |v| v.to_s if v > 1 } }
+
+        it { expect(value).to eq('2') }
+      end
+    end
+  end
 end
