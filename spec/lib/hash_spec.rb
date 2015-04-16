@@ -669,5 +669,13 @@ describe Hash do
         end
       end
     end
+
+    context 'when the block accepts one argument' do
+      let(:block) { Proc.new { |v| v } }
+
+      it do
+        expect(value).to eq([:a, 1])
+      end
+    end
   end
 end

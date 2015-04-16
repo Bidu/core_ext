@@ -113,8 +113,8 @@ class Hash
 
   def find_map
     mapped = nil
-    find do |k, value|
-      mapped = yield(k, value)
+    find do |*args|
+      mapped = yield(*args)
     end
     mapped || nil
   end
