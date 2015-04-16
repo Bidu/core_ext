@@ -10,7 +10,6 @@ class Array
     find do |value|
       mapped = yield(value)
     end
-    return nil unless mapped
-    mapped
+    mapped || nil
   end
 end
