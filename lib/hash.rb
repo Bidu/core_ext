@@ -111,6 +111,9 @@ class Hash
     Hash::DeepHashConstructor.new(separator).deep_hash(self)
   end
 
+  def find_map
+  end
+
   private
 
   # changes the text of the keys

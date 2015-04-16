@@ -632,4 +632,19 @@ describe Hash do
       end
     end
   end
+
+  describe '#find_map' do
+    let(:hash) { { a: 1, b: 2, c: 3, d: 4} }
+    let(:value) { hash.find_map(&block) }
+
+    context 'when block returns nil' do
+      let(:block) { Proc.new {} }
+      it { expect(value).to be_nil }
+    end
+
+    context 'when block returns false' do
+      let(:block) { Proc.new { false } }
+      it { expect(value).to be_nil }
+    end
+  end
 end
