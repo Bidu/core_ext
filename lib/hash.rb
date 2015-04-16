@@ -111,14 +111,6 @@ class Hash
     Hash::DeepHashConstructor.new(separator).deep_hash(self)
   end
 
-  def find_map
-    mapped = nil
-    find do |*args|
-      mapped = yield(*args)
-    end
-    mapped || nil
-  end
-
   private
 
   # changes the text of the keys
