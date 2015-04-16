@@ -646,5 +646,28 @@ describe Hash do
       let(:block) { Proc.new { false } }
       it { expect(value).to be_nil }
     end
+
+    context 'when block returns a true evaluated value' do
+      let(:block) { Proc.new { |k, v| v.to_s } }
+
+      it { expect(value).to eq('1') }
+
+      context 'but not for the first value' do
+        let(:transformer) { double(:transformer) }
+        let(:block) { Proc.new { |k, v| transformer.transform(v) } }
+
+        before do
+          allow(transformer).to receive(:transform) do |v|
+            v.to_s if v > 1
+          end
+        end
+
+        it { expect(value).to eq('2') }
+        it 'calls the mapping only until it returns a valid value' do
+          value
+          expect(transformer).to have_received(:transform).exactly(2)
+        end
+      end
+    end
   end
 end

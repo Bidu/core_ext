@@ -112,6 +112,11 @@ class Hash
   end
 
   def find_map
+    mapped = nil
+    find do |k, value|
+      mapped = yield(k, value)
+    end
+    mapped || nil
   end
 
   private
