@@ -32,9 +32,9 @@ describe Array do
     end
   end
 
-  describe '#find_and_map' do
+  describe '#map_and_find' do
     let(:array) { [1, 2, 3, 4] }
-    let(:value) { array.find_and_map(&block) }
+    let(:value) { array.map_and_find(&block) }
 
     context 'when block returns nil' do
       let(:block) { Proc.new {} }
