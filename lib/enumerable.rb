@@ -13,7 +13,7 @@ module Enumerable
     end
   end
 
-  def find_map
+  def find_and_map
     mapped = nil
     find do |*args|
       mapped = yield(*args)

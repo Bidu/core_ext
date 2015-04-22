@@ -633,9 +633,9 @@ describe Hash do
     end
   end
 
-  describe '#find_map' do
+  describe '#find_and_map' do
     let(:hash) { { a: 1, b: 2, c: 3, d: 4} }
-    let(:value) { hash.find_map(&block) }
+    let(:value) { hash.find_and_map(&block) }
 
     context 'when block returns nil' do
       let(:block) { Proc.new {} }
