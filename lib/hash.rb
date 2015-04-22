@@ -18,6 +18,12 @@ class Hash
     end
   end
 
+  def remap_keys(remap)
+    change_keys do |key|
+      remap.key?(key) ? remap[key] : key
+    end
+  end
+
   def lower_camelize_keys(options = {})
     dup.lower_camelize_keys!(options)
   end
