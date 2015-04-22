@@ -632,4 +632,50 @@ describe Hash do
       end
     end
   end
+
+  describe '#map_and_find' do
+    let(:hash) { { a: 1, b: 2, c: 3, d: 4} }
+    let(:value) { hash.map_and_find(&block) }
+
+    context 'when block returns nil' do
+      let(:block) { Proc.new {} }
+      it { expect(value).to be_nil }
+    end
+
+    context 'when block returns false' do
+      let(:block) { Proc.new { false } }
+      it { expect(value).to be_nil }
+    end
+
+    context 'when block returns a true evaluated value' do
+      let(:block) { Proc.new { |k, v| v.to_s } }
+
+      it { expect(value).to eq('1') }
+
+      context 'but not for the first value' do
+        let(:transformer) { double(:transformer) }
+        let(:block) { Proc.new { |k, v| transformer.transform(v) } }
+
+        before do
+          allow(transformer).to receive(:transform) do |v|
+            v.to_s if v > 1
+          end
+          value
+        end
+
+        it { expect(value).to eq('2') }
+        it 'calls the mapping only until it returns a valid value' do
+          expect(transformer).to have_received(:transform).exactly(2)
+        end
+      end
+    end
+
+    context 'when the block accepts one argument' do
+      let(:block) { Proc.new { |v| v } }
+
+      it do
+        expect(value).to eq([:a, 1])
+      end
+    end
+  end
 end

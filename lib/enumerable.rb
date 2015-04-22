@@ -13,6 +13,14 @@ module Enumerable
     end
   end
 
+  def map_and_find
+    mapped = nil
+    find do |*args|
+      mapped = yield(*args)
+    end
+    mapped || nil
+  end
+
   private
 
   def empty_value?(v)

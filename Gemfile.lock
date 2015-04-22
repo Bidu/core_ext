@@ -45,4 +45,5 @@ DEPENDENCIES
   core_ext!
   rake
   rspec (~> 2.14)
+  rspec-mocks
   simplecov
