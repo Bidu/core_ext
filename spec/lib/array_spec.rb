@@ -31,4 +31,42 @@ describe Array do
       it { expect { array.as_hash(keys) rescue nil }.not_to change { array } }
     end
   end
+
+  describe '#map_and_find' do
+    let(:array) { [1, 2, 3, 4] }
+    let(:value) { array.map_and_find(&block) }
+
+    context 'when block returns nil' do
+      let(:block) { Proc.new {} }
+      it { expect(value).to be_nil }
+    end
+
+    context 'when block returns false' do
+      let(:block) { Proc.new { false } }
+      it { expect(value).to be_nil }
+    end
+
+    context 'when block returns a true evaluated value' do
+      let(:block) { Proc.new { |v| v.to_s } }
+
+      it { expect(value).to eq('1') }
+
+      context 'but not for the first value' do
+        let(:transformer) { double(:transformer) }
+        let(:block) { Proc.new { |v| transformer.transform(v) } }
+
+        before do
+          allow(transformer).to receive(:transform) do |v|
+            v.to_s if v > 1
+          end
+          value
+        end
+
+        it { expect(value).to eq('2') }
+        it 'calls the mapping only until it returns a valid value' do
+          expect(transformer).to have_received(:transform).exactly(2)
+        end
+      end
+    end
+  end
 end
