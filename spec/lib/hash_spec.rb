@@ -660,11 +660,11 @@ describe Hash do
           allow(transformer).to receive(:transform) do |v|
             v.to_s if v > 1
           end
+          value
         end
 
         it { expect(value).to eq('2') }
         it 'calls the mapping only until it returns a valid value' do
-          value
           expect(transformer).to have_received(:transform).exactly(2)
         end
       end
