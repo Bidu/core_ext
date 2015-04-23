@@ -1,38 +1,56 @@
 shared_examples 'a class with remap method' do
+  let(:subject) { { a: 1, b: 2 } }
+
   describe :remap_keys do
-    let(:subject) { { a: 1, b: 2 } }
-    let(:result) { subject.remap_keys(remap) }
+    it_behaves_like 'a method that remaps the keys', :remap_keys
 
-    context 'when remap and hash keys match' do
-      let(:remap) { { a: :e, b: :f } }
-
-      it 'remaps the keys' do
-        expect(result).to eq(e: 1, f: 2)
-      end
+    it 'does not change the original hash' do
+      expect { subject.remap_keys(a: :e) }.not_to change { subject }
     end
+  end
 
-    context 'when remap and hash keys do not match' do
-      let(:remap) { { b: :f } }
+  describe :remap_keys! do
+    it_behaves_like 'a method that remaps the keys', :remap_keys!
 
-      it 'remap only the keys that match' do
-        expect(result).to eq(a: 1, f: 2)
-      end
+    it 'changes the original hash' do
+      expect { subject.remap_keys!(a: :e) }.to change { subject }
     end
+  end
 
-    context 'when there are keys out of the keys list' do
-      let(:remap) { { c: :g } }
+end
 
-      it 'creates a nil valued key' do
-        expect(result).to eq(a: 1, b: 2, g: nil)
-      end
+shared_examples 'a method that remaps the keys' do |method|
+  let(:result) { subject.public_send(method, remap) }
+
+  context 'when remap and hash keys match' do
+    let(:remap) { { a: :e, b: :f } }
+
+    it 'remaps the keys' do
+      expect(result).to eq(e: 1, f: 2)
     end
+  end
 
-    context 'when remap has no keys' do
-      let(:remap) { {} }
+  context 'when remap and hash keys do not match' do
+    let(:remap) { { b: :f } }
 
-      it 'does not remap the keys' do
-        expect(result).to eq(a: 1, b: 2)
-      end
+    it 'remap only the keys that match' do
+      expect(result).to eq(a: 1, f: 2)
+    end
+  end
+
+  context 'when there are keys out of the keys list' do
+    let(:remap) { { c: :g } }
+
+    it 'creates a nil valued key' do
+      expect(result).to eq(a: 1, b: 2, g: nil)
+    end
+  end
+
+  context 'when remap has no keys' do
+    let(:remap) { {} }
+
+    it 'does not remap the keys' do
+      expect(result).to eq(a: 1, b: 2)
     end
   end
 end
