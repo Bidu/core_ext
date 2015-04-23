@@ -36,6 +36,14 @@ class Hash
     Hash::KeyChanger.new(self).camelize_keys(options)
   end
 
+  def exclusive_merge(hash)
+    dup.exclusive_merge!(hash)
+  end
+
+  def exclusive_merge!(hash)
+    merge!(hash.slice(*keys))
+  end
+
   # change all keys returning the new map
   # options: { recursive: true }
   # ex: { "a":1 }.change_keys{ |key| key.upcase } == { "A":1 }
