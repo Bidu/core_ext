@@ -39,8 +39,16 @@ describe Hash do
     context 'when remap and hash keys do not match' do
       let(:remap) { { b: :f } }
 
-      it 'remap oinly the keys that match' do
+      it 'remap only the keys that match' do
         expect(result).to eq(a: 1, f: 2)
+      end
+    end
+
+    context 'when there are keys out of the keys list' do
+      let(:remap) { { c: :g } }
+
+      it 'creates a nil valued key' do
+        expect(result).to eq(a: 1, b: 2, g: nil)
       end
     end
 

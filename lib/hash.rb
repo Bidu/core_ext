@@ -19,8 +19,10 @@ class Hash
   end
 
   def remap_keys(remap)
-    change_keys do |key|
-      remap.key?(key) ? remap[key] : key
+    tap do |hash|
+      remap.each do |o, n|
+        hash[n] = hash.delete o
+      end
     end
   end
 
