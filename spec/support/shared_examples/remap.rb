@@ -69,4 +69,21 @@ shared_examples 'a method that remaps the keys' do |method|
       expect(result).to eq(b: 1, c: 2)
     end
   end
+
+  context 'when changing the type of the key' do
+    let(:remap) { { a: 'a' } }
+
+    it 'does not remap the keys' do
+      expect(result).to eq('a' => 1, b: 2)
+    end
+
+    context 'and the original key is an string' do
+      let(:subject) { { 'a' => 1, 'b' => 2 } }
+      let(:remap) { { 'a' => :a } }
+
+      it 'does not remap the keys' do
+        expect(result).to eq(a: 1, 'b' => 2)
+      end
+    end
+  end
 end
