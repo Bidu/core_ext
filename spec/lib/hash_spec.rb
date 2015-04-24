@@ -52,6 +52,32 @@ describe Hash do
     end
   end
 
+  describe :exclusive_merge do
+    let(:subject) { { a: 1, b: 2 } }
+    let(:other) { { b: 3, c: 4 } }
+
+    it 'merge only the common keys' do
+      expect(subject.exclusive_merge(other)).to eq(a: 1, b: 3)
+    end
+
+    it 'does not change the original hash' do
+      expect { subject.exclusive_merge(other) }.not_to change { subject }
+    end
+  end
+
+  describe :exclusive_merge! do
+    let(:subject) { { a: 1, b: 2 } }
+    let(:other) { { b: 3, c: 4 } }
+
+    it 'merge only the common keys' do
+      expect(subject.exclusive_merge!(other)).to eq(a: 1, b: 3)
+    end
+
+    it 'does not change the original hash' do
+      expect { subject.exclusive_merge!(other) }.to change { subject }
+    end
+  end
+
   describe :to_deep_hash do
     let(:subject) do
       {
