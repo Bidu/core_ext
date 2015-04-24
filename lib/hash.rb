@@ -23,11 +23,11 @@ class Hash
   end
 
   def remap_keys!(remap)
-    tap do |hash|
-      remap.each do |o, n|
-        hash[n] = hash.delete o
-      end
+    new_hash = {}
+    remap.each do |o, n|
+      new_hash[n] = delete o
     end
+    merge! new_hash
   end
 
   def lower_camelize_keys(options = {})
