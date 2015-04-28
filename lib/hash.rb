@@ -18,6 +18,18 @@ class Hash
     end
   end
 
+  def remap_keys(remap)
+    dup.remap_keys!(remap)
+  end
+
+  def remap_keys!(remap)
+    new_hash = {}
+    remap.each do |o, n|
+      new_hash[n] = delete o
+    end
+    merge! new_hash
+  end
+
   def lower_camelize_keys(options = {})
     dup.lower_camelize_keys!(options)
   end
