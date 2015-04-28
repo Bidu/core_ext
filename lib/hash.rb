@@ -18,6 +18,18 @@ class Hash
     end
   end
 
+  def remap_keys(remap)
+    dup.remap_keys!(remap)
+  end
+
+  def remap_keys!(remap)
+    new_hash = {}
+    remap.each do |o, n|
+      new_hash[n] = delete o
+    end
+    merge! new_hash
+  end
+
   def lower_camelize_keys(options = {})
     dup.lower_camelize_keys!(options)
   end
@@ -34,6 +46,14 @@ class Hash
 
   def camelize_keys!(options = {})
     Hash::KeyChanger.new(self).camelize_keys(options)
+  end
+
+  def exclusive_merge(hash)
+    dup.exclusive_merge!(hash)
+  end
+
+  def exclusive_merge!(hash)
+    merge!(hash.slice(*keys))
   end
 
   # change all keys returning the new map

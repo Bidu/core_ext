@@ -1,11 +1,17 @@
 require 'spec_helper'
 
 describe Hash do
+  it_behaves_like 'a class with change_key method'
+  it_behaves_like 'a class with camlize_keys method'
+  it_behaves_like 'a class with append_keys method'
+  it_behaves_like 'a class with change_kvalues method'
+  it_behaves_like 'a class with remap method'
+
   describe :squash do
     let(:hash) { { a: { b: 1, c: { d: 2 } } } }
 
     it 'flattens the hash' do
-      expect(hash.squash).to eq({ 'a.b' => 1, 'a.c.d' => 2 })
+      expect(hash.squash).to eq('a.b' => 1, 'a.c.d' => 2)
     end
 
     it { expect { hash.squash }.not_to change { hash } }
@@ -14,463 +20,62 @@ describe Hash do
       let(:hash) { { a: { b: [1, { x: 3, y: { z: 4 } }] } } }
 
       it 'flattens the hash' do
-        expect(hash.squash).to eq({ 'a.b' => [1, { x: 3, y: { z: 4 } }] })
+        expect(hash.squash).to eq('a.b' => [1, { x: 3, y: { z: 4 } }])
       end
-    end
-  end
-
-  describe :lower_camelize_keys do
-    let(:expected) { { inputKey: 'value' } }
-
-    context 'with underscore keys' do
-      let(:hash) { { input_key: 'value' } }
-
-      it 'converts the keys to lower camel case' do
-        expect(hash.lower_camelize_keys).to eq(expected)
-      end
-
-      it 'does not change original hash' do
-        expect { hash.lower_camelize_keys }.not_to change { hash }
-      end
-    end
-
-    context 'with camel case keys' do
-      let(:hash) { { InputKey: 'value' } }
-
-      it 'converts the keys to lower camel case' do
-        expect(hash.lower_camelize_keys).to eq(expected)
-      end
-    end
-
-    context 'with string keys' do
-      let(:expected) { { 'inputKey' => 'value' } }
-      let(:hash) { { 'InputKey' => 'value' } }
-
-      it 'converts the keys to lower camel case' do
-        expect(hash.lower_camelize_keys).to eq(expected)
-      end
-    end
-
-    context 'with deep keys change' do
-      let(:expected) { { inputKey: { innerKey: 'value' } } }
-      let(:hash) { { InputKey: { InnerKey: 'value' } } }
-
-      it 'converts the keys to lower camel case' do
-        expect(hash.lower_camelize_keys).to eq(expected)
-      end
-    end
-
-    context 'with array keys change' do
-      let(:expected) { { inputKey: [{ innerKey: 'value' }] } }
-      let(:hash) { { InputKey: [{ InnerKey: 'value' }] } }
-
-      it 'converts the keys to camle case' do
-        expect(hash.lower_camelize_keys).to eq(expected)
-      end
-    end
-
-    context 'without recursive options' do
-      context 'with deep keys change' do
-        let(:expected) { { inputKey: { InnerKey: 'value' } } }
-        let(:hash) { { InputKey: { InnerKey: 'value' } } }
-
-        it 'converts the keys to lower camel case' do
-          expect(hash.lower_camelize_keys(recursive: false)).to eq(expected)
-        end
-      end
-
-      context 'with array keys change' do
-        let(:expected) { { inputKey: [{ InnerKey: 'value' }] } }
-        let(:hash) { { InputKey: [{ InnerKey: 'value' }] } }
-
-        it 'converts the keys to camle case' do
-          expect(hash.lower_camelize_keys(recursive: false)).to eq(expected)
-        end
-      end
-    end
-  end
-
-  describe :lower_camelize_keys! do
-    let(:expected) { { inputKey: 'value' } }
-
-    context 'with underscore keys' do
-      let(:hash) { { input_key: 'value' } }
-
-      it 'converts the keys to lower camel case' do
-        expect(hash.lower_camelize_keys!).to eq(expected)
-      end
-
-      it 'does not change original hash' do
-        expect { hash.lower_camelize_keys! }.to change { hash }
-      end
-    end
-
-    context 'with camel case keys' do
-      let(:hash) { { InputKey: 'value' } }
-
-      it 'converts the keys to lower camel case' do
-        expect(hash.lower_camelize_keys!).to eq(expected)
-      end
-    end
-
-    context 'with string keys' do
-      let(:expected) { { 'inputKey' => 'value' } }
-      let(:hash) { { 'InputKey' => 'value' } }
-
-      it 'converts the keys to lower camel case' do
-        expect(hash.lower_camelize_keys).to eq(expected)
-      end
-    end
-
-    context 'with deep keys change' do
-      let(:expected) { { inputKey: { innerKey: 'value' } } }
-      let(:hash) { { InputKey: { InnerKey: 'value' } } }
-
-      it 'converts the keys to lower camel case' do
-        expect(hash.lower_camelize_keys!).to eq(expected)
-      end
-    end
-
-    context 'with array keys change' do
-      let(:expected) { { inputKey: [{ innerKey: 'value' }] } }
-      let(:hash) { { InputKey: [{ InnerKey: 'value' }] } }
-
-      it 'converts the keys to camle case' do
-        expect(hash.lower_camelize_keys!).to eq(expected)
-      end
-    end
-
-    context 'without recursive options' do
-      context 'with deep keys change' do
-        let(:expected) { { inputKey: { InnerKey: 'value' } } }
-        let(:hash) { { InputKey: { InnerKey: 'value' } } }
-
-        it 'converts the keys to lower camel case' do
-          expect(hash.lower_camelize_keys!(recursive: false)).to eq(expected)
-        end
-      end
-
-      context 'with array keys change' do
-        let(:expected) { { inputKey: [{ InnerKey: 'value' }] } }
-        let(:hash) { { InputKey: [{ InnerKey: 'value' }] } }
-
-        it 'converts the keys to camle case' do
-          expect(hash.lower_camelize_keys!(recursive: false)).to eq(expected)
-        end
-      end
-    end
-  end
-
-  describe :camelize_keys do
-    let(:expected) { { InputKey: 'value' } }
-
-    context 'with underscore keys' do
-      let(:hash) { { input_key: 'value' } }
-
-      it 'converts the keys to camel case' do
-        expect(hash.camelize_keys).to eq(expected)
-      end
-
-      it 'does not change original hash' do
-        expect { hash.camelize_keys }.not_to change { hash }
-      end
-    end
-
-    context 'with lower camel case keys' do
-      let(:hash) { { inputKey: 'value' } }
-
-      it 'converts the keys to camle case' do
-        expect(hash.camelize_keys).to eq(expected)
-      end
-    end
-
-    context 'with string keys' do
-      let(:expected) { { 'InputKey' => 'value' } }
-      let(:hash) { { 'inputKey' => 'value' } }
-
-      it 'converts the keys to lower camel case' do
-        expect(hash.camelize_keys).to eq(expected)
-      end
-    end
-
-    context 'with deep keys change' do
-      let(:expected) { { InputKey: { InnerKey: 'value' } } }
-      let(:hash) { { inputKey: { innerKey: 'value' } } }
-
-      it 'converts the keys to camle case' do
-        expect(hash.camelize_keys).to eq(expected)
-      end
-    end
-
-    context 'with array keys change' do
-      let(:expected) { { InputKey: [{ InnerKey: 'value' }] } }
-      let(:hash) { { inputKey: [{ innerKey: 'value' }] } }
-
-      it 'converts the keys to camle case' do
-        expect(hash.camelize_keys).to eq(expected)
-      end
-    end
-
-    context 'without recursive options' do
-      context 'with deep keys change' do
-        let(:expected) { { InputKey: { InnerKey: 'value' } } }
-        let(:hash) { { inputKey: { InnerKey: 'value' } } }
-
-        it 'converts the keys to lower camel case' do
-          expect(hash.camelize_keys(recursive: false)).to eq(expected)
-        end
-      end
-
-      context 'with array keys change' do
-        let(:expected) { { InputKey: [{ InnerKey: 'value' }] } }
-        let(:hash) { { inputKey: [{ InnerKey: 'value' }] } }
-
-        it 'converts the keys to camle case' do
-          expect(hash.camelize_keys(recursive: false)).to eq(expected)
-        end
-      end
-    end
-  end
-
-  describe :camelize_keys! do
-    let(:expected) { { InputKey: 'value' } }
-
-    context 'with underscore keys' do
-      let(:hash) { { input_key: 'value' } }
-
-      it 'converts the keys to camel case' do
-        expect(hash.camelize_keys!).to eq(expected)
-      end
-
-      it 'does not change original hash' do
-        expect { hash.camelize_keys! }.to change { hash }
-      end
-    end
-
-    context 'with lower camel case keys' do
-      let(:hash) { { inputKey: 'value' } }
-
-      it 'converts the keys to camle case' do
-        expect(hash.camelize_keys!).to eq(expected)
-      end
-    end
-
-    context 'with string keys' do
-      let(:expected) { { 'InputKey' => 'value' } }
-      let(:hash) { { 'inputKey' => 'value' } }
-
-      it 'converts the keys to lower camel case' do
-        expect(hash.camelize_keys!).to eq(expected)
-      end
-    end
-
-    context 'with deep keys change' do
-      let(:expected) { { InputKey: { InnerKey: 'value' } } }
-      let(:hash) { { inputKey: { innerKey: 'value' } } }
-
-      it 'converts the keys to camle case' do
-        expect(hash.camelize_keys!).to eq(expected)
-      end
-    end
-
-    context 'with array keys change' do
-      let(:expected) { { InputKey: [{ InnerKey: 'value' }] } }
-      let(:hash) { { inputKey: [{ innerKey: 'value' }] } }
-
-      it 'converts the keys to camle case' do
-        expect(hash.camelize_keys!).to eq(expected)
-      end
-    end
-
-    context 'without recursive options' do
-      context 'with deep keys change' do
-        let(:expected) { { InputKey: { InnerKey: 'value' } } }
-        let(:hash) { { inputKey: { InnerKey: 'value' } } }
-
-        it 'converts the keys to lower camel case' do
-          expect(hash.camelize_keys!(recursive: false)).to eq(expected)
-        end
-      end
-
-      context 'with array keys change' do
-        let(:hash) { { inputKey: [{ InnerKey: 'value' }] } }
-        let(:expected) { { InputKey: [{ InnerKey: 'value' }] } }
-
-        it 'converts the keys to camle case' do
-          expect(hash.camelize_keys!(recursive: false)).to eq(expected)
-        end
-      end
-    end
-  end
-
-  describe :change_keys do
-    it 'accepts block to change the keys' do
-      { 'a' => 1, b: 2 }.change_keys { |k| "foo_#{k}" }.should eq({ 'foo_a' => 1, 'foo_b' => 2 })
-    end
-    it 'accepts block to change the keys' do
-      { a: 1, 'b' => 2 }.change_keys { |k| "foo_#{k}".to_sym }.should eq({ foo_a: 1, foo_b: 2 })
-    end
-    it 'applies the block recursively' do
-      { 'a' => 1, b:  { c: 3, d: 4 } }.change_keys { |k| "foo_#{k}" }.should eq({ 'foo_a' => 1, 'foo_b' =>  { 'foo_c' => 3, 'foo_d' => 4 } })
-    end
-    it 'applies the block recursively when passed in options' do
-      { 'a' => 1, b:  { c: 3, d: 4 } }.change_keys(recursive: true) { |k| "foo_#{k}" }.should eq({ 'foo_a' => 1, 'foo_b' =>  { 'foo_c' => 3, 'foo_d' => 4 } })
-    end
-    it 'does not apply the block recursively when passed in options' do
-      { 'a' => 1, b:  { c: 3, 'd' => 4 } }.change_keys(recursive: false) { |k| "foo_#{k}" }.should eq({ 'foo_a' => 1, 'foo_b' =>  { c: 3, 'd' => 4 } })
-    end
-    it 'apply recursion on many levels' do
-      hash = { a: 1, b: { c: 2, d: { e: 3, f: 4 } } }
-      expected = { foo_a: 1, foo_b: { foo_c: 2, foo_d: { foo_e: 3, foo_f: 4 } } }
-      hash.change_keys(recursive: true) { |k| "foo_#{k}".to_sym }.should eq(expected)
-    end
-    it 'respect options on recursion' do
-      hash = { a: 1, b: { c: 2, d: { e: 3, f: 4 } } }
-      expected = { foo_a: 1, foo_b: { c: 2, d: { e: 3, f: 4 } } }
-      hash.change_keys(recursive: false) { |k| "foo_#{k}".to_sym }.should eq(expected)
-    end
-    it 'does not affects the original hash' do
-      original = { 'a' => 1, b: 2, c: { d: 3, e: 4 }, f: [{ g: 5 }, { h: 6 }] }
-      expected = { 'a' => 1, b: 2, c: { d: 3, e: 4 }, f: [{ g: 5 }, { h: 6 }] }
-      changed = original.change_keys({ recursive: true }) { |k| "foo_#{k}" }
-      expect(original).to eq(expected)
-    end
-    it 'should call change_keys!' do
-      original = { 'a' => 1, b: 2, c: { d: 3, e: 4 } }
-      copy = { 'a' => 1, b: 2, c: { d: 3, e: 4 } }
-      expected = { 'foo_a' => 1, 'foo_b' => 2, 'foo_c' =>  { 'foo_d' => 3, 'foo_e' => 4 } }
-
-      expect(original).to receive(:deep_dup).and_return(copy)
-      expect(copy).to receive(:change_keys!)
-      original.change_keys({ recursive: true }) { |k| "foo_#{k}" }
-    end
-  end
-
-  describe :change_keys! do
-    it 'affects the original hash' do
-      original = { 'a' => 1, b: 2, c: { d: 3, e: 4 }, f: [{ g: 5 }, { h: 6 }] }
-      not_expected = { 'a' => 1, b: 2, c: { d: 3, e: 4 }, f: [{ g: 5 }, { h: 6 }] }
-      original.change_keys!({ recursive: true }) { |k| "foo_#{k}" }
-      expect(original).to_not eq(not_expected)
-    end
-  end
-
-  describe :prepend_to_keys do
-    it 'accepts block to change the keys' do
-      { a: 1, 'b' => 2 }.prepend_to_keys('foo_').should eq({ foo_a: 1, 'foo_b' => 2 })
-    end
-    it 'applies the block recursively' do
-      { 'a' => 1, b:  { c: 3, 'd' => 4 } }.prepend_to_keys('foo_').should eq({ 'foo_a' => 1, foo_b:  { foo_c: 3, 'foo_d' => 4 } })
-    end
-    it 'changes type when type option is passed' do
-      { 'a' => 1, b: 2 }.prepend_to_keys('foo_', type: :string).should eq({ 'foo_a' => 1, 'foo_b' => 2 })
-    end
-    it 'changes type when type option is passed' do
-      { 'a' => 1, b: 2 }.prepend_to_keys('foo_', type: :symbol).should eq({ foo_a: 1, foo_b: 2 })
-    end
-    it 'keep type when type option is passed as keep' do
-      { 'a' => 1, b: 2 }.prepend_to_keys('foo_', type: :keep).should eq({ 'foo_a' => 1, foo_b: 2 })
-    end
-    it 'applies to array as well' do
-      { 'a' => 1, b: [{ c: 2 }, { d: 3 }] }.prepend_to_keys('foo_', type: :keep).should eq({ 'foo_a' => 1, foo_b: [{ foo_c: 2 }, { foo_d: 3 }] })
-    end
-  end
-
-  describe :append_to_keys do
-    it 'accepts block to change the keys' do
-      { a: 1, 'b' => 2 }.append_to_keys('_bar').should eq({ a_bar: 1, 'b_bar' => 2 })
-    end
-    it 'applies the block recursively' do
-      { 'a' => 1, b:  { c: 3, 'd' => 4 } }.append_to_keys('_bar').should eq({ 'a_bar' => 1, b_bar:  { c_bar: 3, 'd_bar' => 4 } })
-    end
-    it 'changes type when type option is passed' do
-      { 'a' => 1, b: 2 }.append_to_keys('_bar', type: :string).should eq({ 'a_bar' => 1, 'b_bar' => 2 })
-    end
-    it 'changes type when type option is passed' do
-      { 'a' => 1, b: 2 }.append_to_keys('_bar', type: :symbol).should eq({ a_bar: 1, b_bar: 2 })
-    end
-    it 'keep type when type option is passed as keep' do
-      { 'a' => 1, b: 2 }.append_to_keys('_bar', type: :keep).should eq({ 'a_bar' => 1, b_bar: 2 })
-    end
-    it 'applies to array as well' do
-      { 'a' => 1, b: [{ c: 2 }, { d: 3 }] }.append_to_keys('_bar', type: :keep).should eq({ 'a_bar' => 1, b_bar: [{ c_bar: 2 }, { d_bar: 3 }] })
     end
   end
 
   describe :sort_keys do
     it 'sorts keys as symbols' do
-      { b: 1, a: 2 }.sort_keys.should eq({ a: 2, b: 1 })
+      { b: 1, a: 2 }.sort_keys.should eq(a: 2, b: 1)
     end
     it 'sorts keys as string' do
-      { 'b' => 1, 'a' => 2 }.sort_keys.should eq({ 'a' => 2, 'b' => 1 })
+      { 'b' => 1, 'a' => 2 }.sort_keys.should eq('a' => 2, 'b' => 1)
     end
     it 'sorts keys recursively' do
-      { b: 1, a: { d: 3, c: 4 } }.sort_keys.should eq({ a: { c: 4, d: 3 }, b: 1 })
+      { b: 1, a: { d: 3, c: 4 } }.sort_keys.should eq(a: { c: 4, d: 3 }, b: 1)
     end
     it 'sorts keys recursively when argumen is passed' do
-      { b: 1, a: { d: 3, c: 4 } }.sort_keys({ recursive: true }).should eq({ a: { c: 4, d: 3 }, b: 1 })
+      { b: 1, a: { d: 3, c: 4 } }.sort_keys(recursive: true).should eq(a: { c: 4, d: 3 }, b: 1)
     end
     it 'does not sorts keys recursively when argumen is passed' do
-      { b: 1, a: { d: 3, c: 4 } }.sort_keys({ recursive: false }).should eq({ a: { d: 3, c: 4 }, b: 1 })
+      { b: 1, a: { d: 3, c: 4 } }.sort_keys(recursive: false).should eq(a: { d: 3, c: 4 }, b: 1)
     end
     it 'sort recursevely on many levels' do
       hash = { b: 1, a: { d: 2, c: { e: 3, f: 4 } } }
       expected = { a: { c: { f: 4, e: 3 }, d: 2 }, b: 1 }
-      hash.sort_keys({ recursive: true }).should eq(expected)
+      hash.sort_keys(recursive: true).should eq(expected)
     end
     it 'applies to arrays as well' do
       hash = { b: 1, a: { d: 2, c: [{ e: 3, f: 4 }] } }
       expected = { a: { c: [{ f: 4, e: 3 }], d: 2 }, b: 1 }
-      hash.sort_keys({ recursive: true }).should eq(expected)
+      hash.sort_keys(recursive: true).should eq(expected)
     end
   end
 
-  describe :change_values do
-    let(:subject) { { a: 1, b: 2, c: { d: 3, e: 4 } } }
-    it 'updates values of hash' do
-      subject.change_values { |value| value + 1 }.should eq({ a: 2, b: 3, c: { d: 4, e: 5 } })
-    end
-    it 'does not change original hash' do
-      subject.change_values { |value| value + 1 }
-      expect(subject).to eq({ a: 1, b: 2, c: { d: 3, e: 4 } })
-    end
-    it 'works recursively when parameter is passed' do
-      subject.change_values(recursive: true) { |value| value + 1 }.should eq({ a: 2, b: 3, c: { d: 4, e: 5 } })
-    end
-    it 'does not work recursively when parameter is passed as false' do
-      subject.change_values(recursive: false) { |value| value + 1 }.should eq({ a: 2, b: 3, c: { d: 3, e: 4 } })
-    end
-    it 'does not ignore hash when option is passed' do
-      subject.change_values(skip_inner: false) { |value| value.is_a?(Hash) ? 10 + value.size : value + 1 }.should eq({ a: 2, b: 3, c: 12 })
-    end
-    it 'ignore hash and work recursively when option is passed' do
-      subject.change_values(skip_inner: false) { |value| value.is_a?(Hash) ? value : value + 1 }.should eq({ a: 2, b: 3, c: { d: 4, e: 5 } })
-    end
-    it 'ignore hash and does not work recursively when option is passed' do
-      subject.change_values(skip_inner: false, recursive: false) { |value| value.is_a?(Hash) ? value : value + 1 }.should eq({ a: 2, b: 3, c: { d: 3, e: 4 } })
-    end
-    it 'applies to arrays as well' do
-      subject = { a: 1, b: 2, c: [{ d: 3 }, { e: 4 }] }
-      subject.change_values { |value| value + 1 }.should eq({ a: 2, b: 3, c: [{ d: 4 }, { e: 5 }] })
-    end
-    it 'should call change_values!' do
-      original = { 'a' => 1, c: { d: 3, e: 4 } }
-      copy = { 'a' => 1, c: { d: 3, e: 4 } }
+  describe :exclusive_merge do
+    let(:subject) { { a: 1, b: 2 } }
+    let(:other) { { b: 3, c: 4 } }
 
-      expect(original).to receive(:deep_dup).and_return(copy)
-      expect(copy).to receive(:change_values!)
-      original.change_values { |value| value + 1 }
+    it 'merge only the common keys' do
+      expect(subject.exclusive_merge(other)).to eq(a: 1, b: 3)
+    end
+
+    it 'does not change the original hash' do
+      expect { subject.exclusive_merge(other) }.not_to change { subject }
     end
   end
 
-  describe :change_values! do
-    let(:subject) { { a: 1, b: 2, c: { d: 3, e: 4 } }  }
+  describe :exclusive_merge! do
+    let(:subject) { { a: 1, b: 2 } }
+    let(:other) { { b: 3, c: 4 } }
 
-    it 'changes original hash' do
-      subject.change_values! { |value| value + 1 }
+    it 'merge only the common keys' do
+      expect(subject.exclusive_merge!(other)).to eq(a: 1, b: 3)
+    end
 
-      expect(subject).to_not eq({ a: 1, b: 2, c: { d: 3, e: 4 } })
-      expect(subject).to eq({ a: 2, b: 3, c: { d: 4, e: 5 } })
+    it 'does not change the original hash' do
+      expect { subject.exclusive_merge!(other) }.to change { subject }
     end
   end
 
