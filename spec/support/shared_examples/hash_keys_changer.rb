@@ -25,12 +25,28 @@ shared_examples 'a class with change_key method' do
 end
 
 shared_examples 'a mnethod that is able to change keys' do |method|
-  it 'accepts block to change the keys' do
-    expect({ 'a' => 1, b: 2 }.public_send(method) { |k| "foo_#{k}" }).to eq('foo_a' => 1, 'foo_b' => 2)
-  end
+  context 'with simple level hash' do
+    let(:hash) { { 'a' => 1, b: 2 } }
 
-  it 'accepts block to change the keys' do
-    expect({ a: 1, 'b' => 2 }.public_send(method) { |k| "foo_#{k}".to_sym }).to eq(foo_a: 1, foo_b: 2)
+    context 'with string transformation' do
+      let(:result) do
+        hash.public_send(method) { |k| "foo_#{k}" }
+      end
+
+      it 'uses the block return as key' do
+        expect(result).to eq('foo_a' => 1, 'foo_b' => 2)
+      end
+    end
+
+    context 'with symbol transformation' do
+      let(:result) do
+        hash.public_send(method) { |k| "foo_#{k}".to_sym }
+      end
+
+      it 'uses the block return as key' do
+        expect(result).to eq(foo_a: 1, foo_b: 2)
+      end
+    end
   end
 
   context 'with recursive hash' do
