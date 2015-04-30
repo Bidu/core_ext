@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe Array do
+  describe '#chain_map' do
+  end
+
   describe '#as_hash' do
     let(:array) { [1, 2, 3] }
     let(:keys) { %w(a b c) }
