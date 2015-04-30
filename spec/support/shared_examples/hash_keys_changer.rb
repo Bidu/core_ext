@@ -34,34 +34,34 @@ end
 
 shared_examples 'a mnethod that is able to change keys' do |method|
   it 'accepts block to change the keys' do
-    { 'a' => 1, b: 2 }.public_send(method) { |k| "foo_#{k}" }.should eq('foo_a' => 1, 'foo_b' => 2)
+    expect({ 'a' => 1, b: 2 }.public_send(method) { |k| "foo_#{k}" }).to eq('foo_a' => 1, 'foo_b' => 2)
   end
 
   it 'accepts block to change the keys' do
-    { a: 1, 'b' => 2 }.public_send(method) { |k| "foo_#{k}".to_sym }.should eq(foo_a: 1, foo_b: 2)
+    expect({ a: 1, 'b' => 2 }.public_send(method) { |k| "foo_#{k}".to_sym }).to eq(foo_a: 1, foo_b: 2)
   end
 
   it 'applies the block recursively' do
-    { 'a' => 1, b:  { c: 3, d: 4 } }.public_send(method) { |k| "foo_#{k}" }.should eq('foo_a' => 1, 'foo_b' =>  { 'foo_c' => 3, 'foo_d' => 4 })
+    expect({ 'a' => 1, b:  { c: 3, d: 4 } }.public_send(method) { |k| "foo_#{k}" }).to eq('foo_a' => 1, 'foo_b' =>  { 'foo_c' => 3, 'foo_d' => 4 })
   end
 
   it 'applies the block recursively when passed in options' do
-    { 'a' => 1, b:  { c: 3, d: 4 } }.public_send(method, recursive: true) { |k| "foo_#{k}" }.should eq('foo_a' => 1, 'foo_b' =>  { 'foo_c' => 3, 'foo_d' => 4 })
+    expect({ 'a' => 1, b:  { c: 3, d: 4 } }.public_send(method, recursive: true) { |k| "foo_#{k}" }).to eq('foo_a' => 1, 'foo_b' =>  { 'foo_c' => 3, 'foo_d' => 4 })
   end
 
   it 'does not apply the block recursively when passed in options' do
-    { 'a' => 1, b:  { c: 3, 'd' => 4 } }.public_send(method, recursive: false) { |k| "foo_#{k}" }.should eq('foo_a' => 1, 'foo_b' =>  { c: 3, 'd' => 4 })
+    expect({ 'a' => 1, b:  { c: 3, 'd' => 4 } }.public_send(method, recursive: false) { |k| "foo_#{k}" }).to eq('foo_a' => 1, 'foo_b' =>  { c: 3, 'd' => 4 })
   end
 
   it 'apply recursion on many levels' do
     hash = { a: 1, b: { c: 2, d: { e: 3, f: 4 } } }
     expected = { foo_a: 1, foo_b: { foo_c: 2, foo_d: { foo_e: 3, foo_f: 4 } } }
-    hash.public_send(method, recursive: true) { |k| "foo_#{k}".to_sym }.should eq(expected)
+    expect(hash.public_send(method, recursive: true) { |k| "foo_#{k}".to_sym }).to eq(expected)
   end
 
   it 'respect options on recursion' do
     hash = { a: 1, b: { c: 2, d: { e: 3, f: 4 } } }
     expected = { foo_a: 1, foo_b: { c: 2, d: { e: 3, f: 4 } } }
-    hash.public_send(method, recursive: false) { |k| "foo_#{k}".to_sym }.should eq(expected)
+    expect(hash.public_send(method, recursive: false) { |k| "foo_#{k}".to_sym }).to eq(expected)
   end
 end
