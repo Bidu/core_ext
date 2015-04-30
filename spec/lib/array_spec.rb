@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe Array do
   describe '#chain_map' do
+    let(:array) { [ :a, :long_name, :sym ] }
+    let(:mapped) { array.chain_map(:to_s, :size, :to_s) }
+
+    it 'calls each argument as method of the mapped result' do
+      expect(mapped).to eq([ '1', '9', '3' ])
+    end
   end
 
   describe '#as_hash' do
