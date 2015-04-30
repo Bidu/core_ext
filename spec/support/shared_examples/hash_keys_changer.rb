@@ -34,6 +34,10 @@ shared_examples 'result is as expected' do
 end
 
 shared_examples 'a mnethod that is able to change keys' do |method|
+  let(:foo_sym_transformation) do
+    hash.public_send(method) { |k| "foo_#{k}".to_sym }
+  end
+
   context 'with simple level hash' do
     let(:hash) { { 'a' => 1, b: 2 } }
 
@@ -46,9 +50,7 @@ shared_examples 'a mnethod that is able to change keys' do |method|
     end
 
     context 'with symbol transformation' do
-      let(:result) do
-        hash.public_send(method) { |k| "foo_#{k}".to_sym }
-      end
+      let(:result) { foo_sym_transformation }
       let(:expected) { { foo_a: 1, foo_b: 2 } }
       it_behaves_like 'result is as expected'
     end
@@ -87,9 +89,7 @@ shared_examples 'a mnethod that is able to change keys' do |method|
     let(:expected) do
       { foo_a: 1, foo_b: { foo_c: 2, foo_d: { foo_e: 3, foo_f: 4 } } }
     end
-    let(:result) do
-      hash.public_send(method, recursive: true) { |k| "foo_#{k}".to_sym }
-    end
+    let(:result) { foo_sym_transformation }
     it_behaves_like 'result is as expected'
   end
 end
