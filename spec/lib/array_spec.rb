@@ -8,6 +8,18 @@ describe Array do
     it 'calls each argument as method of the mapped result' do
       expect(mapped).to eq([ '1', '9', '3' ])
     end
+
+    context 'when an extra block is given' do
+      let(:mapped) do
+        array.chain_map(:to_s, :size) do |v|
+          "final: #{v}"
+        end
+      end
+
+      it 'calls each argument as method of the mapped result' do
+        expect(mapped).to eq([ 'final: 1', 'final: 9', 'final: 3' ])
+      end
+    end
   end
 
   describe '#as_hash' do
