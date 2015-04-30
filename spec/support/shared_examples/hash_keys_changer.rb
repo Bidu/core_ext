@@ -14,9 +14,10 @@ shared_examples 'a class with change_key method' do
 
     it 'does not affects the original hash' do
       original = { 'a' => 1, b: 2, c: { d: 3, e: 4 }, f: [{ g: 5 }, { h: 6 }] }
-      expected = { 'a' => 1, b: 2, c: { d: 3, e: 4 }, f: [{ g: 5 }, { h: 6 }] }
-      original.change_keys(recursive: true) { |k| "foo_#{k}" }
-      expect(original).to eq(expected)
+
+      expect do
+        original.change_keys(recursive: true) { |k| "foo_#{k}" }
+      end.not_to change { original }
     end
   end
 
