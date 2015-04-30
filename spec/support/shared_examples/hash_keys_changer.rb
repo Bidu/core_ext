@@ -5,7 +5,6 @@ shared_examples 'a class with change_key method' do
     it 'should call change_keys!' do
       original = { 'a' => 1, b: 2, c: { d: 3, e: 4 } }
       copy = { 'a' => 1, b: 2, c: { d: 3, e: 4 } }
-      expected = { 'foo_a' => 1, 'foo_b' => 2, 'foo_c' =>  { 'foo_d' => 3, 'foo_e' => 4 } }
 
       expect(original).to receive(:deep_dup).and_return(copy)
       expect(copy).to receive(:change_keys!)
@@ -42,16 +41,41 @@ shared_examples 'a mnethod that is able to change keys' do |method|
     expect({ a: 1, 'b' => 2 }.public_send(method) { |k| "foo_#{k}".to_sym }).to eq(foo_a: 1, foo_b: 2)
   end
 
-  it 'applies the block recursively' do
-    expect({ 'a' => 1, b:  { c: 3, d: 4 } }.public_send(method) { |k| "foo_#{k}" }).to eq('foo_a' => 1, 'foo_b' =>  { 'foo_c' => 3, 'foo_d' => 4 })
-  end
+  context 'with recursive hash' do
+    let(:hash) { { 'a' => 1, b:  { c: 3, 'd' => 4 } } }
+    let(:result) { hash.public_send(method, options) { |k| "foo_#{k}" } }
+    let(:expected) do
+      { 'foo_a' => 1, 'foo_b' =>  { 'foo_c' => 3, 'foo_d' => 4 } }
+    end
 
-  it 'applies the block recursively when passed in options' do
-    expect({ 'a' => 1, b:  { c: 3, d: 4 } }.public_send(method, recursive: true) { |k| "foo_#{k}" }).to eq('foo_a' => 1, 'foo_b' =>  { 'foo_c' => 3, 'foo_d' => 4 })
-  end
+    context 'when no options are given' do
+      let(:options) { {} }
 
-  it 'does not apply the block recursively when passed in options' do
-    expect({ 'a' => 1, b:  { c: 3, 'd' => 4 } }.public_send(method, recursive: false) { |k| "foo_#{k}" }).to eq('foo_a' => 1, 'foo_b' =>  { c: 3, 'd' => 4 })
+      it 'applies the block recursively' do
+        expect(result).to eq(expected)
+      end
+    end
+
+    context 'when options are given' do
+      let(:options) { { recursive: recursive } }
+
+      context 'with recursion' do
+        let(:recursive) { true }
+
+        it 'applies the block recursively' do
+          expect(result).to eq(expected)
+        end
+      end
+
+      context 'without recursion' do
+        let(:recursive) { false }
+        let(:expected) { { 'foo_a' => 1, 'foo_b' =>  { c: 3, 'd' => 4 } } }
+
+        it 'does not applies the block recursively' do
+          expect(result).to eq(expected)
+        end
+      end
+    end
   end
 
   it 'apply recursion on many levels' do
