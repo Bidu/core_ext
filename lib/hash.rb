@@ -8,8 +8,9 @@ class Hash
 
     if block_given?
       value = value.fetch(keys.shift) do |*args|
+        missed_keys = keys
         keys = []
-        yield(*args)
+        yield(*(args + [missed_keys]))
       end until keys.empty?
     else
       value = value.fetch(keys.shift) until keys.empty?

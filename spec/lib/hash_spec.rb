@@ -20,7 +20,7 @@ describe Hash do
     end
 
     context 'when fetching non existing keys keys' do
-      let(:keys) { [:a, :a, :a] }
+      let(:keys) { [:a, :x, :y] }
 
       it 'raises fetch error' do
         expect { result }.to raise_error(KeyError)
@@ -32,6 +32,24 @@ describe Hash do
 
         it 'returns the default_value' do
           expect(result).to eq(default_value)
+        end
+
+        context 'and the block logs the missing keys' do
+          it 'hnadles the missing keys' do
+            missing_keys = nil
+            hash.chain_fetch(*keys) do |_, keys|
+              missing_keys = keys
+            end
+
+            expect(missing_keys).to eq([:y])
+          end
+        end
+
+        context 'and the block uses the key for the return' do
+          let(:result) { hash.chain_fetch(*keys) { |k| "returned #{k}" } }
+          it 'hnadles the missing keys' do
+            expect(result).to eq('returned x')
+          end
         end
       end
     end
