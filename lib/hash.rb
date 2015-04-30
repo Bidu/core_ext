@@ -4,6 +4,11 @@ require 'hash/key_changer'
 
 class Hash
   def chain_fetch(*keys)
+    value = self
+
+    value = value.fetch(keys.shift) until keys.empty?
+
+    value
   end
 
   def chain_map(*methods)

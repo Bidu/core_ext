@@ -7,6 +7,36 @@ describe Hash do
   it_behaves_like 'a class with change_kvalues method'
   it_behaves_like 'a class with remap method'
 
+  describe :chain_fetch do
+    let(:value) { 10 }
+    let(:hash) { { a: { b: { c: { d: value } } } } }
+    let(:keys) { [:a, :b, :c, :d] }
+    let(:result) { hash.chain_fetch(*keys) }
+
+    context 'when fetching existing keys' do
+      it 'returns the value' do
+        expect(result).to eq(value)
+      end
+    end
+
+    context 'when fetching non existing keys keys' do
+      let(:keys) { [:a, :a, :a] }
+
+      it 'raises fetch error' do
+        expect { result }.to raise_error(KeyError)
+      end
+    end
+
+    context 'when mixing key types' do
+      let(:hash) { { a: { 'b' => { 100 => { true => value } } } } }
+      let(:keys) { [:a, 'b', 100, true] }
+
+      it 'returns the value' do
+        expect(result).to eq(value)
+      end
+    end
+  end
+
   describe :squash do
     let(:hash) { { a: { b: 1, c: { d: 2 } } } }
 
