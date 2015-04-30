@@ -239,7 +239,7 @@ describe Hash do
   end
 
   describe '#map_and_find' do
-    let(:hash) { { a: 1, b: 2, c: 3, d: 4} }
+    let(:hash) { { a: 1, b: 2, c: 3, d: 4 } }
     let(:value) { hash.map_and_find(&block) }
 
     context 'when block returns nil' do
