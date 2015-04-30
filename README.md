@@ -16,6 +16,19 @@ returns
 ```
 
 ## Hash
+### chain_fetch
+Applies fetch in a chain
+
+```ruby
+{ a: { b: { c: { d: 10 } } } }.chain_fetch(:a, :b, :c, :d)
+10
+```
+```ruby
+h = { a: { b: { c: { d: 10 } } } }
+h.chain_fetch(:a, :x, :y, :z) { |key, missed_keys| "returned #{key}" }
+'returned x'
+```
+
 ###squash
 Squash a deep hash into a simple level hash
 
