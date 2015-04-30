@@ -9,7 +9,17 @@ describe Hash do
 
   describe :chain_fetch do
     let(:value) { 10 }
-    let(:hash) { { a: { b: { c: { d: value } } } } }
+    let(:hash) do
+      {
+        b: 1, c: 2, d: 3, a: {
+          c: 3, d: 5, b: {
+            d: 6, a: 1, b: 2, c: {
+              d: value
+            }
+          }
+        }
+      }
+    end
     let(:keys) { [:a, :b, :c, :d] }
     let(:result) { hash.chain_fetch(*keys) }
 
