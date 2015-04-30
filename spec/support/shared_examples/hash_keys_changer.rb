@@ -24,6 +24,15 @@ shared_examples 'a class with change_key method' do
   end
 end
 
+shared_examples 'result is as expected' do
+  after do
+    expect(result).to eq(expected)
+  end
+
+  it '' do
+  end
+end
+
 shared_examples 'a mnethod that is able to change keys' do |method|
   context 'with simple level hash' do
     let(:hash) { { 'a' => 1, b: 2 } }
@@ -32,20 +41,16 @@ shared_examples 'a mnethod that is able to change keys' do |method|
       let(:result) do
         hash.public_send(method) { |k| "foo_#{k}" }
       end
-
-      it 'uses the block return as key' do
-        expect(result).to eq('foo_a' => 1, 'foo_b' => 2)
-      end
+      let(:expected) { { 'foo_a' => 1, 'foo_b' => 2 } }
+      it_behaves_like 'result is as expected'
     end
 
     context 'with symbol transformation' do
       let(:result) do
         hash.public_send(method) { |k| "foo_#{k}".to_sym }
       end
-
-      it 'uses the block return as key' do
-        expect(result).to eq(foo_a: 1, foo_b: 2)
-      end
+      let(:expected) { { foo_a: 1, foo_b: 2 } }
+      it_behaves_like 'result is as expected'
     end
   end
 
@@ -58,10 +63,7 @@ shared_examples 'a mnethod that is able to change keys' do |method|
 
     context 'when no options are given' do
       let(:options) { {} }
-
-      it 'applies the block recursively' do
-        expect(result).to eq(expected)
-      end
+      it_behaves_like 'result is as expected'
     end
 
     context 'when options are given' do
@@ -69,19 +71,13 @@ shared_examples 'a mnethod that is able to change keys' do |method|
 
       context 'with recursion' do
         let(:recursive) { true }
-
-        it 'applies the block recursively' do
-          expect(result).to eq(expected)
-        end
+        it_behaves_like 'result is as expected'
       end
 
       context 'without recursion' do
         let(:recursive) { false }
         let(:expected) { { 'foo_a' => 1, 'foo_b' =>  { c: 3, 'd' => 4 } } }
-
-        it 'does not applies the block recursively' do
-          expect(result).to eq(expected)
-        end
+        it_behaves_like 'result is as expected'
       end
     end
   end
