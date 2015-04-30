@@ -3,6 +3,12 @@ require 'hash/deep_hash_constructor'
 require 'hash/key_changer'
 
 class Hash
+  def chain_fetch(*keys)
+  end
+
+  def chain_map(*methods)
+  end
+
   def squash
     {}.tap do |hash|
       each do |key, value|
