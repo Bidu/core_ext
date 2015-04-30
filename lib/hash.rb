@@ -6,7 +6,14 @@ class Hash
   def chain_fetch(*keys)
     value = self
 
-    value = value.fetch(keys.shift) until keys.empty?
+    if block_given?
+      value = value.fetch(keys.shift) do |*args|
+        keys = []
+        yield(*args)
+      end until keys.empty?
+    else
+      value = value.fetch(keys.shift) until keys.empty?
+    end
 
     value
   end

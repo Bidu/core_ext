@@ -25,6 +25,15 @@ describe Hash do
       it 'raises fetch error' do
         expect { result }.to raise_error(KeyError)
       end
+
+      context 'but a default value block is given' do
+        let(:default_value) { 100 }
+        let(:result) { hash.chain_fetch(*keys) { default_value } }
+
+        it 'returns the default_value' do
+          expect(result).to eq(default_value)
+        end
+      end
     end
 
     context 'when mixing key types' do
