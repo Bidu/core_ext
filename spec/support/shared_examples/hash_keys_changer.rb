@@ -1,13 +1,15 @@
 shared_examples 'a class with change_key method' do
+  let(:hash) do
+    { 'a' => 1, b: 2, c: { d: 3, e: 4 }, f: [{ g: 5 }, { h: 6 }] }
+  end
+
   describe :change_keys do
+
     it_behaves_like 'a mnethod that is able to change keys', :change_keys
-
     it 'does not affects the original hash' do
-      original = { 'a' => 1, b: 2, c: { d: 3, e: 4 }, f: [{ g: 5 }, { h: 6 }] }
-
       expect do
-        original.change_keys(recursive: true) { |k| "foo_#{k}" }
-      end.not_to change { original }
+        hash.change_keys(recursive: true) { |k| "foo_#{k}" }
+      end.not_to change { hash }
     end
   end
 
@@ -15,11 +17,9 @@ shared_examples 'a class with change_key method' do
     it_behaves_like 'a mnethod that is able to change keys', :change_keys!
 
     it 'affects the original hash' do
-      original = { 'a' => 1, b: 2, c: { d: 3, e: 4 }, f: [{ g: 5 }, { h: 6 }] }
-
       expect do
-        original.change_keys!(recursive: true) { |k| "foo_#{k}" }
-      end.to change { original }
+        hash.change_keys!(recursive: true) { |k| "foo_#{k}" }
+      end.to change { hash }
     end
   end
 end
