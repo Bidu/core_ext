@@ -92,10 +92,4 @@ shared_examples 'a mnethod that is able to change keys' do |method|
     end
     it_behaves_like 'result is as expected'
   end
-
-  it 'respect options on recursion' do
-    hash = { a: 1, b: { c: 2, d: { e: 3, f: 4 } } }
-    expected = { foo_a: 1, foo_b: { c: 2, d: { e: 3, f: 4 } } }
-    expect(hash.public_send(method, recursive: false) { |k| "foo_#{k}".to_sym }).to eq(expected)
-  end
 end
