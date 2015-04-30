@@ -22,8 +22,28 @@ describe Hash do
     context 'when fetching non existing keys keys' do
       let(:keys) { [:a, :x, :y] }
 
-      it 'raises fetch error' do
-        expect { result }.to raise_error(KeyError)
+      context 'when there is no default value' do
+        it 'raises fetch error' do
+          expect { result }.to raise_error(KeyError)
+        end
+
+        context 'when the hash has no keys' do
+          let(:hash) { {} }
+          let(:keys) { [:a] }
+
+          it 'raises fetch error' do
+            expect { result }.to raise_error(KeyError)
+          end
+        end
+
+        context 'with a simple level hash' do
+          let(:hash) { { a: 1 } }
+          let(:keys) { [:c] }
+
+          it 'raises fetch error' do
+            expect { result }.to raise_error(KeyError)
+          end
+        end
       end
 
       context 'but a default value block is given' do
