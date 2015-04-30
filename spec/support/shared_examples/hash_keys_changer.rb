@@ -82,10 +82,15 @@ shared_examples 'a mnethod that is able to change keys' do |method|
     end
   end
 
-  it 'apply recursion on many levels' do
-    hash = { a: 1, b: { c: 2, d: { e: 3, f: 4 } } }
-    expected = { foo_a: 1, foo_b: { foo_c: 2, foo_d: { foo_e: 3, foo_f: 4 } } }
-    expect(hash.public_send(method, recursive: true) { |k| "foo_#{k}".to_sym }).to eq(expected)
+  context 'with many many levels' do
+    let(:hash) { { a: 1, b: { c: 2, d: { e: 3, f: 4 } } } }
+    let(:expected) do
+      { foo_a: 1, foo_b: { foo_c: 2, foo_d: { foo_e: 3, foo_f: 4 } } }
+    end
+    let(:result) do
+      hash.public_send(method, recursive: true) { |k| "foo_#{k}".to_sym }
+    end
+    it_behaves_like 'result is as expected'
   end
 
   it 'respect options on recursion' do
