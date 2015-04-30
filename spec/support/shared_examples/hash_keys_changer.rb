@@ -2,15 +2,6 @@ shared_examples 'a class with change_key method' do
   describe :change_keys do
     it_behaves_like 'a mnethod that is able to change keys', :change_keys
 
-    it 'should call change_keys!' do
-      original = { 'a' => 1, b: 2, c: { d: 3, e: 4 } }
-      copy = { 'a' => 1, b: 2, c: { d: 3, e: 4 } }
-
-      expect(original).to receive(:deep_dup).and_return(copy)
-      expect(copy).to receive(:change_keys!)
-      original.change_keys(recursive: true) { |k| "foo_#{k}" }
-    end
-
     it 'does not affects the original hash' do
       original = { 'a' => 1, b: 2, c: { d: 3, e: 4 }, f: [{ g: 5 }, { h: 6 }] }
 
