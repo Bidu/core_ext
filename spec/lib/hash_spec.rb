@@ -243,23 +243,23 @@ describe Hash do
     let(:value) { hash.map_and_find(&block) }
 
     context 'when block returns nil' do
-      let(:block) { Proc.new {} }
+      let(:block) { proc {} }
       it { expect(value).to be_nil }
     end
 
     context 'when block returns false' do
-      let(:block) { Proc.new { false } }
+      let(:block) { proc { false } }
       it { expect(value).to be_nil }
     end
 
     context 'when block returns a true evaluated value' do
-      let(:block) { Proc.new { |k, v| v.to_s } }
+      let(:block) { proc { |_, v| v.to_s } }
 
       it { expect(value).to eq('1') }
 
       context 'but not for the first value' do
         let(:transformer) { double(:transformer) }
-        let(:block) { Proc.new { |k, v| transformer.transform(v) } }
+        let(:block) { proc { |_, v| transformer.transform(v) } }
 
         before do
           allow(transformer).to receive(:transform) do |v|
@@ -276,7 +276,7 @@ describe Hash do
     end
 
     context 'when the block accepts one argument' do
-      let(:block) { Proc.new { |v| v } }
+      let(:block) { proc { |v| v } }
 
       it do
         expect(value).to eq([:a, 1])
