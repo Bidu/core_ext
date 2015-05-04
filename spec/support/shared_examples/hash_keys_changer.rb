@@ -25,11 +25,8 @@ shared_examples 'a class with change_key method' do
 end
 
 shared_examples 'result is as expected' do
-  after do
+  it 'is as expected' do
     expect(result).to eq(expected)
-  end
-
-  it '' do
   end
 end
 
