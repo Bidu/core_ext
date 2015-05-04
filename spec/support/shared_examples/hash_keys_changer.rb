@@ -5,7 +5,7 @@ shared_examples 'a class with change_key method' do
 
   describe :change_keys do
 
-    it_behaves_like 'a mnethod that is able to change keys', :change_keys
+    it_behaves_like 'a method that is able to change keys', :change_keys
     it 'does not affects the original hash' do
       expect do
         hash.change_keys(recursive: true) { |k| "foo_#{k}" }
@@ -14,7 +14,7 @@ shared_examples 'a class with change_key method' do
   end
 
   describe :change_keys! do
-    it_behaves_like 'a mnethod that is able to change keys', :change_keys!
+    it_behaves_like 'a method that is able to change keys', :change_keys!
 
     it 'affects the original hash' do
       expect do
@@ -33,7 +33,7 @@ shared_examples 'result is as expected' do
   end
 end
 
-shared_examples 'a mnethod that is able to change keys' do |method|
+shared_examples 'a method that is able to change keys' do |method|
   let(:foo_sym_transformation) do
     hash.public_send(method) { |k| "foo_#{k}".to_sym }
   end
