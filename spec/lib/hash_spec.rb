@@ -28,29 +28,29 @@ describe Hash do
 
   describe :sort_keys do
     it 'sorts keys as symbols' do
-      { b: 1, a: 2 }.sort_keys.should eq(a: 2, b: 1)
+      expect({ b: 1, a: 2 }.sort_keys).to eq(a: 2, b: 1)
     end
     it 'sorts keys as string' do
-      { 'b' => 1, 'a' => 2 }.sort_keys.should eq('a' => 2, 'b' => 1)
+      expect({ 'b' => 1, 'a' => 2 }.sort_keys).to eq('a' => 2, 'b' => 1)
     end
     it 'sorts keys recursively' do
-      { b: 1, a: { d: 3, c: 4 } }.sort_keys.should eq(a: { c: 4, d: 3 }, b: 1)
+      expect({ b: 1, a: { d: 3, c: 4 } }.sort_keys).to eq(a: { c: 4, d: 3 }, b: 1)
     end
     it 'sorts keys recursively when argumen is passed' do
-      { b: 1, a: { d: 3, c: 4 } }.sort_keys(recursive: true).should eq(a: { c: 4, d: 3 }, b: 1)
+      expect({ b: 1, a: { d: 3, c: 4 } }.sort_keys(recursive: true)).to eq(a: { c: 4, d: 3 }, b: 1)
     end
     it 'does not sorts keys recursively when argumen is passed' do
-      { b: 1, a: { d: 3, c: 4 } }.sort_keys(recursive: false).should eq(a: { d: 3, c: 4 }, b: 1)
+      expect({ b: 1, a: { d: 3, c: 4 } }.sort_keys(recursive: false)).to eq(a: { d: 3, c: 4 }, b: 1)
     end
     it 'sort recursevely on many levels' do
       hash = { b: 1, a: { d: 2, c: { e: 3, f: 4 } } }
       expected = { a: { c: { f: 4, e: 3 }, d: 2 }, b: 1 }
-      hash.sort_keys(recursive: true).should eq(expected)
+      expect(hash.sort_keys(recursive: true)).to eq(expected)
     end
     it 'applies to arrays as well' do
       hash = { b: 1, a: { d: 2, c: [{ e: 3, f: 4 }] } }
       expected = { a: { c: [{ f: 4, e: 3 }], d: 2 }, b: 1 }
-      hash.sort_keys(recursive: true).should eq(expected)
+      expect(hash.sort_keys(recursive: true)).to eq(expected)
     end
   end
 
@@ -240,27 +240,27 @@ describe Hash do
   end
 
   describe '#map_and_find' do
-    let(:hash) { { a: 1, b: 2, c: 3, d: 4} }
+    let(:hash) { { a: 1, b: 2, c: 3, d: 4 } }
     let(:value) { hash.map_and_find(&block) }
 
     context 'when block returns nil' do
-      let(:block) { Proc.new {} }
+      let(:block) { proc {} }
       it { expect(value).to be_nil }
     end
 
     context 'when block returns false' do
-      let(:block) { Proc.new { false } }
+      let(:block) { proc { false } }
       it { expect(value).to be_nil }
     end
 
     context 'when block returns a true evaluated value' do
-      let(:block) { Proc.new { |k, v| v.to_s } }
+      let(:block) { proc { |_, v| v.to_s } }
 
       it { expect(value).to eq('1') }
 
       context 'but not for the first value' do
         let(:transformer) { double(:transformer) }
-        let(:block) { Proc.new { |k, v| transformer.transform(v) } }
+        let(:block) { proc { |_, v| transformer.transform(v) } }
 
         before do
           allow(transformer).to receive(:transform) do |v|
@@ -277,7 +277,7 @@ describe Hash do
     end
 
     context 'when the block accepts one argument' do
-      let(:block) { Proc.new { |v| v } }
+      let(:block) { proc { |v| v } }
 
       it do
         expect(value).to eq([:a, 1])

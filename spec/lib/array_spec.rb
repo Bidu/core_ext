@@ -58,23 +58,23 @@ describe Array do
     let(:value) { array.map_and_find(&block) }
 
     context 'when block returns nil' do
-      let(:block) { Proc.new {} }
+      let(:block) { proc {} }
       it { expect(value).to be_nil }
     end
 
     context 'when block returns false' do
-      let(:block) { Proc.new { false } }
+      let(:block) { proc { false } }
       it { expect(value).to be_nil }
     end
 
     context 'when block returns a true evaluated value' do
-      let(:block) { Proc.new { |v| v.to_s } }
+      let(:block) { proc(&:to_s) }
 
       it { expect(value).to eq('1') }
 
       context 'but not for the first value' do
         let(:transformer) { double(:transformer) }
-        let(:block) { Proc.new { |v| transformer.transform(v) } }
+        let(:block) { proc { |v| transformer.transform(v) } }
 
         before do
           allow(transformer).to receive(:transform) do |v|
