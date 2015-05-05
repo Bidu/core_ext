@@ -4,6 +4,21 @@ Core_Ext
 This project adds some new methods to the core ruby classes
 
 ## Array
+### chain_map
+applies map in a chain
+
+```ruby
+array = [ :a, :long_name, :sym ]
+array.chain_map(:to_s, :size, :to_s)
+[ '1', '9', '3' ]
+```
+
+```ruby
+array = [ :a, :long_name, :sym ]
+array.chain_map(:to_s, :size) { |v| "final: #{v}" }
+[ 'final: 1', 'final: 9', 'final: 3' ]
+```
+
 ### as_hash
 Creates a hash from the array using the argumen array as keys
 
@@ -16,6 +31,19 @@ returns
 ```
 
 ## Hash
+### chain_fetch
+Applies fetch in a chain
+
+```ruby
+{ a: { b: { c: { d: 10 } } } }.chain_fetch(:a, :b, :c, :d)
+10
+```
+```ruby
+h = { a: { b: { c: { d: 10 } } } }
+h.chain_fetch(:a, :x, :y, :z) { |key, missed_keys| "returned #{key}" }
+'returned x'
+```
+
 ###squash
 Squash a deep hash into a simple level hash
 

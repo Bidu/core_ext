@@ -1,6 +1,27 @@
 require 'spec_helper'
 
 describe Array do
+  describe '#chain_map' do
+    let(:array) { [ :a, :long_name, :sym ] }
+    let(:mapped) { array.chain_map(:to_s, :size, :to_s) }
+
+    it 'calls each argument as method of the mapped result' do
+      expect(mapped).to eq([ '1', '9', '3' ])
+    end
+
+    context 'when an extra block is given' do
+      let(:mapped) do
+        array.chain_map(:to_s, :size) do |v|
+          "final: #{v}"
+        end
+      end
+
+      it 'calls each argument as method of the mapped result' do
+        expect(mapped).to eq([ 'final: 1', 'final: 9', 'final: 3' ])
+      end
+    end
+  end
+
   describe '#as_hash' do
     let(:array) { [1, 2, 3] }
     let(:keys) { %w(a b c) }
@@ -37,23 +58,23 @@ describe Array do
     let(:value) { array.map_and_find(&block) }
 
     context 'when block returns nil' do
-      let(:block) { Proc.new {} }
+      let(:block) { proc {} }
       it { expect(value).to be_nil }
     end
 
     context 'when block returns false' do
-      let(:block) { Proc.new { false } }
+      let(:block) { proc { false } }
       it { expect(value).to be_nil }
     end
 
     context 'when block returns a true evaluated value' do
-      let(:block) { Proc.new { |v| v.to_s } }
+      let(:block) { proc(&:to_s) }
 
       it { expect(value).to eq('1') }
 
       context 'but not for the first value' do
         let(:transformer) { double(:transformer) }
-        let(:block) { Proc.new { |v| transformer.transform(v) } }
+        let(:block) { proc { |v| transformer.transform(v) } }
 
         before do
           allow(transformer).to receive(:transform) do |v|
