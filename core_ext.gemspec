@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'core_ext/version'
+require 'bidu'
 
 Gem::Specification.new do |spec|
-  spec.name = 'core_ext'
-  spec.version = CoreExt::VERSION
+  spec.name = 'bidu-core_ext'
+  spec.version = Bidu::CoreExt::VERSION
   spec.authors = ['Bidu Developers']
   spec.email = ['dev@bidu.com.br']
   spec.summary = 'Core Extensions'
