@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bidu-core_ext (0.2.0)
+    bidu-core_ext (1.0.0)
       activesupport
 
 GEM
