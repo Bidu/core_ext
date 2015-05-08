@@ -5,5 +5,8 @@ require 'symbol'
 require 'array'
 require 'numeric'
 
-module CoreExt
+module Bidu
+  module CoreExt
+    require 'bidu/core_ext/version'
+  end
 end
