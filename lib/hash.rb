@@ -64,6 +64,14 @@ class Hash
     Hash::KeyChanger.new(self).camelize_keys(options)
   end
 
+  def underscore_keys(options = {})
+    dup.underscore_keys!(options)
+  end
+
+  def underscore_keys!(options = {})
+    Hash::KeyChanger.new(self).underscore_keys(options)
+  end
+
   def exclusive_merge(hash)
     dup.exclusive_merge!(hash)
   end
