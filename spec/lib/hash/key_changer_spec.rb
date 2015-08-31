@@ -33,5 +33,23 @@ describe Hash::KeyChanger do
         end.to change { hash }
       end
     end
+
+    context 'when giving non recursive options' do
+      context 'when hash is a many level hash' do
+        let(:hash) { { keyUnderscore: { anotherKey: 1 } } }
+
+        it 'underscore all the keys' do
+          expect(subject.underscore_keys(recursive: false)).to eq(key_underscore: { anotherKey: 1 })
+        end
+      end
+
+      context 'when hash has an array' do
+        let(:hash) { { keyUnderscore: [{ anotherKey: 1 }] } }
+
+        it 'underscore all the keys' do
+          expect(subject.underscore_keys(recursive: false)).to eq(key_underscore: [{ anotherKey: 1 }])
+        end
+      end
+    end
   end
 end
