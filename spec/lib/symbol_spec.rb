@@ -11,7 +11,7 @@ describe Symbol do
     end
 
     context 'when called with lower option' do
-      it 'snake case the symbol' do
+      it 'camelize the symbol without captalization' do
         expect(:underscore_sym.camelize(:lower)).to eq(:underscoreSym)
       end
     end
@@ -19,6 +19,16 @@ describe Symbol do
     context 'when called without option' do
       it 'camelize the symbol' do
         expect(:underscore_sym.camelize).to eq(:UnderscoreSym)
+      end
+    end
+  end
+
+  describe '#underscore' do
+    it { expect(:symBol.underscore).to be_kind_of(Symbol) }
+
+    context 'when called with upper option' do
+      it 'underscore the symbol' do
+        expect(:symBol.underscore).to eq(:sym_bol)
       end
     end
   end
