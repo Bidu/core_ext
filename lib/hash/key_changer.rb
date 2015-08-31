@@ -29,6 +29,12 @@ class Hash::KeyChanger
     end
   end
 
+  def underscore_keys
+    change_keys do |k|
+      k.underscore
+    end
+  end
+
   def change_text(options = {}, &block)
     merge_options({
       type: :keep
