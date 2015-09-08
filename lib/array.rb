@@ -12,4 +12,8 @@ class Array
   def as_hash(keys)
     Array::HashBuilder.new(self, keys).build
   end
+
+  def random
+    self[rand(size)]
+  end
 end
