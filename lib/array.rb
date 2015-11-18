@@ -16,4 +16,13 @@ class Array
   def random
     self[rand(size)]
   end
+
+  def map_and_select
+    [].tap do |list|
+      select do |value|
+        mapped = yield(value)
+        list << mapped if mapped
+      end
+    end
+  end
 end

@@ -1,13 +1,13 @@
 PATH
   remote: .
   specs:
-    bidu-core_ext (1.1.1)
+    bidu-core_ext (1.2.0)
       activesupport
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (4.2.1)
+    activesupport (4.2.4)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -16,8 +16,8 @@ GEM
     diff-lcs (1.2.5)
     docile (1.1.5)
     i18n (0.7.0)
-    json (1.8.2)
-    minitest (5.6.1)
+    json (1.8.3)
+    minitest (5.8.1)
     multi_json (1.10.1)
     rake (10.3.2)
     rspec (2.99.0)
@@ -47,3 +47,6 @@ DEPENDENCIES
   rspec (~> 2.14)
   rspec-mocks
   simplecov
+
+BUNDLED WITH
+   1.10.6

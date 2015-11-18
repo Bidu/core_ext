@@ -106,4 +106,43 @@ describe Array do
       end
     end
   end
+
+  describe '#map_and_select' do
+    let(:array) { [1, 2, 3, 4].map { |i| { value: i} } }
+    let(:filtered) { array.map_and_select(&block) }
+
+    context 'when block returns nil' do
+      let(:block) { proc {} }
+      it { expect(filtered).to be_empty }
+    end
+
+    context 'when block returns false' do
+      let(:block) { proc { false } }
+      it { expect(filtered).to be_empty }
+    end
+
+    context 'when block returns a true evaluated value' do
+      let(:block) { proc(&:to_s) }
+
+      it { expect(filtered).to eq(array.map(&:to_s)) }
+
+      context 'but not for the first value' do
+        let(:transformer) { double(:transformer) }
+        let(:block) { proc { |v| transformer.transform(v) } }
+
+        before do
+          allow(transformer).to receive(:transform) do |v|
+            v.to_s if v[:value] > 1
+          end
+          filtered
+        end
+
+        it { expect(filtered).to eq(array[1..-1].map(&:to_s)) }
+
+        it 'calls the mapping only once per element' do
+          expect(transformer).to have_received(:transform).exactly(4)
+        end
+      end
+    end
+  end
 end
