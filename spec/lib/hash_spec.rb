@@ -259,6 +259,12 @@ describe Hash do
 
       it { expect(value).to eq('1') }
 
+      context 'when block returns the key and not the value' do
+        let(:block) { proc { |k, v| v > 1 && k } }
+
+        it { expect(value).to eq(:b) }
+      end
+
       context 'but not for the first value' do
         let(:transformer) { double(:transformer) }
         let(:block) { proc { |_, v| transformer.transform(v) } }
@@ -304,6 +310,12 @@ describe Hash do
       let(:block) { proc { |_, v| v.to_s } }
 
       it { expect(list).to eq((1..4).map(&:to_s)) }
+
+      context 'when block returns the key and not the value' do
+        let(:block) { proc { |k, v| v > 1 && k } }
+
+        it { expect(list).to eq([:b, :c, :d]) }
+      end
 
       context 'but not for the first value' do
         let(:transformer) { double(:transformer) }
