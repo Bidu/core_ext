@@ -21,6 +21,15 @@ module Enumerable
     mapped || nil
   end
 
+  def map_and_select
+    [].tap do |list|
+      each do |*args|
+        mapped = yield(*args)
+        list << mapped if mapped
+      end
+    end
+  end
+
   private
 
   def empty_value?(v)
