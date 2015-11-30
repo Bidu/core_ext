@@ -22,12 +22,10 @@ module Enumerable
   end
 
   def map_and_select
-    [].tap do |list|
-      each do |*args|
-        mapped = yield(*args)
-        list << mapped if mapped
-      end
+    mapped = map do |*args|
+      yield(*args)
     end
+    mapped.select { |e| e }
   end
 
   private
