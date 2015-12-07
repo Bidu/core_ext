@@ -259,6 +259,12 @@ describe Hash do
 
       it { expect(value).to eq('1') }
 
+      context 'when block returns the key and not the value' do
+        let(:block) { proc { |k, v| v > 1 && k } }
+
+        it { expect(value).to eq(:b) }
+      end
+
       context 'but not for the first value' do
         let(:transformer) { double(:transformer) }
         let(:block) { proc { |_, v| transformer.transform(v) } }
@@ -282,6 +288,58 @@ describe Hash do
 
       it do
         expect(value).to eq([:a, 1])
+      end
+    end
+  end
+
+  describe '#map_and_select' do
+    let(:hash) { { a: 1, b: 2, c: 3, d: 4 } }
+    let(:list) { hash.map_and_select(&block) }
+
+    context 'when block returns nil' do
+      let(:block) { proc {} }
+      it { expect(list).to be_empty }
+    end
+
+    context 'when block returns false' do
+      let(:block) { proc { false } }
+      it { expect(list).to be_empty }
+    end
+
+    context 'when block returns a true evaluated value' do
+      let(:block) { proc { |_, v| v.to_s } }
+
+      it { expect(list).to eq((1..4).map(&:to_s)) }
+
+      context 'when block returns the key and not the value' do
+        let(:block) { proc { |k, v| v > 1 && k } }
+
+        it { expect(list).to eq([:b, :c, :d]) }
+      end
+
+      context 'but not for the first value' do
+        let(:transformer) { double(:transformer) }
+        let(:block) { proc { |_, v| transformer.transform(v) } }
+
+        before do
+          allow(transformer).to receive(:transform) do |v|
+            v.to_s if v > 1
+          end
+          list
+        end
+
+        it { expect(list).to eq(hash.values[1..-1].map(&:to_s)) }
+        it 'calls the mapping only once for each value' do
+          expect(transformer).to have_received(:transform).exactly(4)
+        end
+      end
+    end
+
+    context 'when the block accepts one argument' do
+      let(:block) { proc { |v| v } }
+
+      it do
+        expect(list).to eq([[:a, 1], [:b, 2], [:c, 3], [:d, 4]])
       end
     end
   end

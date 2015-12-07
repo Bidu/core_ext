@@ -21,6 +21,13 @@ module Enumerable
     mapped || nil
   end
 
+  def map_and_select
+    mapped = map do |*args|
+      yield(*args)
+    end
+    mapped.select { |e| e }
+  end
+
   private
 
   def empty_value?(v)

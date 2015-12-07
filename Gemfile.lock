@@ -1,24 +1,32 @@
 PATH
   remote: .
   specs:
-    bidu-core_ext (1.1.1)
+    bidu-core_ext (1.2.0)
       activesupport
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (4.2.1)
+    activesupport (4.2.4)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    coderay (1.1.0)
     diff-lcs (1.2.5)
     docile (1.1.5)
     i18n (0.7.0)
-    json (1.8.2)
-    minitest (5.6.1)
+    json (1.8.3)
+    method_source (0.8.2)
+    minitest (5.8.1)
     multi_json (1.10.1)
+    pry (0.10.3)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-nav (0.2.4)
+      pry (>= 0.9.10, < 0.11.0)
     rake (10.3.2)
     rspec (2.99.0)
       rspec-core (~> 2.99.0)
@@ -33,6 +41,7 @@ GEM
       multi_json (~> 1.0)
       simplecov-html (~> 0.8.0)
     simplecov-html (0.8.0)
+    slop (3.6.0)
     thread_safe (0.3.5)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
@@ -43,7 +52,11 @@ PLATFORMS
 DEPENDENCIES
   bidu-core_ext!
   bundler (~> 1.6)
+  pry-nav
   rake
   rspec (~> 2.14)
   rspec-mocks
   simplecov
+
+BUNDLED WITH
+   1.10.6
