@@ -92,18 +92,18 @@ describe Array do
   end
 
   describe '#random' do
-    let(:array) { [ 7, 5, 3 ] }
+    it_behaves_like 'a method that returns a random element', :random
+  end
 
-    (0..2).each do |index|
-      context "when random returns #{index}" do
-        before do
-          allow_any_instance_of(Array).to receive(:rand).with(array.size) { index }
-        end
+  describe '#random!' do
+    it_behaves_like 'a method that returns a random element', :random!
 
-        it 'returns the randomized index of the array' do
-          expect(array.random).to eq(array[index])
-        end
-      end
+    let(:array) { [ 8,4,2 ] }
+
+    it 'removes an the returned element' do
+      expect do
+        array.random!
+      end.to change { array.size }.by(-1)
     end
   end
 

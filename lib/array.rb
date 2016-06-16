@@ -16,4 +16,8 @@ class Array
   def random
     self[rand(size)]
   end
+
+  def random!
+    self.slice!(rand(size))
+  end
 end
