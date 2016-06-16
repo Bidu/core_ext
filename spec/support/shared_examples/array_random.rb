@@ -1,4 +1,4 @@
-shared_examples 'a method that returns a random element' do
+shared_examples 'a method that returns a random element' do |method|
   let(:array) { [ 7, 5, 3 ] }
 
   (0..2).each do |index|
@@ -9,7 +9,7 @@ shared_examples 'a method that returns a random element' do
       end
 
       it 'returns the randomized index of the array' do
-        expect(array.random).to eq(expected)
+        expect(array.public_send(method)).to eq(expected)
       end
     end
   end

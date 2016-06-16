@@ -92,7 +92,19 @@ describe Array do
   end
 
   describe '#random' do
-    it_behaves_like 'a method that returns a random element'
+    it_behaves_like 'a method that returns a random element', :random
+  end
+
+  describe '#random!' do
+    it_behaves_like 'a method that returns a random element', :random!
+
+    let(:array) { [ 8,4,2 ] }
+
+    it 'removes an the returned element' do
+      expect do
+        array.random!
+      end.to change { array.size }.by(-1)
+    end
   end
 
   describe '#map_and_select' do
