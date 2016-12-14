@@ -28,6 +28,14 @@ module Enumerable
     mapped.select { |e| e }
   end
 
+  def map_to_hash
+    {}.tap do |hash|
+      each do |element|
+        hash[element] = yield(element)
+      end
+    end
+  end
+
   private
 
   def empty_value?(v)
