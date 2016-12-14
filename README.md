@@ -4,6 +4,15 @@ Core_Ext
 This project adds some new methods to the core ruby classes
 
 ## Array
+###map_to_hash
+map returning a hash with the original array for keys
+
+```ruby
+array = %w(a ab)
+arrays.map_to_hash { |val| val.length }
+{ 'a' => 1, 'b' => 2 }
+```
+
 ### chain_map
 applies map in a chain
 
@@ -31,6 +40,15 @@ returns
 ```
 
 ## Hash
+###map_to_hash
+map returning a hash with the original keys
+
+```ruby
+hash = { a: 1, b: 2 }
+hash.map_to_hash { |k, v| "#{k}_#{v}" }
+{ a: "a_1", b: "b_2" }
+```
+
 ### chain_fetch
 Applies fetch in a chain
 
@@ -141,3 +159,4 @@ returns
 ```ruby
   {}
 ```
+
