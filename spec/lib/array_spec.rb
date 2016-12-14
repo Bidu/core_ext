@@ -145,4 +145,48 @@ describe Array do
       end
     end
   end
+
+  describe '#map_to_hash' do
+    context 'whe subject is an array' do
+      let(:subject) { %w(word1 wooord2) }
+      let(:mapping_block) { proc{ |word| word.length } }
+      let(:mapped) { subject.map_to_hash(&mapping_block) }
+      let(:expected) { { 'word1' => 5, 'wooord2' => 7 } }
+
+      it { expect(mapped).to be_a(Hash) }
+
+      it 'has the original array as keys' do
+        expect(mapped.keys).to eq(subject)
+      end
+
+      it 'has the mapped values as values' do
+        expect(mapped.values).to eq(subject.map(&mapping_block))
+      end
+
+      it 'correctly map keys to value' do
+        expect(mapped).to eq(expected)
+      end
+    end
+
+    context 'whe subject is a hash' do
+      let(:subject) { { a: 1, b: 2 } }
+      let(:mapping_block) { proc{ |k, v| "#{k}_#{v}" } }
+      let(:mapped) { subject.map_to_hash(&mapping_block) }
+      let(:expected) { { a: 'a_1', b: 'b_2' } }
+
+      it { expect(mapped).to be_a(Hash) }
+
+      it 'has the original keys as keys' do
+        expect(mapped.keys).to eq(subject.keys)
+      end
+
+      it 'has the mapped values as values' do
+        expect(mapped.values).to eq(subject.map(&mapping_block))
+      end
+
+      it 'correctly map keys to value' do
+        expect(mapped).to eq(expected)
+      end
+    end
+  end
 end
