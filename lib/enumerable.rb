@@ -30,8 +30,8 @@ module Enumerable
 
   def map_to_hash
     {}.tap do |hash|
-      each do |*args|
-        hash[args.flatten[0]] = yield(*args)
+      each do |element|
+        hash[element] = yield(element)
       end
     end
   end

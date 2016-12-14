@@ -34,6 +34,14 @@ class Hash
     end
   end
 
+  def map_to_hash
+    {}.tap do |hash|
+      each do |k, v|
+        hash[k] = yield(k, v)
+      end
+    end
+  end
+
   def remap_keys(remap)
     dup.remap_keys!(remap)
   end
