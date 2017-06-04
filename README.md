@@ -106,7 +106,7 @@ returns
   { 'CA_B' => 1 }
 ```
 
-###chain_change_keys
+### chain_change_keys
 Change the hash keys usin a chained method call
 
 ```ruby
