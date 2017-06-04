@@ -4,7 +4,6 @@ shared_examples 'a class with change_key method' do
   end
 
   describe :change_keys do
-
     it_behaves_like 'a method that is able to change keys', :change_keys
     it 'does not affects the original hash' do
       expect do
@@ -21,12 +20,6 @@ shared_examples 'a class with change_key method' do
         hash.change_keys!(recursive: true) { |k| "foo_#{k}" }
       end.to change { hash }
     end
-  end
-end
-
-shared_examples 'result is as expected' do
-  it 'is as expected' do
-    expect(result).to eq(expected)
   end
 end
 
