@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'activesupport', '~> 5.1.1'
 
   spec.add_development_dependency 'bundler', '~> 1.6'
-  spec.add_development_dependency 'rake', '~> 12.0.0'
+  spec.add_development_dependency 'rake', '~> 11.3.0'
   spec.add_development_dependency 'rspec', '~> 2.14'
   spec.add_development_dependency 'rspec-mocks', '~> 2.99.4'
   spec.add_development_dependency 'pry', '~> 0.10.4'
