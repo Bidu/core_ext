@@ -116,7 +116,7 @@ class Hash
     options = calls.extract_options!
 
     calls.inject(self) do |h, c|
-      h.change_keys! { |k| k.public_send(c) }
+      h.change_keys!(options) { |k| k.public_send(c) }
     end
   end
 

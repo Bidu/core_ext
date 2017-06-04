@@ -65,7 +65,7 @@ shared_examples 'a method that is able to chain change keys' do |method|
       context 'without recursion' do
         let(:recursive) { false }
         let(:expected) { { 'a' => 1, 'b' =>  { c: 3, 'd' => 4 } } }
-        #it_behaves_like 'result is as expected'
+        it_behaves_like 'result is as expected'
       end
     end
   end
@@ -73,8 +73,16 @@ shared_examples 'a method that is able to chain change keys' do |method|
   context 'with many many levels' do
     let(:hash) { { a: 1, b: { c: 2, d: { e: 3, f: 4 } } } }
     let(:expected) do
-      { 'a': 1, 'b': { 'c': 2, 'd': { 'e': 3, 'f': 4 } } }
+      { 'a' => 1, 'b' => { 'c' => 2, 'd' => { 'e' => 3, 'f' => 4 } } }
     end
-    #it_behaves_like 'result is as expected'
+    it_behaves_like 'result is as expected'
+  end
+
+  context 'calling with chained transformations' do
+    let(:transformations) { [ :to_s, :upcase, :to_sym ] }
+
+    let(:hexpected) do
+      { A: 1, B: 2, C: { D: 3, E: 4 }, F: [{ G: 5 }, { H: 6 }] }
+    end
   end
 end
