@@ -90,7 +90,7 @@ class Hash
 
   # change all keys returning the new map
   # options: { recursive: true }
-  # ex: { "a":1 }.change_keys{ |key| key.upcase } == { "A":1 }
+  # ex: { "a" =>1 }.change_keys{ |key| key.upcase } == { "A" => 1 }
   def change_keys(options = {}, &block)
     deep_dup.change_keys!(options, &block)
   end
