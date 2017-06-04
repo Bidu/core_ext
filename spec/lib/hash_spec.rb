@@ -5,7 +5,7 @@ describe Hash do
   it_behaves_like 'a class with camlize_keys method'
   it_behaves_like 'a class with underscore_keys method'
   it_behaves_like 'a class with append_keys method'
-  it_behaves_like 'a class with change_kvalues method'
+  it_behaves_like 'a class with change_values method'
   it_behaves_like 'a class with remap method'
   it_behaves_like 'an object with chain_fetch method'
 

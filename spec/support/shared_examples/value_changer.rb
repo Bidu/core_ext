@@ -1,4 +1,4 @@
-shared_examples 'a class with change_kvalues method' do
+shared_examples 'a class with change_values method' do
   let(:subject) { { a: 1, b: 2, c: { d: 3, e: 4 } } }
 
   describe :change_values do
