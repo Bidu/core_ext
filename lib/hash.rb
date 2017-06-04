@@ -115,8 +115,8 @@ class Hash
   def chain_change_keys!(*calls)
     options = calls.extract_options!
 
-    calls.inject(self) do |h, c|
-      h.change_keys!(options) { |k| k.public_send(c) }
+    calls.inject(self) do |h, m|
+      h.change_keys!(options, &m)
     end
   end
 
