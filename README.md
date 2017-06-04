@@ -106,6 +106,17 @@ returns
   { 'CA_B' => 1 }
 ```
 
+###chain_change_keys
+Change the hash keys usin a chained method call
+
+```ruby
+  { ca_b: 1 }.chain_change_keys(:to_s, :upcase, :to_sym)
+```
+returns
+```ruby
+  { CA_B: 1 }
+```
+
 ### change_values
 Change the values of the array
 ```ruby
