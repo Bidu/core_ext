@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Hash do
   it_behaves_like 'a class with change_key method'
+  it_behaves_like 'a class with chain_change_key method'
   it_behaves_like 'a class with camlize_keys method'
   it_behaves_like 'a class with underscore_keys method'
   it_behaves_like 'a class with append_keys method'

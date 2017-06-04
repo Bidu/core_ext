@@ -102,6 +102,24 @@ class Hash
     Hash::KeyChanger.new(self).change_keys(options, &block)
   end
 
+  # change all publicaly sending method calls
+  # options: { recursive: true }
+  # ex: { a: 1 }.chain_change_keys(:to_s, :upcase) == { "A" =>1 }
+  def chain_change_keys(*calls)
+    deep_dup.chain_change_keys!(*calls)
+  end
+
+  # change all publicaly sending method calls
+  # options: { recursive: true }
+  # ex: { a: 1 }.chain_change_keys(:to_s, :upcase) == { "A" =>1 }
+  def chain_change_keys!(*calls)
+    options = calls.extract_options!
+
+    calls.inject(self) do |h, c|
+      h.change_keys! { |k| k.public_send(c) }
+    end
+  end
+
   # prepend a string to all keys
   # options {
   #  recursive: true,
