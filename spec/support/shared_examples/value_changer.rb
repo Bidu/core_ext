@@ -49,7 +49,7 @@ shared_examples 'a method that change the hash values' do |method|
     end
   end
 
-  context 'when using deeply nested hashes' do
+  context 'when using deeply nested arrays' do
     let(:subject) { { a: 1, b: 2, c: [{ d: 3 }, { e: { f: 4 } } ] } }
 
     it 'goes recursivly true arrays' do
@@ -70,6 +70,14 @@ shared_examples 'a method that change the hash values' do |method|
 
     it 'ignore hash and does not work recursively when option is passed' do
       expect(subject.public_send(method, skip_inner: false, recursive: false) { |value| value.is_a?(Array) ? value : value + 1 }).to eq(a: 2, b: 3, c: [{ d: 3 }, { e: { f: 4 } }])
+    end
+  end
+
+  context 'when using a nested extra class' do
+    let(:subject) { { a: 1, b: 2, c: Hash::ValueChanger::Dummy.new(3) } }
+
+    it 'goes perform the mapping with the extra class' do
+      expect(subject.public_send(method) { |value| value + 1 }).to eq(a: 2, b: 3, c: 4)
     end
   end
 end

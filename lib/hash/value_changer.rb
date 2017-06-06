@@ -1,6 +1,12 @@
 class Hash::ValueChanger
   attr_accessor :options, :block
 
+  class << self
+    def iterator_classes
+      @iterator_classes ||= [Array, Hash]
+    end
+  end
+
   def initialize(options, &block)
     @options = {
       recursive: true,
@@ -51,6 +57,10 @@ class Hash::ValueChanger
   end
 
   def apply_recursion?(value)
-    (value.is_a?(Hash) || value.is_a?(Array)) && options[:recursive]
+    is_iterator(value) && options[:recursive]
+  end
+
+  def is_iterator(value)
+    self.class.iterator_classes.any? { |klazz| value.is_a?(klazz) }
   end
 end
