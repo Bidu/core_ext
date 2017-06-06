@@ -5,17 +5,9 @@ shared_examples 'a class with change_values method' do
     it_behaves_like 'a method that change the hash values', :change_values
 
     it 'does not change original hash' do
-      subject.change_values { |value| value + 1 }
-      expect(subject).to eq(a: 1, b: 2, c: { d: 3, e: 4 })
-    end
-
-    it 'should call change_values!' do
-      original = { 'a' => 1, c: { d: 3, e: 4 } }
-      copy = { 'a' => 1, c: { d: 3, e: 4 } }
-
-      expect(original).to receive(:deep_dup).and_return(copy)
-      expect(copy).to receive(:change_values!)
-      original.change_values { |value| value + 1 }
+      expect do
+        subject.change_values { |value| value + 1 }
+      end.not_to change { subject }
     end
   end
 
@@ -23,10 +15,9 @@ shared_examples 'a class with change_values method' do
     it_behaves_like 'a method that change the hash values', :change_values!
 
     it 'changes original hash' do
-      subject.change_values! { |value| value + 1 }
-
-      expect(subject).to_not eq(a: 1, b: 2, c: { d: 3, e: 4 })
-      expect(subject).to eq(a: 2, b: 3, c: { d: 4, e: 5 })
+      expect do
+        subject.change_values! { |value| value + 1 }
+      end.to change { subject }
     end
   end
 end
