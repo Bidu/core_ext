@@ -41,7 +41,7 @@ shared_examples 'a method that change the hash values' do |method|
     end
   
     it 'ignore hash and work recursively when option is passed' do
-      expect(subject.public_send(method, skip_inner: false) { |value| value.is_a?(Hash) ? value : value + 1 }).to eq(a: 2, b: 3, c: { d: 4, e: 5 })
+      expect(subject.public_send(method, skip_inner: true) { |value| value.is_a?(Hash) ?  10 + value.size : value + 1 }).to eq(a: 2, b: 3, c: { d: 4, e: 5 })
     end
   
     it 'ignore hash and does not work recursively when option is passed' do
@@ -58,6 +58,14 @@ shared_examples 'a method that change the hash values' do |method|
 
     it 'does not work recursively when parameter is passed as false' do
       expect(subject.public_send(method, recursive: false) { |value| value + 1 }).to eq(a: 2, b: 3, c: [{ d: 3 }, { e: { f: 4 } }])
+    end
+
+    it 'does not ignore array when option is passed' do
+      expect(subject.public_send(method, skip_inner: false) { |value| value.is_a?(Array) ? 10 + value.size : value + 1 }).to eq(a: 2, b: 3, c: 12)
+    end
+
+    it 'ignores array when option is passed' do
+      expect(subject.public_send(method, skip_inner: true) { |value| value.is_a?(Array) ? 10 + value.size : value + 1 }).to eq(a: 2, b: 3, c: [{ d: 4 }, { e: { f: 5 } }])
     end
   end
 end
