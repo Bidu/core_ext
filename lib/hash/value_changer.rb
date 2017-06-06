@@ -38,7 +38,11 @@ class Hash::ValueChanger
   end
 
   def change_value?(value)
-    !(value.is_a?(Hash) || value.is_a?(Array)) || !options[:skip_inner]
+    !iterable_value?(value) || !options[:skip_inner]
+  end
+
+  def iterable_value?(value)
+    value.is_a?(Hash) || value.is_a?(Array)
   end
 
   def new_value(value)
