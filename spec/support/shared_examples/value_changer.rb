@@ -51,8 +51,13 @@ shared_examples 'a method that change the hash values' do |method|
   
   context 'when using deeply nested hashes' do
     let(:subject) { { a: 1, b: 2, c: [{ d: 3 }, { e: { f: 4 } } ] } }
+
     it 'goes recursivly true arrays' do
       expect(subject.public_send(method) { |value| value + 1 }).to eq(a: 2, b: 3, c: [{ d: 4 }, { e: { f: 5 } }])
+    end
+
+    it 'does not work recursively when parameter is passed as false' do
+      expect(subject.public_send(method, recursive: false) { |value| value + 1 }).to eq(a: 2, b: 3, c: [{ d: 3 }, { e: { f: 4 } }])
     end
   end
 end
