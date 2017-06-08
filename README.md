@@ -72,7 +72,8 @@ Applies fetch in a chain
 ```ruby
 { a: { b: { c: { d: 10 } } } }.chain_fetch(:a, :b, :c, :d)
 10
-```
+``
+`
 ```ruby
 h = { a: { b: { c: { d: 10 } } } }
 h.chain_fetch(:a, :x, :y, :z) { |key, missed_keys| "returned #{key}" }
@@ -179,7 +180,7 @@ returns
 ## Enumerable
 
 ### #clean!
-CLeans empty values from a hash
+Cleans empty values from a hash
 ```ruby
 { a: 1, b: [], c: nil, d: {}, e: '', f: { b: [], c: nil, d: {}, e: '' } }.clean!
 ```
