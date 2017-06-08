@@ -30,7 +30,7 @@ class Hash::ValueChanger
   end
 
   def change_array(array)
-    output = array.respond_to?(:[]=) ? array : []
+    array = array.to_a
 
     array.each.with_index do |value, index|
       if value.respond_to?(:change_values)
@@ -38,10 +38,8 @@ class Hash::ValueChanger
       elsif is_iterable?(value)
         value = change_array(value)
       end
-      output[index] = value
+      array[index] = value
     end
-
-    output
   end
 
   def change_value?(value)
