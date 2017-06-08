@@ -1,12 +1,6 @@
 class Hash::ValueChanger
   attr_accessor :options, :block
 
-  class << self
-    def iterator_classes
-      @iterator_classes ||= [Array, Hash]
-    end
-  end
-
   def initialize(options, &block)
     @options = {
       recursive: true,
@@ -17,9 +11,9 @@ class Hash::ValueChanger
   end
 
   def change(object)
-    if object.is_a? Hash
+    if object.respond_to?(:change_values)
       change_hash(object)
-    elsif object.is_a? Array
+    elsif is_iterable?(object)
       change_array(object)
     end
   end
@@ -36,19 +30,26 @@ class Hash::ValueChanger
   end
 
   def change_array(array)
+    output = array.respond_to?(:[]=) ? array : []
+
     array.each.with_index do |value, index|
-      value = value.change_values(options, &block) if value.is_a? Hash
-      value = change_array(value) if value.is_a? Array
-      array[index] = value
+      if value.respond_to?(:change_values)
+        value = value.change_values(options, &block)
+      elsif is_iterable?(value)
+        value = change_array(value)
+      end
+      output[index] = value
     end
+
+    output
   end
 
   def change_value?(value)
-    !iterable_value?(value) || !options[:skip_inner]
+    !is_iterable?(value) || !options[:skip_inner]
   end
 
-  def iterable_value?(value)
-    value.is_a?(Hash) || value.is_a?(Array)
+  def is_iterable?(value)
+    value.respond_to?(:each)
   end
 
   def new_value(value)
@@ -57,10 +58,6 @@ class Hash::ValueChanger
   end
 
   def apply_recursion?(value)
-    is_iterator(value) && options[:recursive]
-  end
-
-  def is_iterator(value)
-    self.class.iterator_classes.any? { |klazz| value.is_a?(klazz) }
+    is_iterable?(value) && options[:recursive]
   end
 end
