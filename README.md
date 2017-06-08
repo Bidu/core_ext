@@ -4,7 +4,7 @@ Core_Ext
 This project adds some new methods to the core ruby classes
 
 ## Array
-###map_to_hash
+### map_to_hash
 map returning a hash with the original array for keys
 
 ```ruby
@@ -40,7 +40,7 @@ returns
 ```
 
 ## Hash
-###map_to_hash
+### map_to_hash
 map returning a hash with the original keys
 
 ```ruby
@@ -62,7 +62,7 @@ h.chain_fetch(:a, :x, :y, :z) { |key, missed_keys| "returned #{key}" }
 'returned x'
 ```
 
-###squash
+### squash
 Squash a deep hash into a simple level hash
 
 ```ruby
@@ -104,6 +104,17 @@ Change the array keys using a block
 returns
 ```ruby
   { 'CA_B' => 1 }
+```
+
+### chain_change_keys
+Change the hash keys usin a chained method call
+
+```ruby
+  { ca_b: 1 }.chain_change_keys(:to_s, :upcase, :to_sym)
+```
+returns
+```ruby
+  { CA_B: 1 }
 ```
 
 ### change_values
