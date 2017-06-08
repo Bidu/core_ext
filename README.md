@@ -3,6 +3,23 @@ Core_Ext
 
 This project adds some new methods to the core ruby classes
 
+To use core-ext either intall directly
+
+```console
+gem install darthjee-core_ext
+```
+
+or add it to Gemfile
+
+```
+gem 'darthjee-core_ext'
+```
+
+```console
+bundle install darthjee-core_ext
+```
+
+
 ## Array
 ### map_to_hash
 map returning a hash with the original array for keys
