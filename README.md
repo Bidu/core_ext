@@ -1,6 +1,7 @@
 Core_Ext
 ========
 
+# Usage
 This project adds some new methods to the core ruby classes
 
 To use core-ext either intall directly
@@ -19,6 +20,7 @@ gem 'darthjee-core_ext'
 bundle install darthjee-core_ext
 ```
 
+#methods added
 
 ## Array
 ### #map_to_hash
@@ -103,25 +105,52 @@ returns
 ```
 
 ### #camelize_keys
-Change the keys camelizing them
+Change the keys camelizing them and accepting parameters:
+- uppercase_first_letter: Use the java or javascript format (default: true)
+- recursive: when true, does it recursivly through inner arrays (default: true)
 
 ```ruby
-  { ca_b: 1 }.camelize_keys
+  { ca_b: 1, k: [{ a_b: 1 }] }.camelize_keys
 ```
 returns
 ```ruby
-  { CaB: 1 }
+  {:CaB=>1, :K=>[{:AB=>1}]}
+```
+
+```ruby
+  { ca_b: 1, k: [{ a_b: 1 }] }.camelize_keys(recursive: false)
+```
+returns
+```ruby
+  {:CaB=>1, :K=>[{:a_b=>1}]}
+```
+
+```ruby
+  { ca_b: 1, k: [{ a_b: 1 }] }.camelize_keys(uppercase_first_letter: false)
+```
+returns
+```ruby
+  {:caB=>1, :k=>[{:aB=>1}]}
 ```
 
 ### #change_keys
-Change the array keys using a block
+Change the array keys using a block accepting parameters:
+ - recursive: when true, does it recursivly through inner arrays (default: true)
 
 ```ruby
-  { ca_b: 1 }.change_keys { |k| k.to_s.upcase }
+  { ca_b: 1, k: [{ a_b: 1 }] }.change_keys { |k| k.to_s.upcase }
 ```
 returns
 ```ruby
-  { 'CA_B' => 1 }
+  {"CA_B"=>1, "K"=>[{"A_B"=>1}]}
+```
+
+```ruby
+  { ca_b: 1, k: [{ a_b: 1 }] }.change_keys(recursive: false) { |k| k.to_s.upcase }
+```
+returns
+```ruby
+  {"CA_B"=>1, "K"=>[{:a_b=>1}]}
 ```
 
 ### #chain_change_keys
@@ -136,13 +165,32 @@ returns
 ```
 
 ### #change_values
-Change the values of the array
+Change the values of the array accepting parametes:
+ - recursive: when true, does it recursivly through inner arrays and hashes (default: true)
+ - skip_inner: when true, do not call the block for iterators such as Hash and Arrays (default: true)
+
 ```ruby
-  { a: 1 }.change_keys { |v| (v+1).to_s }
+  { a: 1, b: [{ c: 2 }] }.change_values { |v| (v+1).to_s }
 ```
 returns
 ```ruby
-  { a: '2' }
+  { a: '2' b: [{ c: '3' }] }
+```
+
+```ruby
+  { a: 1, b: [{ c: 2 }] }.change_values(recursive: false) { |v| (v+1).to_s }
+```
+returns
+```ruby
+  { a: '2' b: [{ c: 2 }] }
+```
+
+```ruby
+  { a: 1, b: [{ c: 2 }] }.change_values(skip_inner: false) { |v| v.is_a?(Integer) ? (v+1).to_s : v.class }
+```
+returns
+```ruby
+  { a: '2' b: Array }
 ```
 
 ### #prepend_to_keys
