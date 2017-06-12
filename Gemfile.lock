@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bidu-core_ext (1.2.5)
+    darthjee-core_ext (1.2.6)
       activesupport (~> 5.1.1)
 
 GEM
@@ -49,8 +49,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bidu-core_ext!
   bundler (~> 1.6)
+  darthjee-core_ext!
   pry (~> 0.10.4)
   pry-nav (~> 0.2.4)
   rake (~> 11.3.0)
