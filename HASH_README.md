@@ -215,3 +215,14 @@ Like #merge but only for existing keys
 { a: 1, b: 2 }.exclusive_merge(b: 3, c: 4)
 { a: 1, b: 3 }
 ```
+
+### #clean!
+Cleans empty values from a hash
+```ruby
+{ a: 1, b: [], c: nil, d: {}, e: '', f: { b: [], c: nil, d: {}, e: '' } }.clean!
+```
+returns
+```ruby
+  {}
+```
+
