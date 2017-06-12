@@ -151,7 +151,9 @@ returns
 ```
 
 ```ruby
-  { a: 1, b: [{ c: 2 }] }.change_values(skip_inner: false) { |v| v.is_a?(Integer) ? (v+1).to_s : v.class }
+  { a: 1, b: [{ c: 2 }] }.change_values(skip_inner: false) do |v|
+    v.is_a?(Integer) ? (v+1).to_s : v.class
+  end
 ```
 returns
 ```ruby
