@@ -207,3 +207,11 @@ hash = { a: 1, b: 2 }
 hash.remap_keys(a: :c, d: :e)
 { c: 1, b: 2, e: nil }
 ```
+
+### #exclusive_merge
+Like #merge but only for existing keys
+
+```ruby
+{ a: 1, b: 2 }.exclusive_merge(b: 3, c: 4)
+{ a: 1, b: 3 }
+```
