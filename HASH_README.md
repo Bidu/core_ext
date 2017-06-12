@@ -218,13 +218,35 @@ Like #merge but only for existing keys
 { a: 1, b: 3 }
 ```
 
-### #clean!
+### #clean
 Cleans empty values from a hash
 ```ruby
-{ a: 1, b: [], c: nil, d: {}, e: '', f: { b: [], c: nil, d: {}, e: '' } }.clean!
+{ a: 1, b: [], c: nil, d: {}, e: '', f: { b: [], c: nil, d: {}, e: '' } }.clean
 ```
 returns
 ```ruby
   {}
 ```
 
+### #map_and_find
+Operates like map, but will stop as soon as a non false value is found returning the value found
+
+```ruby
+class Ob
+  attr_reader :v
+  def initialize(v = nil)
+    @v = v
+  end
+end
+hash = { a: Ob.new, b: Ob.new(false), c: Ob.new(1), d: Ob.new(3) }
+```
+
+```ruby
+hash.map_and_find { |k,o| o.v }
+1
+```
+
+```ruby
+hash.map_and_find { |k,o| o.v && k }
+:c
+```
