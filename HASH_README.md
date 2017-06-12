@@ -175,3 +175,13 @@ hash = { a: 1, b: 2 }
 hash.map_to_hash { |k, v| "#{k}_#{v}" }
 { a: 'a_1', b: 'b_2' }
 ```
+
+### #remap_keys
+Changes the keys of the hash based on a map of { old: new } value
+
+
+```ruby
+hash = { a: 1, b: 2 }
+hash.remap_keys(a: :c, d: :e)
+{ c: 1, b: 2, e: nil }
+```
