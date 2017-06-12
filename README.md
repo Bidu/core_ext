@@ -227,6 +227,15 @@ returns
   { a:2, b:1 }
 ```
 
+### #map_to_hash
+map returning a hash with the original keys for keys
+
+```ruby
+hash = { a: 1, b: 2 }
+hash.map_to_hash { |k, v| "#{k}_#{v}" }
+{ a: 'a_1', b: 'b_2' }
+```
+
 ## Enumerable
 
 ### #clean!
