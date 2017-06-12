@@ -2,12 +2,14 @@ require 'spec_helper'
 
 describe Hash do
   it_behaves_like 'a class with change_key method'
+  it_behaves_like 'a class with chain_change_key method'
   it_behaves_like 'a class with camlize_keys method'
   it_behaves_like 'a class with underscore_keys method'
   it_behaves_like 'a class with append_keys method'
-  it_behaves_like 'a class with change_kvalues method'
+  it_behaves_like 'a class with change_values method'
   it_behaves_like 'a class with remap method'
   it_behaves_like 'an object with chain_fetch method'
+  it_behaves_like 'a hash with map_to_hash method'
 
   describe :squash do
     let(:hash) { { a: { b: 1, c: { d: 2 } } } }
@@ -173,7 +175,7 @@ describe Hash do
           'quote_request.personal.person[1].name' => 'Some name 2',
           'quote_request.personal.person[1].age' => 23,
           'request[0].status.clazz' => String,
-          'request[1].status.clazz' => Fixnum,
+          'request[1].status.clazz' => Integer,
           'request[2].status.clazz' => Date,
           'trials' => 3
         }
@@ -191,7 +193,7 @@ describe Hash do
           },
           'request' => [
             { 'status' => { 'clazz' => String } },
-            { 'status' => { 'clazz' => Fixnum } },
+            { 'status' => { 'clazz' => Integer } },
             { 'status' => { 'clazz' => Date } }
           ],
           'trials' => 3
