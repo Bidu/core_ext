@@ -9,6 +9,7 @@ describe Hash do
   it_behaves_like 'a class with change_values method'
   it_behaves_like 'a class with remap method'
   it_behaves_like 'an object with chain_fetch method'
+  it_behaves_like 'a hash with map_to_hash method'
 
   describe :squash do
     let(:hash) { { a: { b: 1, c: { d: 2 } } } }
