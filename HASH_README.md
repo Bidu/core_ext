@@ -75,6 +75,18 @@ returns
   {:caB=>1, :k=>[{:aB=>1}]}
 ```
 
+### #lower_camelize_keys
+Alias for [#camelize_keys](camelize_keys)(uppercase_first_letter: false)
+
+```ruby
+  { ca_b: 1, k: [{ a_b: 1 }] }.lower_camelize_keys
+```
+returns
+```ruby
+  {:caB=>1, :k=>[{:aB=>1}]}
+```
+
+
 ### #change_keys
 Change the array keys using a block accepting parameters:
  - recursive: when true, does it recursivly through inner arrays (default: true)
@@ -178,7 +190,6 @@ hash.map_to_hash { |k, v| "#{k}_#{v}" }
 
 ### #remap_keys
 Changes the keys of the hash based on a map of { old: new } value
-
 
 ```ruby
 hash = { a: 1, b: 2 }
