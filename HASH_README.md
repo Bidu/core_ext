@@ -46,6 +46,37 @@ returns
   { 'a' => { 'b' => 1 } }
 ```
 
+### #change_keys
+Change the array keys using a block accepting parameters:
+ - recursive: when true, does it recursivly through inner arrays (default: true)
+
+```ruby
+  { ca_b: 1, k: [{ a_b: 1 }] }.change_keys { |k| k.to_s.upcase }
+```
+returns
+```ruby
+  {"CA_B"=>1, "K"=>[{"A_B"=>1}]}
+```
+
+```ruby
+  { ca_b: 1, k: [{ a_b: 1 }] }.change_keys(recursive: false) { |k| k.to_s.upcase }
+```
+returns
+```ruby
+  {"CA_B"=>1, "K"=>[{:a_b=>1}]}
+```
+
+### #chain_change_keys
+Change the hash keys usin a chained method call
+
+```ruby
+  { ca_b: 1 }.chain_change_keys(:to_s, :upcase, :to_sym)
+```
+returns
+```ruby
+  { CA_B: 1 }
+```
+
 ### #camelize_keys
 Change the keys camelizing them and accepting parameters:
 - uppercase_first_letter: Use the java or javascript format (default: true)
@@ -86,36 +117,16 @@ returns
   {:caB=>1, :k=>[{:aB=>1}]}
 ```
 
-
-### #change_keys
-Change the array keys using a block accepting parameters:
+### #underscore_keys
+Change the keys from camelcase to snakecase (underscore)
  - recursive: when true, does it recursivly through inner arrays (default: true)
 
 ```ruby
-  { ca_b: 1, k: [{ a_b: 1 }] }.change_keys { |k| k.to_s.upcase }
+  { Ca_B: 1, 'kB' => [{ KeysHash: 1 }] }.underscore_keys
 ```
 returns
 ```ruby
-  {"CA_B"=>1, "K"=>[{"A_B"=>1}]}
-```
-
-```ruby
-  { ca_b: 1, k: [{ a_b: 1 }] }.change_keys(recursive: false) { |k| k.to_s.upcase }
-```
-returns
-```ruby
-  {"CA_B"=>1, "K"=>[{:a_b=>1}]}
-```
-
-### #chain_change_keys
-Change the hash keys usin a chained method call
-
-```ruby
-  { ca_b: 1 }.chain_change_keys(:to_s, :upcase, :to_sym)
-```
-returns
-```ruby
-  { CA_B: 1 }
+{ca_b: 1, "k_b"=>[{keys_hash: 1}]}
 ```
 
 ### #change_values
