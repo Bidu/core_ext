@@ -5,8 +5,8 @@ require 'symbol'
 require 'array'
 require 'numeric'
 
-module Bidu
+module Darthjee
   module CoreExt
-    require 'bidu/core_ext/version'
+    require 'darthjee/core_ext/version'
   end
 end

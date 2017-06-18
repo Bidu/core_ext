@@ -1,13 +1,13 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'bidu/core_ext/version'
+require 'darthjee/core_ext/version'
 
 Gem::Specification.new do |spec|
-  spec.name = 'bidu-core_ext'
-  spec.version = Bidu::CoreExt::VERSION
-  spec.authors = ['Bidu Developers']
-  spec.email = ['dev@bidu.com.br']
+  spec.name = 'darthjee-core_ext'
+  spec.version = Darthjee::CoreExt::VERSION
+  spec.authors = ['Darthjee']
+  spec.email = ['darthjee@gmail.com']
   spec.summary = 'Core Extensions'
 
   spec.files = `git ls-files -z`.split("\x0")
@@ -15,12 +15,14 @@ Gem::Specification.new do |spec|
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'activesupport'
+  spec.add_runtime_dependency 'activesupport', '~> 5.1.1'
 
   spec.add_development_dependency 'bundler', '~> 1.6'
-  spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'rake', '~> 11.3.0'
   spec.add_development_dependency 'rspec', '~> 2.14'
-  spec.add_development_dependency 'rspec-mocks'
-  spec.add_development_dependency 'pry-nav'
-  spec.add_development_dependency 'simplecov'
+  spec.add_development_dependency 'rspec-mocks', '~> 2.99.4'
+  spec.add_development_dependency 'pry', '~> 0.10.4'
+  spec.add_development_dependency 'pry-nav', '~> 0.2.4'
+  spec.add_development_dependency 'simplecov', '~> 0.14.1'
+  spec.add_development_dependency 'codeclimate-test-reporter', '~> 1.0.0'
 end
