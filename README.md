@@ -1,6 +1,10 @@
 Core_Ext
 ========
 
+[![Code Climate](https://codeclimate.com/github/darthjee/core_ext/badges/gpa.svg)](https://codeclimate.com/github/darthjee/core_ext)
+[![Test Coverage](https://codeclimate.com/github/darthjee/core_ext/badges/coverage.svg)](https://codeclimate.com/github/darthjee/core_ext/coverage)
+[![Issue Count](https://codeclimate.com/github/darthjee/core_ext/badges/issue_count.svg)](https://codeclimate.com/github/darthjee/core_ext)
+
 # Usage
 This project adds some new methods to the core ruby classes
 
