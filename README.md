@@ -24,7 +24,7 @@ gem 'darthjee-core_ext'
 bundle install darthjee-core_ext
 ```
 
-#methods added
+# methods added
 
 ## Array
 [ARRAY_README.md](ARRAY_README.md)
