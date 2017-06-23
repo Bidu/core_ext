@@ -88,5 +88,25 @@ shared_examples 'a method that change the hash values' do |method|
       end
     end
 
+    context 'when using mapping inner array with inner object into a new hash' do
+      let(:object) { Hash::ValueChanger::Dummy.new(2) }
+      let(:array) { Hash::ValueChanger::DummyIteractor.new(object) }
+      let(:subject) { { a: 1, b: array } }
+      let(:result) do
+        subject.public_send(method, skip_inner: false) do |value|
+          if value.is_a?(Numeric)
+            value + 10
+          elsif value.is_a?(Hash) || value.is_a?(Hash::ValueChanger::DummyIteractor)
+            value
+          else
+            value.as_json
+          end
+        end
+      end
+
+      it 'process the object after processing the array' do
+        expect(result).to eq(a: 11, b: [{ val: 12 }])
+      end
+    end
   end
 end

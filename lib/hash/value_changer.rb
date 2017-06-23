@@ -30,15 +30,14 @@ class Hash::ValueChanger
   end
 
   def change_array(array)
-    array = array.to_a
-
-    array.each.with_index do |value, index|
+    array.map.with_index do |value, index|
       if value.respond_to?(:change_values)
-        value = value.change_values(options, &block)
+        value.change_values(options, &block)
       elsif is_iterable?(value)
-        value = change_array(value)
+        change_array(value)
+      else
+        new_value(value)
       end
-      array[index] = value
     end
   end
 
