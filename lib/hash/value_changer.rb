@@ -32,7 +32,7 @@ class Hash::ValueChanger
   def change_array(array)
     method = %w(map! map).find { |m| array.respond_to? m }
 
-    array.public_send(method).with_index do |value, index|
+    array.public_send(method) do |value|
       if value.respond_to?(:change_values)
         value.change_values(options, &block)
       elsif is_iterable?(value)
