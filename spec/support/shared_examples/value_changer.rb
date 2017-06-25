@@ -85,26 +85,26 @@ shared_examples 'a method that change the hash values' do |method|
   end
 
   context 'when using deeply nested arrays' do
-    let(:subject) { { a: 1, b: 2, c: [{ d: 3 }, { e: { f: 4 } } ] } }
+    let(:subject) { { a: 1, b: 2, c: [{ d: 3 }, { e: { f: 4 } }, 5 ] } }
 
     it 'goes recursivly true arrays' do
-      expect(subject.public_send(method) { |value| value + 1 }).to eq(a: 2, b: 3, c: [{ d: 4 }, { e: { f: 5 } }])
+      expect(subject.public_send(method) { |value| value + 1 }).to eq(a: 2, b: 3, c: [{ d: 4 }, { e: { f: 5 } }, 6])
     end
 
     it 'does not work recursively when parameter is passed as false' do
-      expect(subject.public_send(method, recursive: false) { |value| value + 1 }).to eq(a: 2, b: 3, c: [{ d: 3 }, { e: { f: 4 } }])
+      expect(subject.public_send(method, recursive: false) { |value| value + 1 }).to eq(a: 2, b: 3, c: [{ d: 3 }, { e: { f: 4 } }, 5])
     end
 
     it 'does not ignore array when option is passed' do
-      expect(subject.public_send(method, skip_inner: false) { |value| value.is_a?(Array) ? 10 + value.size : value + 1 }).to eq(a: 2, b: 3, c: 12)
+      expect(subject.public_send(method, skip_inner: false) { |value| value.is_a?(Array) ? 10 + value.size : value + 1 }).to eq(a: 2, b: 3, c: 13)
     end
 
     it 'ignores array when option is passed' do
-      expect(subject.public_send(method, skip_inner: true) { |value| value.is_a?(Array) ? 10 + value.size : value + 1 }).to eq(a: 2, b: 3, c: [{ d: 4 }, { e: { f: 5 } }])
+      expect(subject.public_send(method, skip_inner: true) { |value| value.is_a?(Array) ? 10 + value.size : value + 1 }).to eq(a: 2, b: 3, c: [{ d: 4 }, { e: { f: 5 } }, 6])
     end
 
     it 'ignore hash and does not work recursively when option is passed' do
-      expect(subject.public_send(method, skip_inner: false, recursive: false) { |value| value.is_a?(Array) ? value : value + 1 }).to eq(a: 2, b: 3, c: [{ d: 3 }, { e: { f: 4 } }])
+      expect(subject.public_send(method, skip_inner: false, recursive: false) { |value| value.is_a?(Array) ? value : value + 1 }).to eq(a: 2, b: 3, c: [{ d: 3 }, { e: { f: 4 } }, 5])
     end
   end
 
