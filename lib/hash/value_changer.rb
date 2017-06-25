@@ -30,15 +30,16 @@ class Hash::ValueChanger
   end
 
   def change_array(array)
-    array = array.to_a
+    method = %w(map! map).find { |m| array.respond_to? m }
 
-    array.each.with_index do |value, index|
+    array.public_send(method) do |value|
       if value.respond_to?(:change_values)
-        value = value.change_values(options, &block)
+        value.change_values(options, &block)
       elsif is_iterable?(value)
-        value = change_array(value)
+        change_array(value)
+      else
+        new_value(value)
       end
-      array[index] = value
     end
   end
 

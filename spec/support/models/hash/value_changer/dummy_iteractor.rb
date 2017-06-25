@@ -3,7 +3,7 @@ class Hash::ValueChanger::DummyIteractor
     @array = array
   end
 
-  delegate :each, :to_a, to: :array
+  delegate :each, :map, :to_a, to: :array
 
   private
 
