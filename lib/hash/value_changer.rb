@@ -30,7 +30,9 @@ class Hash::ValueChanger
   end
 
   def change_array(array)
-    array.map.with_index do |value, index|
+    method = %w(map! map).find { |m| array.respond_to? m }
+
+    array.public_send(method).with_index do |value, index|
       if value.respond_to?(:change_values)
         value.change_values(options, &block)
       elsif is_iterable?(value)

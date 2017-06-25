@@ -16,6 +16,17 @@ shared_examples 'a class with change_values method' do
         subject.change_values { |value| value + 1 }
       end.not_to change { inner_hash }
     end
+
+    context 'when using an array' do
+      let(:subject) { { a: [{ b: 1}]} }
+      let(:inner_array) { subject[:a] }
+
+      it 'does not change original hash' do
+        expect do
+          subject.change_values { |value| value + 1 }
+        end.not_to change { inner_array }
+      end
+    end
   end
 
   describe :change_values! do
@@ -27,10 +38,21 @@ shared_examples 'a class with change_values method' do
       end.to change { subject }
     end
 
-    it 'does not change original hash' do
+    it 'changes original hash' do
       expect do
         subject.change_values! { |value| value + 1 }
       end.to change { inner_hash }
+    end
+
+    context 'when using an array' do
+      let(:subject) { { a: [{ b: 1}]} }
+      let(:inner_array) { subject[:a] }
+
+      it 'changes original hash' do
+        expect do
+          subject.change_values! { |value| value + 1 }
+        end.to change { inner_array }
+      end
     end
   end
 end
