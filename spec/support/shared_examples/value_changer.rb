@@ -1,5 +1,6 @@
 shared_examples 'a class with change_values method' do
   let(:subject) { { a: 1, b: 2, c: { d: 3, e: 4 } } }
+  let(:inner_hash) { subject[:c] }
 
   describe :change_values do
     it_behaves_like 'a method that change the hash values', :change_values
@@ -8,6 +9,12 @@ shared_examples 'a class with change_values method' do
       expect do
         subject.change_values { |value| value + 1 }
       end.not_to change { subject }
+    end
+
+    it 'does not change original hash' do
+      expect do
+        subject.change_values { |value| value + 1 }
+      end.not_to change { inner_hash }
     end
   end
 
@@ -18,6 +25,12 @@ shared_examples 'a class with change_values method' do
       expect do
         subject.change_values! { |value| value + 1 }
       end.to change { subject }
+    end
+
+    it 'does not change original hash' do
+      expect do
+        subject.change_values! { |value| value + 1 }
+      end.to change { inner_hash }
     end
   end
 end
