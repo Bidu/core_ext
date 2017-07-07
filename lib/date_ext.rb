@@ -1,5 +1,5 @@
 class Date
   def days_between(other_date)
-    (other_date - self).abs
+    (self - other_date.to_date).abs
   end
 end
