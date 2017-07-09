@@ -1,5 +1,5 @@
 shared_examples 'an object that knows how to calculate days between' do
-  let(:other_date) { subject + difference }
+  let(:other_date) { subject.to_date + difference }
   let(:difference) { 1.year }
 
   context 'when other object is a date' do
@@ -43,7 +43,7 @@ shared_examples 'an object that knows how to calculate days between' do
   end
 
   context 'when other date is a time' do
-    let(:other_date) { subject.to_time + difference }
+    let(:other_date) { subject.to_date.to_time + difference }
 
     context 'when other date is one year and 10 hours ahead' do
       let(:difference) { 1.year + 10.hours }
