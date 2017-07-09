@@ -11,9 +11,9 @@ class Hash::ValueChanger
   end
 
   def change(object)
-    if object.is_a? Hash
+    if object.respond_to?(:change_values)
       change_hash(object)
-    elsif object.is_a? Array
+    elsif is_iterable?(object)
       change_array(object)
     end
   end
@@ -30,15 +30,25 @@ class Hash::ValueChanger
   end
 
   def change_array(array)
-    array.each.with_index do |value, index|
-      value = value.change_values(options, &block) if value.is_a? Hash
-      value = change_array(value) if value.is_a? Array
-      array[index] = value
+    method = %w(map! map).find { |m| array.respond_to? m }
+
+    array.public_send(method) do |value|
+      if value.respond_to?(:change_values)
+        value.change_values(options, &block)
+      elsif is_iterable?(value)
+        change_array(value)
+      else
+        new_value(value)
+      end
     end
   end
 
   def change_value?(value)
-    !(value.is_a?(Hash) || value.is_a?(Array)) || !options[:skip_inner]
+    !is_iterable?(value) || !options[:skip_inner]
+  end
+
+  def is_iterable?(value)
+    value.respond_to?(:each)
   end
 
   def new_value(value)
@@ -47,6 +57,6 @@ class Hash::ValueChanger
   end
 
   def apply_recursion?(value)
-    (value.is_a?(Hash) || value.is_a?(Array)) && options[:recursive]
+    is_iterable?(value) && options[:recursive]
   end
 end

@@ -1,6 +1,6 @@
-require 'hash/value_changer'
-require 'hash/deep_hash_constructor'
-require 'hash/key_changer'
+require 'darthjee/core_ext/hash/value_changer'
+require 'darthjee/core_ext/hash/deep_hash_constructor'
+require 'darthjee/core_ext/hash/key_changer'
 
 class Hash
   def chain_fetch(*keys)
@@ -90,7 +90,7 @@ class Hash
 
   # change all keys returning the new map
   # options: { recursive: true }
-  # ex: { "a":1 }.change_keys{ |key| key.upcase } == { "A":1 }
+  # ex: { "a" =>1 }.change_keys{ |key| key.upcase } == { "A" => 1 }
   def change_keys(options = {}, &block)
     deep_dup.change_keys!(options, &block)
   end
@@ -100,6 +100,24 @@ class Hash
   # ex: { "a":1 }.change_keys{ |key| key.upcase } == { "A":1 }
   def change_keys!(options = {}, &block)
     Hash::KeyChanger.new(self).change_keys(options, &block)
+  end
+
+  # change all publicaly sending method calls
+  # options: { recursive: true }
+  # ex: { a: 1 }.chain_change_keys(:to_s, :upcase) == { "A" =>1 }
+  def chain_change_keys(*calls)
+    deep_dup.chain_change_keys!(*calls)
+  end
+
+  # change all publicaly sending method calls
+  # options: { recursive: true }
+  # ex: { a: 1 }.chain_change_keys(:to_s, :upcase) == { "A" =>1 }
+  def chain_change_keys!(*calls)
+    options = calls.extract_options!
+
+    calls.inject(self) do |h, m|
+      h.change_keys!(options, &m)
+    end
   end
 
   # prepend a string to all keys

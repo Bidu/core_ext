@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Array do
+  it_behaves_like 'an array with map_to_hash method'
+
   describe '#chain_map' do
     let(:array) { [ :a, :long_name, :sym ] }
     let(:mapped) { array.chain_map(:to_s, :size, :to_s) }
@@ -141,87 +143,6 @@ describe Array do
 
         it 'calls the mapping only once per element' do
           expect(transformer).to have_received(:transform).exactly(4)
-        end
-      end
-    end
-  end
-
-  describe '#map_to_hash' do
-    context 'whe subject is an array' do
-      let(:subject) { %w(word1 wooord2) }
-      let(:mapping_block) { proc{ |word| word.length } }
-      let(:mapped) { subject.map_to_hash(&mapping_block) }
-      let(:expected) { { 'word1' => 5, 'wooord2' => 7 } }
-
-      it { expect(mapped).to be_a(Hash) }
-
-      it 'has the original array as keys' do
-        expect(mapped.keys).to eq(subject)
-      end
-
-      it 'has the mapped values as values' do
-        expect(mapped.values).to eq(subject.map(&mapping_block))
-      end
-
-      it 'correctly map keys to value' do
-        expect(mapped).to eq(expected)
-      end
-
-      context 'whe subject is an array' do
-        let(:subject) { [%w(w1), %w(w2 w3)] }
-        let(:mapped) { subject.map_to_hash(&mapping_block) }
-        let(:expected) { { %w(w1) => 1, %w(w2 w3) => 2 } }
-
-
-        it 'has the original array as keys' do
-          expect(mapped.keys).to eq(subject)
-        end
-
-        it 'has the mapped values as values' do
-          expect(mapped.values).to eq(subject.map(&mapping_block))
-        end
-
-        it 'correctly map keys to value' do
-          expect(mapped).to eq(expected)
-        end
-      end
-    end
-
-    context 'whe subject is a hash' do
-      let(:subject) { { a: 1, b: 2 } }
-      let(:mapping_block) { proc{ |k, v| "#{k}_#{v}" } }
-      let(:mapped) { subject.map_to_hash(&mapping_block) }
-      let(:expected) { { a: 'a_1', b: 'b_2' } }
-
-      it { expect(mapped).to be_a(Hash) }
-
-      it 'has the original keys as keys' do
-        expect(mapped.keys).to eq(subject.keys)
-      end
-
-      it 'has the mapped values as values' do
-        expect(mapped.values).to eq(subject.map(&mapping_block))
-      end
-
-      it 'correctly map keys to value' do
-        expect(mapped).to eq(expected)
-      end
-
-      context 'when hash uses arrays for keys' do
-        let(:subject) { { [:a, :b] => 1, [:c, :d] => 2 } }
-        let(:mapping_block) { proc{ |k, v| "#{k.join('_')}_#{v}" } }
-        let(:expected) { { [:a, :b]=> 'a_b_1', [:c, :d] => 'c_d_2' } }
-
-        it 'has the original keys as keys' do
-          expect(mapped.keys).to eq(subject.keys)
-        end
-
-        it 'has the mapped values as values' do
-          expect(mapped.values).to eq(subject.map(&mapping_block))
-        end
-
-        it 'correctly map keys to value' do
-          expect(mapped).to eq(expected)
         end
       end
     end
