@@ -5,6 +5,7 @@ require 'darthjee/core_ext/symbol'
 require 'darthjee/core_ext/array'
 require 'darthjee/core_ext/numeric'
 require 'darthjee/core_ext/date'
+require 'darthjee/core_ext/time'
 
 module Darthjee
   module CoreExt
