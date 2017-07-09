@@ -1,4 +1,4 @@
-require 'array/hash_builder'
+require 'darthjee/core_ext/array/hash_builder'
 
 class Array
   def chain_map(*methods)

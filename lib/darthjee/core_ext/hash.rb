@@ -1,6 +1,6 @@
-require 'hash/value_changer'
-require 'hash/deep_hash_constructor'
-require 'hash/key_changer'
+require 'darthjee/core_ext/hash/value_changer'
+require 'darthjee/core_ext/hash/deep_hash_constructor'
+require 'darthjee/core_ext/hash/key_changer'
 
 class Hash
   def chain_fetch(*keys)
