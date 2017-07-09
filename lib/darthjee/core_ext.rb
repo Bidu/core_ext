@@ -1,9 +1,11 @@
-require 'enumerable'
 require 'active_support/all'
-require 'hash'
-require 'symbol'
-require 'array'
-require 'numeric'
+require 'darthjee/core_ext/enumerable'
+require 'darthjee/core_ext/hash'
+require 'darthjee/core_ext/symbol'
+require 'darthjee/core_ext/array'
+require 'darthjee/core_ext/numeric'
+require 'darthjee/core_ext/date'
+require 'darthjee/core_ext/time'
 
 module Darthjee
   module CoreExt

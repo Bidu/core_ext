@@ -26,9 +26,13 @@ bundle install darthjee-core_ext
 
 # methods added
 
+## Symbol
+[SYMBOL_README.md](SYMBOL_README.md)
 ## Array
 [ARRAY_README.md](ARRAY_README.md)
 ## Hash
 [HASH_README.md](HASH_README.md)
 ## Enumerable
 [ENUMERABLE_README.md](ENUMERABLE_README.md)
+## Date
+[DATE_README.md](DATE_README.md)
