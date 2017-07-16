@@ -182,10 +182,10 @@ class Hash
   end
 
   def transpose!
-    new_hash = dup.transpose
+    aux = dup
     keys.each { |k| self.delete(k) }
-    new_hash.each do |k, v|
-      self[k] = v
+    aux.each do |k, v|
+      self[v] = k
     end
     self
   end
