@@ -181,6 +181,23 @@ class Hash
     Hash::DeepHashConstructor.new(separator).deep_hash(self)
   end
 
+  def transpose!
+    aux = dup
+    keys.each { |k| self.delete(k) }
+    aux.each do |k, v|
+      self[v] = k
+    end
+    self
+  end
+
+  def transpose
+    {}.tap do |new_hash|
+      each do |k, v|
+        new_hash[v] = k
+      end
+    end
+  end
+
   private
 
   # changes the text of the keys

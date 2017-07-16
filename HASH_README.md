@@ -250,3 +250,16 @@ hash.map_and_find { |k,o| o.v }
 hash.map_and_find { |k,o| o.v && k }
 :c
 ```
+
+### #transpose
+swap keys with values of the hash
+
+```ruby
+{ a: 1, b: :a, c: [2, 3] }.transpose
+```
+
+returns
+
+```ruby
+{ 1 => :a, a: b, [2, 3] => :c }
+```
