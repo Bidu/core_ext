@@ -90,4 +90,11 @@ shared_examples 'a class with transpose methods' do
       end.not_to change { hash }
     end
   end
+ it_behaves_like 'a class with transpose method', :transpose! do
+    it do
+      expect do
+        hash.transpose!
+      end.to change { hash }
+    end
+  end
 end
