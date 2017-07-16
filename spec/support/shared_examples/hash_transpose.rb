@@ -1,13 +1,13 @@
-shared_examples 'a class with transpose method' do
-  describe :transpose do
-    let(:hash) { { a: 1 } }
+shared_examples 'a class with transpose method' do |method|
+  let(:hash) { { a: 1 } }
 
+  describe "##{method}" do
     it 'swap keys with values' do
-      expect(hash.transpose).to eq(1 => :a)
+      expect(hash.public_send(method)).to eq(1 => :a)
     end
 
     it 'works when repeating call' do
-      expect(hash.transpose.transpose).to eq(hash)
+      expect(hash.public_send(method).public_send(method)).to eq(hash)
     end
 
     context 'when hash has sub hasehs' do
@@ -15,11 +15,11 @@ shared_examples 'a class with transpose method' do
       let(:hash) { { a: sub_hash } }
 
       it 'do not work it recursively' do
-        expect(hash.transpose).to eq(sub_hash => :a)
+        expect(hash.public_send(method)).to eq(sub_hash => :a)
       end
 
       it 'works when repeating call' do
-        expect(hash.transpose.transpose).to eq(hash)
+        expect(hash.public_send(method).public_send(method)).to eq(hash)
       end
 
       context 'whe key is already a hash' do
@@ -27,11 +27,11 @@ shared_examples 'a class with transpose method' do
         let(:hash) { { key => sub_hash } }
 
         it 'swap keys with values' do
-          expect(hash.transpose).to eq(sub_hash => key)
+          expect(hash.public_send(method)).to eq(sub_hash => key)
         end
 
         it 'works when repeating call' do
-          expect(hash.transpose.transpose).to eq(hash)
+          expect(hash.public_send(method).public_send(method)).to eq(hash)
         end
       end
     end
@@ -40,22 +40,22 @@ shared_examples 'a class with transpose method' do
       let(:hash) { { a: [1, 2] } }
 
       it 'swap keys with values' do
-        expect(hash.transpose).to eq([1, 2] => :a)
+        expect(hash.public_send(method)).to eq([1, 2] => :a)
       end
 
       it 'works when repeating call' do
-        expect(hash.transpose.transpose).to eq(hash)
+        expect(hash.public_send(method).public_send(method)).to eq(hash)
       end
 
       context 'when key is already an array' do
         let(:hash) { { [1, 2] => [3, 4] } }
 
         it 'swap keys with values' do
-          expect(hash.transpose).to eq([3, 4] => [1, 2])
+          expect(hash.public_send(method)).to eq([3, 4] => [1, 2])
         end
 
         it 'works when repeating call' do
-          expect(hash.transpose.transpose).to eq(hash)
+          expect(hash.public_send(method).public_send(method)).to eq(hash)
         end
       end
     end
@@ -64,7 +64,7 @@ shared_examples 'a class with transpose method' do
       let(:hash) { { a: :b, c: :b} }
 
       it 'uses the last key for value' do
-        expect(hash.transpose).to eq(b: :c)
+        expect(hash.public_send(method)).to eq(b: :c)
       end
     end
 
@@ -72,12 +72,22 @@ shared_examples 'a class with transpose method' do
       let(:hash) { { a: :b, b: :c} }
 
       it 'does not override values' do
-        expect(hash.transpose).to eq(b: :a, c: :b)
+        expect(hash.public_send(method)).to eq(b: :a, c: :b)
       end
 
       it 'works when repeating call' do
-        expect(hash.transpose.transpose).to eq(hash)
+        expect(hash.public_send(method).public_send(method)).to eq(hash)
       end
+    end
+  end
+end
+
+shared_examples 'a class with transpose methods' do
+ it_behaves_like 'a class with transpose method', :transpose do
+    it do
+      expect do
+        hash.transpose
+      end.not_to change { hash }
     end
   end
 end
