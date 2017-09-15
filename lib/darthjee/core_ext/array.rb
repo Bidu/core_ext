@@ -1,14 +1,15 @@
 require 'darthjee/core_ext/array/hash_builder'
 
 class Array
-  def procedural_join(mapper = proc(&:to_s), &block)
+  def procedural_join(mapper = proc(&:to_s))
     return '' if empty?
     list = dup
     prev = first
     list[0] = mapper.call(prev).to_s
 
     list.inject do |string, val|
-      "#{string}#{yield(prev,val)}#{mapper.call(val)}".tap do
+      j = yield(prev, val) if block_given?
+      "#{string}#{j}#{mapper.call(val)}".tap do
         prev = val
       end
     end

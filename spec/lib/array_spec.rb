@@ -61,6 +61,16 @@ describe Array do
         expect(result).to eq('1,2|-3,-4|5')
       end
     end
+
+    context 'when no block is given' do
+      let(:result) do
+        array.procedural_join(map_proc)
+      end
+
+      it 'acts as map join for a single element array' do
+        expect(result).to eq(array.map(&map_proc).join)
+      end
+    end
   end
 
   describe '#chain_map' do
