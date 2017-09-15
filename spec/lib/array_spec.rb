@@ -155,6 +155,14 @@ describe Array do
 
   describe '#random' do
     it_behaves_like 'a method that returns a random element', :random
+
+    let(:array) { [ 8,4,2 ] }
+
+    it 'removes an the returned element' do
+      expect do
+        array.random
+      end.not_to change { array }
+    end
   end
 
   describe '#random!' do
