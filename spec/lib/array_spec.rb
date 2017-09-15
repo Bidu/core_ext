@@ -3,6 +3,19 @@ require 'spec_helper'
 describe Array do
   it_behaves_like 'an array with map_to_hash method'
 
+  describe '#procedural_join' do
+    let(:array) { [1, 2, -3, -4, 5] }
+    let(:result) do
+      array.procedural_join(proc { |v| v > 0 ? v + 1 : v - 1} ) do |previous, nexte|
+        previous * nexte > 0 ? ',' : '|'
+      end
+    end
+
+    it 'joins proceduraly' do
+      expect(result).to eq('2,3|-4,-5|6')
+    end
+  end
+
   describe '#chain_map' do
     let(:array) { [ :a, :long_name, :sym ] }
     let(:mapped) { array.chain_map(:to_s, :size, :to_s) }

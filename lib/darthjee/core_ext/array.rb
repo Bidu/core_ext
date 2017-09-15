@@ -1,6 +1,22 @@
 require 'darthjee/core_ext/array/hash_builder'
 
 class Array
+  def procedural_join(extractor, &block)
+    prev = init = shift
+
+    list = map do |val|
+      [
+        yield(prev, val),
+        extractor.call(val)
+      ].tap {
+        prev = val
+      }
+    end
+
+    list.unshift(extractor.call(init))
+    list.join
+  end
+
   def chain_map(*methods)
     result = self
     result = result.map(&(methods.shift)) until methods.empty?
