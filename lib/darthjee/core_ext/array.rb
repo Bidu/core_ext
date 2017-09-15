@@ -2,6 +2,7 @@ require 'darthjee/core_ext/array/hash_builder'
 
 class Array
   def procedural_join(extractor, &block)
+    return '' if empty?
     list = dup
     prev = init = list.shift
 

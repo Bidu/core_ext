@@ -20,6 +20,20 @@ describe Array do
         result
       end.not_to change { array }
     end
+
+    context 'when array is empty' do
+      let(:array) { [] }
+
+      it do
+        expect do
+          result
+        end.not_to raise_error
+      end
+
+      it 'acts as join for an empty array' do
+        expect(result).to eq(array.join)
+      end
+    end
   end
 
   describe '#chain_map' do
