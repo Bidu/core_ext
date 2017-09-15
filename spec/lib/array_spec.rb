@@ -49,6 +49,18 @@ describe Array do
         expect(result).to eq(array.map(&map_proc).join)
       end
     end
+
+    context 'when no mapping proc is passed' do
+      let(:result) do
+        array.procedural_join do |previous, nexte|
+          previous * nexte > 0 ? ',' : '|'
+        end
+      end
+
+      it 'proceduraly joins without mapping' do
+        expect(result).to eq('1,2|-3,-4|5')
+      end
+    end
   end
 
   describe '#chain_map' do
