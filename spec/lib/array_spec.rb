@@ -5,8 +5,9 @@ describe Array do
 
   describe '#procedural_join' do
     let(:array) { [1, 2, -3, -4, 5] }
+    let(:map_proc) { proc { |v| v > 0 ? v + 1 : v - 1 } }
     let(:result) do
-      array.procedural_join(proc { |v| v > 0 ? v + 1 : v - 1} ) do |previous, nexte|
+      array.procedural_join(map_proc) do |previous, nexte|
         previous * nexte > 0 ? ',' : '|'
       end
     end
@@ -32,6 +33,20 @@ describe Array do
 
       it 'acts as join for an empty array' do
         expect(result).to eq(array.join)
+      end
+    end
+
+    context 'when array has only one element' do
+      let(:array) { [ 2 ] }
+
+      it do
+        expect do
+          result
+        end.not_to raise_error
+      end
+
+      it 'acts as map join for a single element array' do
+        expect(result).to eq(array.map(&map_proc).join)
       end
     end
   end
