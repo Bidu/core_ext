@@ -4,19 +4,14 @@ class Array
   def procedural_join(mapper = proc(&:to_s), &block)
     return '' if empty?
     list = dup
-    prev = init = list.shift
+    prev = first
+    list[0] = mapper.call(prev).to_s
 
-    list = list.map do |val|
-      [
-        yield(prev, val),
-        mapper.call(val)
-      ].tap {
+    list.inject do |string, val|
+      "#{string}#{yield(prev,val)}#{mapper.call(val)}".tap do
         prev = val
-      }
+      end
     end
-
-    list.unshift(mapper.call(init))
-    list.join
   end
 
   def chain_map(*methods)
