@@ -14,12 +14,13 @@ class Array
     end
   end
 
-  def chain_map(*methods)
-    result = self
-    result = result.map(&(methods.shift)) until methods.empty?
+  def chain_map(*methods, &block)
+    result = methods.inject(self) do |array, method|
+      array.map(&method)
+    end
 
     return result unless block_given?
-    result.map { |*args| yield(*args) }
+    result.map(&block)
   end
 
   def as_hash(keys)
