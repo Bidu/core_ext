@@ -14,6 +14,12 @@ describe Array do
     it 'joins proceduraly' do
       expect(result).to eq('2,3|-4,-5|6')
     end
+
+    it 'does not change the array' do
+      expect do
+        result
+      end.not_to change { array }
+    end
   end
 
   describe '#chain_map' do

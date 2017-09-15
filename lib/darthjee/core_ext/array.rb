@@ -2,9 +2,10 @@ require 'darthjee/core_ext/array/hash_builder'
 
 class Array
   def procedural_join(extractor, &block)
-    prev = init = shift
+    list = dup
+    prev = init = list.shift
 
-    list = map do |val|
+    list = list.map do |val|
       [
         yield(prev, val),
         extractor.call(val)
