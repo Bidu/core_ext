@@ -3,6 +3,76 @@ require 'spec_helper'
 describe Array do
   it_behaves_like 'an array with map_to_hash method'
 
+  describe '#procedural_join' do
+    let(:array) { [1, 2, -3, -4, 5] }
+    let(:map_proc) { proc { |v| v > 0 ? v + 1 : v - 1 } }
+    let(:result) do
+      array.procedural_join(map_proc) do |previous, nexte|
+        previous * nexte > 0 ? ',' : '|'
+      end
+    end
+
+    it 'joins proceduraly' do
+      expect(result).to eq('2,3|-4,-5|6')
+    end
+
+    it 'does not change the array' do
+      expect do
+        result
+      end.not_to change { array }
+    end
+
+    context 'when array is empty' do
+      let(:array) { [] }
+
+      it do
+        expect do
+          result
+        end.not_to raise_error
+      end
+
+      it 'acts as join for an empty array' do
+        expect(result).to eq(array.join)
+      end
+    end
+
+    context 'when array has only one element' do
+      let(:array) { [ 2 ] }
+
+      it do
+        expect do
+          result
+        end.not_to raise_error
+      end
+
+      it 'acts as map join for a single element array' do
+        expect(result).to eq(array.map(&map_proc).join)
+      end
+    end
+
+    context 'when no mapping proc is passed' do
+      let(:result) do
+        array.procedural_join do |previous, nexte|
+          previous * nexte > 0 ? ',' : '|'
+        end
+      end
+
+      it 'proceduraly joins without mapping' do
+        expect(result).to eq('1,2|-3,-4|5')
+      end
+    end
+
+    context 'when no block is given' do
+      let(:result) do
+        array.procedural_join(map_proc)
+      end
+
+      it 'acts as map join for a single element array' do
+        expect(result).to eq(array.map(&map_proc).join)
+      end
+    end
+  end
+
   describe '#chain_map' do
     let(:array) { [ :a, :long_name, :sym ] }
     let(:mapped) { array.chain_map(:to_s, :size, :to_s) }
@@ -95,6 +165,14 @@ describe Array do
 
   describe '#random' do
     it_behaves_like 'a method that returns a random element', :random
+
+    let(:array) { [ 8,4,2 ] }
+
+    it 'removes an the returned element' do
+      expect do
+        array.random
+      end.not_to change { array }
+    end
   end
 
   describe '#random!' do
