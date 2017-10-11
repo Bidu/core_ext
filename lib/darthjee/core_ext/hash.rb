@@ -1,8 +1,8 @@
-require 'darthjee/core_ext/hash/value_changer'
-require 'darthjee/core_ext/hash/deep_hash_constructor'
-require 'darthjee/core_ext/hash/key_changer'
-
 class Hash
+  autoload :ValueChanger, 'darthjee/core_ext/hash/value_changer'
+  autoload :DeepHashConstructor, 'darthjee/core_ext/hash/deep_hash_constructor'
+  autoload :KeyChanger, 'darthjee/core_ext/hash/key_changer'
+
   def chain_fetch(*keys)
     value = self
 
