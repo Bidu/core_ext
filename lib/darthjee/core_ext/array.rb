@@ -1,6 +1,12 @@
 class Array
   autoload :HashBuilder,      'darthjee/core_ext/array/hash_builder'
 
+  def mapk(*keys)
+    keys.inject(self) do |enum, key|
+      enum.map { |hash| hash[key] }
+    end
+  end
+
   def procedural_join(mapper = proc(&:to_s))
     return '' if empty?
     list = dup
