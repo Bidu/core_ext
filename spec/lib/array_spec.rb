@@ -3,6 +3,14 @@ require 'spec_helper'
 describe Array do
   it_behaves_like 'an array with map_to_hash method'
 
+  describe '#mapk' do
+    let(:array) { [{a: { b: 1 }, b: 2}, {a: { b: 3 }, b: 4}] }
+
+    it 'maps using the keys given as arguments' do
+      expect(array.mapk(:a, :b)).to eq([ 1, 3 ])
+    end
+  end
+
   describe '#procedural_join' do
     let(:array) { [1, 2, -3, -4, 5] }
     let(:map_proc) { proc { |v| v > 0 ? v + 1 : v - 1 } }
