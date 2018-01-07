@@ -1,6 +1,6 @@
-require 'darthjee/core_ext/array/hash_builder'
-
 class Array
+  autoload :HashBuilder,      'darthjee/core_ext/array/hash_builder'
+
   def procedural_join(mapper = proc(&:to_s))
     return '' if empty?
     list = dup
