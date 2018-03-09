@@ -16,5 +16,21 @@ describe Math do
         end
       end
     end
+
+    context 'when passing a hash' do
+      let(:values) do
+        {
+          0 => 1,
+          1 => 2,
+          2 => 3,
+          3 => 4,
+          4 => 5
+        }
+      end
+
+      it 'uses the keys as values and the values as weights (frequency)' do
+        expect(described_class.average(values)).to eq(8 / 3.0)
+      end
+    end
   end
 end
