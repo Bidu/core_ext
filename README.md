@@ -1,5 +1,7 @@
-Core_Ext
+Darthjee/CoreExt
 ========
+
+![core_ext](https://raw.githubusercontent.com/darthjee/core_ext/master/mech.jpg)
 
 [![Code Climate](https://codeclimate.com/github/darthjee/core_ext/badges/gpa.svg)](https://codeclimate.com/github/darthjee/core_ext)
 [![Test Coverage](https://codeclimate.com/github/darthjee/core_ext/badges/coverage.svg)](https://codeclimate.com/github/darthjee/core_ext/coverage)
