@@ -4,7 +4,7 @@ shared_examples 'a class with append_keys method' do
       expect({ a: 1, 'b' => 2 }.prepend_to_keys('foo_')).to eq(foo_a: 1, 'foo_b' => 2)
     end
     it 'applies the block recursively' do
-      expect({ 'a' => 1, b:  { c: 3, 'd' => 4 } }.prepend_to_keys('foo_')).to eq('foo_a' => 1, foo_b:  { foo_c: 3, 'foo_d' => 4 })
+      expect({ 'a' => 1, b: { c: 3, 'd' => 4 } }.prepend_to_keys('foo_')).to eq('foo_a' => 1, foo_b: { foo_c: 3, 'foo_d' => 4 })
     end
     it 'changes type when type option is passed' do
       expect({ 'a' => 1, b: 2 }.prepend_to_keys('foo_', type: :string)).to eq('foo_a' => 1, 'foo_b' => 2)
@@ -25,7 +25,7 @@ shared_examples 'a class with append_keys method' do
       expect({ a: 1, 'b' => 2 }.append_to_keys('_bar')).to eq(a_bar: 1, 'b_bar' => 2)
     end
     it 'applies the block recursively' do
-      expect({ 'a' => 1, b:  { c: 3, 'd' => 4 } }.append_to_keys('_bar')).to eq('a_bar' => 1, b_bar:  { c_bar: 3, 'd_bar' => 4 })
+      expect({ 'a' => 1, b: { c: 3, 'd' => 4 } }.append_to_keys('_bar')).to eq('a_bar' => 1, b_bar: { c_bar: 3, 'd_bar' => 4 })
     end
     it 'changes type when type option is passed' do
       expect({ 'a' => 1, b: 2 }.append_to_keys('_bar', type: :string)).to eq('a_bar' => 1, 'b_bar' => 2)

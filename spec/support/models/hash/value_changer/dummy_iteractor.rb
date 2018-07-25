@@ -9,4 +9,3 @@ class Hash::ValueChanger::DummyIteractor
 
   attr_reader :array
 end
-

@@ -18,7 +18,7 @@ shared_examples 'a class with change_values method' do
     end
 
     context 'when using an array' do
-      let(:subject) { { a: [{ b: 1}]} }
+      let(:subject) { { a: [{ b: 1 }] } }
       let(:inner_array) { subject[:a] }
 
       it 'does not change original hash' do
@@ -45,7 +45,7 @@ shared_examples 'a class with change_values method' do
     end
 
     context 'when using an array' do
-      let(:subject) { { a: [{ b: 1}]} }
+      let(:subject) { { a: [{ b: 1 }] } }
       let(:inner_array) { subject[:a] }
 
       it 'changes original hash' do
@@ -85,7 +85,7 @@ shared_examples 'a method that change the hash values' do |method|
   end
 
   context 'when using deeply nested arrays' do
-    let(:subject) { { a: 1, b: 2, c: [{ d: 3 }, { e: { f: 4 } }, 5 ] } }
+    let(:subject) { { a: 1, b: 2, c: [{ d: 3 }, { e: { f: 4 } }, 5] } }
 
     it 'goes recursivly true arrays' do
       expect(subject.public_send(method) { |value| value + 1 }).to eq(a: 2, b: 3, c: [{ d: 4 }, { e: { f: 5 } }, 6])

@@ -79,4 +79,3 @@ shared_examples 'a class with underscore_keys method' do
     expect { hash.underscore_keys }.not_to change { hash }
   end
 end
-
