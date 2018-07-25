@@ -8,14 +8,6 @@
 
 # Offense count: 2
 # Cop supports --auto-correct.
-# Configuration parameters: Include, TreatCommentsAsGroupSeparators.
-# Include: **/*.gemspec
-Gemspec/OrderedDependencies:
-  Exclude:
-    - 'core_ext.gemspec'
-
-# Offense count: 2
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleAlignWith.
 # SupportedStylesAlignWith: either, start_of_block, start_of_line
 Layout/BlockAlignment:
