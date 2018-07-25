@@ -1,5 +1,5 @@
 class Array
-  autoload :HashBuilder,      'darthjee/core_ext/array/hash_builder'
+  autoload :HashBuilder, 'darthjee/core_ext/array/hash_builder'
 
   def mapk(*keys)
     keys.inject(self) do |enum, key|

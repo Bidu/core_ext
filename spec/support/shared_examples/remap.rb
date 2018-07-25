@@ -16,7 +16,6 @@ shared_examples 'a class with remap method' do
       expect { subject.remap_keys!(a: :e) }.to change { subject }
     end
   end
-
 end
 
 shared_examples 'a method that remaps the keys' do |method|

@@ -47,10 +47,10 @@ shared_examples 'a method that is able to change keys' do |method|
   end
 
   context 'with recursive hash' do
-    let(:hash) { { 'a' => 1, b:  { c: 3, 'd' => 4 } } }
+    let(:hash) { { 'a' => 1, b: { c: 3, 'd' => 4 } } }
     let(:result) { hash.public_send(method, options) { |k| "foo_#{k}" } }
     let(:expected) do
-      { 'foo_a' => 1, 'foo_b' =>  { 'foo_c' => 3, 'foo_d' => 4 } }
+      { 'foo_a' => 1, 'foo_b' => { 'foo_c' => 3, 'foo_d' => 4 } }
     end
 
     context 'when no options are given' do
@@ -68,7 +68,7 @@ shared_examples 'a method that is able to change keys' do |method|
 
       context 'without recursion' do
         let(:recursive) { false }
-        let(:expected) { { 'foo_a' => 1, 'foo_b' =>  { c: 3, 'd' => 4 } } }
+        let(:expected) { { 'foo_a' => 1, 'foo_b' => { c: 3, 'd' => 4 } } }
         it_behaves_like 'result is as expected'
       end
     end
