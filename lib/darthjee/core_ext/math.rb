@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Math
   def self.average(values)
     values = values.map { |v| [v, 1] }.to_h unless values.is_a?(Hash)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Hash
   class KeyChanger
     attr_reader :hash, :block

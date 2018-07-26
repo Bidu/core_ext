@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Hash
   autoload :ValueChanger, 'darthjee/core_ext/hash/value_changer'
   autoload :DeepHashConstructor, 'darthjee/core_ext/hash/deep_hash_constructor'

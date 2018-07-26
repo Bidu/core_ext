@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Numeric
   def percent_of(total)
     return Float::INFINITY if total == 0

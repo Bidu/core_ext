@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'a class with camlize_keys method' do
   describe :lower_camelize_keys do
     let(:expected) { { inputKey: 'value' } }

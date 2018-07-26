@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'a class with append_keys method' do
   describe :prepend_to_keys do
     it 'accepts block to change the keys' do

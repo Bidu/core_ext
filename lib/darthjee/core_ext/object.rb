@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'darthjee/core_ext/object/default_value'
 
 class Object

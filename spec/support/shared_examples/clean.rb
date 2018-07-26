@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'a hash clean method' do |method|
   context 'when hash has one level' do
     let(:subject) do
