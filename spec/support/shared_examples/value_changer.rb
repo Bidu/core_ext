@@ -10,13 +10,13 @@ shared_examples 'a class with change_values method' do
     it 'does not change original hash' do
       expect do
         subject.change_values { |value| value + 1 }
-      end.not_to change { subject }
+      end.not_to(change { subject })
     end
 
     it 'does not change original hash' do
       expect do
         subject.change_values { |value| value + 1 }
-      end.not_to change { inner_hash }
+      end.not_to(change { inner_hash })
     end
 
     context 'when using an array' do
@@ -26,7 +26,7 @@ shared_examples 'a class with change_values method' do
       it 'does not change original hash' do
         expect do
           subject.change_values { |value| value + 1 }
-        end.not_to change { inner_array }
+        end.not_to(change { inner_array })
       end
     end
   end
@@ -37,13 +37,13 @@ shared_examples 'a class with change_values method' do
     it 'changes original hash' do
       expect do
         subject.change_values! { |value| value + 1 }
-      end.to change { subject }
+      end.to(change { subject })
     end
 
     it 'changes original hash' do
       expect do
         subject.change_values! { |value| value + 1 }
-      end.to change { inner_hash }
+      end.to(change { inner_hash })
     end
 
     context 'when using an array' do
@@ -53,7 +53,7 @@ shared_examples 'a class with change_values method' do
       it 'changes original hash' do
         expect do
           subject.change_values! { |value| value + 1 }
-        end.to change { inner_array }
+        end.to(change { inner_array })
       end
     end
   end

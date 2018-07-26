@@ -6,22 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 35
-Lint/AmbiguousBlockAssociation:
-  Exclude:
-    - 'spec/lib/array_spec.rb'
-    - 'spec/lib/enumerable_spec.rb'
-    - 'spec/lib/hash/key_changer_spec.rb'
-    - 'spec/lib/hash_spec.rb'
-    - 'spec/support/shared_examples/chain_hash_keys_changer.rb'
-    - 'spec/support/shared_examples/hash_keys_changer.rb'
-    - 'spec/support/shared_examples/hash_transpose.rb'
-    - 'spec/support/shared_examples/keys_camelizer.rb'
-    - 'spec/support/shared_examples/keys_underscorer.rb'
-    - 'spec/support/shared_examples/map_to_hash.rb'
-    - 'spec/support/shared_examples/remap.rb'
-    - 'spec/support/shared_examples/value_changer.rb'
-
 # Offense count: 48
 # Configuration parameters: CountComments, ExcludedMethods.
 # ExcludedMethods: refine

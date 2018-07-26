@@ -21,7 +21,7 @@ describe Hash do
       expect(hash.squash).to eq('a.b' => 1, 'a.c.d' => 2)
     end
 
-    it { expect { hash.squash }.not_to change { hash } }
+    it { expect { hash.squash }.not_to(change { hash }) }
 
     context 'with array value' do
       let(:hash) { { a: { b: [1, { x: 3, y: { z: 4 } }] } } }
@@ -69,7 +69,7 @@ describe Hash do
     end
 
     it 'does not change the original hash' do
-      expect { subject.exclusive_merge(other) }.not_to change { subject }
+      expect { subject.exclusive_merge(other) }.not_to(change { subject })
     end
   end
 
@@ -82,7 +82,7 @@ describe Hash do
     end
 
     it 'does not change the original hash' do
-      expect { subject.exclusive_merge!(other) }.to change { subject }
+      expect { subject.exclusive_merge!(other) }.to(change { subject })
     end
   end
 

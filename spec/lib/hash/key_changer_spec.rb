@@ -32,7 +32,7 @@ describe Hash::KeyChanger do
       it 'underscore all the keys' do
         expect do
           subject.underscore_keys
-        end.to change { hash }
+        end.to(change { hash })
       end
     end
 

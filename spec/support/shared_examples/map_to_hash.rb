@@ -51,7 +51,7 @@ shared_examples 'a hash with map_to_hash method' do
     it { expect(mapped).to be_a(Hash) }
 
     it do
-      expect { subject.map_to_hash(&mapping_block) }.not_to change { subject }
+      expect { subject.map_to_hash(&mapping_block) }.not_to(change { subject })
     end
 
     it 'has the original keys as keys' do
