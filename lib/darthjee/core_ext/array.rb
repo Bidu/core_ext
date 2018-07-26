@@ -41,6 +41,6 @@ class Array
   end
 
   def random!
-    self.slice!(rand(size))
+    slice!(rand(size))
   end
 end

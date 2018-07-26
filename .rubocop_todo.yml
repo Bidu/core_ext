@@ -76,13 +76,6 @@ Style/PercentLiteralDelimiters:
 
 # Offense count: 2
 # Cop supports --auto-correct.
-Style/RedundantSelf:
-  Exclude:
-    - 'lib/darthjee/core_ext/array.rb'
-    - 'lib/darthjee/core_ext/hash.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
 Style/RescueModifier:
   Exclude:
     - 'spec/lib/array_spec.rb'

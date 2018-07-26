@@ -185,7 +185,7 @@ class Hash
 
   def transpose!
     aux = dup
-    keys.each { |k| self.delete(k) }
+    keys.each { |k| delete(k) }
     aux.each do |k, v|
       self[v] = k
     end
