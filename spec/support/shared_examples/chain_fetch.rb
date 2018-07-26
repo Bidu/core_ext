@@ -14,7 +14,7 @@ shared_examples 'an object with chain_fetch method' do
         }
       }
     end
-    let(:keys) { [:a, :b, :c, :d] }
+    let(:keys) { %i[a b c d] }
     let(:result) { hash.chain_fetch(*keys) }
 
     context 'when fetching existing keys' do
@@ -24,7 +24,7 @@ shared_examples 'an object with chain_fetch method' do
     end
 
     context 'when fetching non existing keys keys' do
-      let(:keys) { [:a, :x, :y] }
+      let(:keys) { %i[a x y] }
 
       context 'when there is no default value' do
         it 'raises fetch error' do

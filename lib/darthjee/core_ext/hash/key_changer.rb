@@ -35,9 +35,7 @@ class Hash
     def underscore_keys(settings = {})
       merge_options({}, settings)
 
-      change_keys do |k|
-        k.underscore
-      end
+      change_keys(&:underscore)
     end
 
     def change_text(options = {})
