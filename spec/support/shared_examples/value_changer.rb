@@ -116,7 +116,7 @@ shared_examples 'a method that change the hash values' do |method|
     end
 
     context 'when class is an interactor' do
-      let(:subject) { { a: 1, b: 2, c: Hash::ValueChanger::DummyIteractor.new({ d: 3 }, { e: { f: 4 } }) } }
+      let(:subject) { { a: 1, b: 2, c: Hash::ValueChanger::DummyIteractor.new({ d: 3 }, e: { f: 4 }) } }
 
       it 'goes through the iteractor' do
         expect(subject.public_send(method) { |value| value + 1 }).to eq(a: 2, b: 3, c: [{ d: 4 }, { e: { f: 5 } }])
