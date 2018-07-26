@@ -48,12 +48,6 @@ Naming/PredicateName:
   Exclude:
     - 'lib/darthjee/core_ext/object.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Performance/RedundantBlockCall:
-  Exclude:
-    - 'lib/darthjee/core_ext/hash/key_changer.rb'
-
 # Offense count: 16
 Style/Documentation:
   Enabled: false

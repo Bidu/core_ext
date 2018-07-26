@@ -38,13 +38,13 @@ class Hash
       end
     end
 
-    def change_text(options = {}, &block)
+    def change_text(options = {})
       merge_options({
                       type: :keep
                     }, options)
 
       change_keys do |key|
-        cast_new_key block.call(key), key.class
+        cast_new_key yield(key), key.class
       end
     end
 
