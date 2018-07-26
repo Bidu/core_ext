@@ -65,19 +65,6 @@ Performance/RedundantBlockCall:
   Exclude:
     - 'lib/darthjee/core_ext/hash/key_changer.rb'
 
-# Offense count: 6
-# Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect, EnforcedStyle.
-# SupportedStyles: nested, compact
-Style/ClassAndModuleChildren:
-  Exclude:
-    - 'lib/darthjee/core_ext/array/hash_builder.rb'
-    - 'lib/darthjee/core_ext/hash/deep_hash_constructor.rb'
-    - 'lib/darthjee/core_ext/hash/key_changer.rb'
-    - 'lib/darthjee/core_ext/hash/value_changer.rb'
-    - 'spec/support/models/hash/value_changer/dummy.rb'
-    - 'spec/support/models/hash/value_changer/dummy_iteractor.rb'
-
 # Offense count: 16
 Style/Documentation:
   Enabled: false
