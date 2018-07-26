@@ -59,7 +59,7 @@ class Hash
   end
 
   def lower_camelize_keys!(options = {})
-    options = options.merge({ uppercase_first_letter: false })
+    options = options.merge(uppercase_first_letter: false)
 
     camelize_keys!(options)
   end
