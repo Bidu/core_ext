@@ -14,7 +14,7 @@ class Hash
     def change(object)
       if object.respond_to?(:change_values)
         change_hash(object)
-      elsif is_iterable?(object)
+      elsif iterable?(object)
         change_array(object)
       end
     end
@@ -36,7 +36,7 @@ class Hash
       array.public_send(method) do |value|
         if value.respond_to?(:change_values)
           value.change_values(options, &block)
-        elsif is_iterable?(value)
+        elsif iterable?(value)
           change_array(value)
         else
           new_value(value)
@@ -45,10 +45,10 @@ class Hash
     end
 
     def change_value?(value)
-      !is_iterable?(value) || !options[:skip_inner]
+      !iterable?(value) || !options[:skip_inner]
     end
 
-    def is_iterable?(value)
+    def iterable?(value)
       value.respond_to?(:each)
     end
 
@@ -58,7 +58,7 @@ class Hash
     end
 
     def apply_recursion?(value)
-      is_iterable?(value) && options[:recursive]
+      iterable?(value) && options[:recursive]
     end
   end
 end

@@ -46,8 +46,6 @@ Metrics/MethodLength:
 # MethodDefinitionMacros: define_method, define_singleton_method
 Naming/PredicateName:
   Exclude:
-    - 'spec/**/*'
-    - 'lib/darthjee/core_ext/hash/value_changer.rb'
     - 'lib/darthjee/core_ext/object.rb'
 
 # Offense count: 3
