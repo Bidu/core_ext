@@ -129,9 +129,6 @@ describe Array do
       let(:array) { [1, 2, 3, 4, 5, 6, 7] }
 
       it { expect { array.as_hash(keys) }.to raise_error(IndexError) }
-
-      it { expect { array.as_hash(keys) rescue nil }.not_to(change { keys }) }
-      it { expect { array.as_hash(keys) rescue nil }.not_to(change { array }) }
     end
   end
 

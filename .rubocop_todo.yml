@@ -62,12 +62,6 @@ Style/PercentLiteralDelimiters:
     - 'spec/lib/hash_spec.rb'
     - 'spec/support/shared_examples/map_to_hash.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/RescueModifier:
-  Exclude:
-    - 'spec/lib/array_spec.rb'
-
 # Offense count: 9
 # Cop supports --auto-correct.
 # Configuration parameters: MinSize.
