@@ -128,7 +128,7 @@ describe Hash do
             { 'name' => 'First person', 'age' => 22 },
             { 'name' => 'Second person', 'age' => 27 }
           ],
-          'device' => %w(GEAR_LOCK GPS),
+          'device' => %w[GEAR_LOCK GPS],
           'zipCode' => '122345-123'
         }
       end
@@ -319,7 +319,7 @@ describe Hash do
       context 'when block returns the key and not the value' do
         let(:block) { proc { |k, v| v > 1 && k } }
 
-        it { expect(list).to eq([:b, :c, :d]) }
+        it { expect(list).to eq(%i[b c d]) }
       end
 
       context 'but not for the first value' do

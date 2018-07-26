@@ -84,11 +84,11 @@ describe Array do
   end
 
   describe '#chain_map' do
-    let(:array) { [:a, :long_name, :sym] }
+    let(:array) { %i[a long_name sym] }
     let(:mapped) { array.chain_map(:to_s, :size, :to_s) }
 
     it 'calls each argument as method of the mapped result' do
-      expect(mapped).to eq(['1', '9', '3'])
+      expect(mapped).to eq(%w[1 9 3])
     end
 
     context 'when an extra block is given' do
@@ -106,7 +106,7 @@ describe Array do
 
   describe '#as_hash' do
     let(:array) { [1, 2, 3] }
-    let(:keys) { %w(a b c) }
+    let(:keys) { %w[a b c] }
     let(:expected) { { 'a' => 1, 'b' => 2, 'c' => 3 } }
 
     it 'creates a hash using the array as value and the argument as keys' do
@@ -114,7 +114,7 @@ describe Array do
     end
 
     context 'when there are more keys than values' do
-      let(:keys) { %w(a b c d e f) }
+      let(:keys) { %w[a b c d e f] }
       let(:expected) { { 'a' => 1, 'b' => 2, 'c' => 3, 'd' => nil, 'e' => nil, 'f' => nil } }
 
       it 'creates a hash with nil values for the extra keys' do

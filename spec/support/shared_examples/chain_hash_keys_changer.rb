@@ -80,7 +80,7 @@ shared_examples 'a method that is able to chain change keys' do |method|
   end
 
   context 'calling with chained transformations' do
-    let(:transformations) { [:to_s, :upcase, :to_sym] }
+    let(:transformations) { %i[to_s upcase to_sym] }
 
     let(:hexpected) do
       { A: 1, B: 2, C: { D: 3, E: 4 }, F: [{ G: 5 }, { H: 6 }] }

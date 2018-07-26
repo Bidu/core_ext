@@ -33,7 +33,7 @@ class Hash
     end
 
     def change_array(array)
-      method = %w(map! map).find { |m| array.respond_to? m }
+      method = %w[map! map].find { |m| array.respond_to? m }
 
       array.public_send(method) do |value|
         if value.respond_to?(:change_values)
