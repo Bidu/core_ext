@@ -38,8 +38,8 @@ module Enumerable
 
   private
 
-  def empty_value?(v)
-    v.nil? || v.try(:empty?) ||
-      ((v.is_a?(Hash) || v.is_a?(Array)) && v.clean!.empty?)
+  def empty_value?(value)
+    value.nil? || value.try(:empty?) ||
+      ((value.is_a?(Hash) || value.is_a?(Array)) && value.clean!.empty?)
   end
 end

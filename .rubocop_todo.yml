@@ -48,15 +48,6 @@ Naming/PredicateName:
   Exclude:
     - 'lib/darthjee/core_ext/object.rb'
 
-# Offense count: 3
-# Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
-# AllowedNames: io, id, to, by, on, in, at
-Naming/UncommunicativeMethodParamName:
-  Exclude:
-    - 'lib/darthjee/core_ext/enumerable.rb'
-    - 'lib/darthjee/core_ext/hash/deep_hash_constructor.rb'
-    - 'lib/darthjee/core_ext/numeric.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 Performance/RedundantBlockCall:

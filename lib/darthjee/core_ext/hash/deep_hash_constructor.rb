@@ -56,13 +56,13 @@ class Hash
       end
     end
 
-    def set_deep_hash_positioned_value(new_hash, base_key, v, child_key)
+    def set_deep_hash_positioned_value(new_hash, base_key, value, child_key)
       index = array_index(base_key)
 
       if index
-        set_deep_hash_array_value(new_hash, base_key, index, v, child_key)
+        set_deep_hash_array_value(new_hash, base_key, index, value, child_key)
       else
-        set_deep_hash_value(new_hash, base_key, v, child_key)
+        set_deep_hash_value(new_hash, base_key, value, child_key)
       end
     end
 
