@@ -7,7 +7,7 @@ shared_examples 'a class with remap method' do
     it_behaves_like 'a method that remaps the keys', :remap_keys
 
     it 'does not change the original hash' do
-      expect { subject.remap_keys(a: :e) }.not_to change { subject }
+      expect { subject.remap_keys(a: :e) }.not_to(change { subject })
     end
   end
 
@@ -15,7 +15,7 @@ shared_examples 'a class with remap method' do
     it_behaves_like 'a method that remaps the keys', :remap_keys!
 
     it 'changes the original hash' do
-      expect { subject.remap_keys!(a: :e) }.to change { subject }
+      expect { subject.remap_keys!(a: :e) }.to(change { subject })
     end
   end
 end

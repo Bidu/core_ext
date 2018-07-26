@@ -10,7 +10,7 @@ shared_examples 'a class with chain_change_key method' do
     it 'does not affects the original hash' do
       expect do
         hash.chain_change_keys(:to_s, :upcase)
-      end.not_to change { hash }
+      end.not_to(change { hash })
     end
   end
 
@@ -20,7 +20,7 @@ shared_examples 'a class with chain_change_key method' do
     it 'affects the original hash' do
       expect do
         hash.chain_change_keys!(:to_s, :upcase)
-      end.to change { hash }
+      end.to(change { hash })
     end
   end
 end

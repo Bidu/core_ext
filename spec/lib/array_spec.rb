@@ -29,7 +29,7 @@ describe Array do
     it 'does not change the array' do
       expect do
         result
-      end.not_to change { array }
+      end.not_to(change { array })
     end
 
     context 'when array is empty' do
@@ -121,8 +121,8 @@ describe Array do
         expect(array.as_hash(keys)).to eq(expected)
       end
 
-      it { expect { array.as_hash(keys) }.not_to change { keys } }
-      it { expect { array.as_hash(keys) }.not_to change { array } }
+      it { expect { array.as_hash(keys) }.not_to(change { keys }) }
+      it { expect { array.as_hash(keys) }.not_to(change { array }) }
     end
 
     context 'when there are more values than keys' do
@@ -130,8 +130,8 @@ describe Array do
 
       it { expect { array.as_hash(keys) }.to raise_error(IndexError) }
 
-      it { expect { array.as_hash(keys) rescue nil }.not_to change { keys } }
-      it { expect { array.as_hash(keys) rescue nil }.not_to change { array } }
+      it { expect { array.as_hash(keys) rescue nil }.not_to(change { keys }) }
+      it { expect { array.as_hash(keys) rescue nil }.not_to(change { array }) }
     end
   end
 
@@ -181,7 +181,7 @@ describe Array do
     it 'removes an the returned element' do
       expect do
         array.random
-      end.not_to change { array }
+      end.not_to(change { array })
     end
   end
 

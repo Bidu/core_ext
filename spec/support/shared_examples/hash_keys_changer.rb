@@ -10,7 +10,7 @@ shared_examples 'a class with change_key method' do
     it 'does not affects the original hash' do
       expect do
         hash.change_keys(recursive: true) { |k| "foo_#{k}" }
-      end.not_to change { hash }
+      end.not_to(change { hash })
     end
   end
 
@@ -20,7 +20,7 @@ shared_examples 'a class with change_key method' do
     it 'affects the original hash' do
       expect do
         hash.change_keys!(recursive: true) { |k| "foo_#{k}" }
-      end.to change { hash }
+      end.to(change { hash })
     end
   end
 end

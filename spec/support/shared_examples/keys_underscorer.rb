@@ -67,7 +67,7 @@ shared_examples 'a class with underscore_keys! method' do
   it_behaves_like 'a class with underscore_keys method basic', :underscore_keys!
 
   it 'changes original hash' do
-    expect { hash.underscore_keys! }.to change { hash }
+    expect { hash.underscore_keys! }.to(change { hash })
   end
 end
 
@@ -78,6 +78,6 @@ shared_examples 'a class with underscore_keys method' do
   it_behaves_like 'a class with underscore_keys! method'
 
   it 'does not change original hash' do
-    expect { hash.underscore_keys }.not_to change { hash }
+    expect { hash.underscore_keys }.not_to(change { hash })
   end
 end

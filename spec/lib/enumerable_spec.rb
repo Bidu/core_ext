@@ -7,12 +7,12 @@ describe Enumerable do
 
     it 'changes the original hash' do
       hash = { a: nil }
-      expect { hash.clean! }.to change { hash }
+      expect { hash.clean! }.to(change { hash })
     end
 
     it 'changes original array' do
       array = [{ a: nil }]
-      expect { array.clean! }.to change { array }
+      expect { array.clean! }.to(change { array })
     end
   end
 
@@ -22,12 +22,12 @@ describe Enumerable do
 
     it 'does not change the original hash' do
       hash = { a: nil }
-      expect { hash.clean }.not_to change { hash }
+      expect { hash.clean }.not_to(change { hash })
     end
 
     it 'does not change the original array' do
       array = [{ a: nil }]
-      expect { array.clean }.not_to change { array }
+      expect { array.clean }.not_to(change { array })
     end
   end
 end
