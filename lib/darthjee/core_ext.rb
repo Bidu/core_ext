@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/all'
 require 'darthjee/core_ext/enumerable'
 require 'darthjee/core_ext/hash'

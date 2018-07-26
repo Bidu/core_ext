@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'a class with remap method' do
   let(:subject) { { a: 1, b: 2 } }
 

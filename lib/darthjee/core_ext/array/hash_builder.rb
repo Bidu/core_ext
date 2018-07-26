@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Array
   class HashBuilder
     attr_accessor :values, :keys

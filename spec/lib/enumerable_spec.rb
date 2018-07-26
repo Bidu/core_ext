@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Enumerable do
   describe '#clean!' do
     it_behaves_like 'an array clean method', :clean!

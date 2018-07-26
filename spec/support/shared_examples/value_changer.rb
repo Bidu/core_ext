@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'a class with change_values method' do
   let(:subject) { { a: 1, b: 2, c: { d: 3, e: 4 } } }
   let(:inner_hash) { subject[:c] }

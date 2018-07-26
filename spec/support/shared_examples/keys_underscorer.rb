@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'a class with underscore_keys method basic' do |method|
   describe :underscore_keys do
     let(:expected) { { input_key: 'value' } }

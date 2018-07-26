@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'an array with map_to_hash method' do
   describe '#map_to_hash' do
     let(:subject) { %w(word1 wooord2) }

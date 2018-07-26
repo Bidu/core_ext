@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'a class with transpose method' do |method|
   let(:hash) { { a: 1 } }
 

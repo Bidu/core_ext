@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'a method that returns a random element' do |method|
   let(:array) { [7, 5, 3] }
 

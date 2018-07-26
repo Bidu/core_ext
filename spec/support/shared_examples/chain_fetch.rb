@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'an object with chain_fetch method' do
   describe :chain_fetch do
     let(:value) { 10 }

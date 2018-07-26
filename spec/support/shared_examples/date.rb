@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'an object that knows how to calculate days between' do
   let(:other_date) { subject.to_date + difference }
   let(:difference) { 1.year }

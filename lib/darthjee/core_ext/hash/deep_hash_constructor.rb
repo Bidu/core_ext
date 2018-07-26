@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Hash
   class DeepHashConstructor
     attr_accessor :separator

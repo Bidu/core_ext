@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Array
   autoload :HashBuilder, 'darthjee/core_ext/array/hash_builder'
 
