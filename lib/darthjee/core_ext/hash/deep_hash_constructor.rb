@@ -38,7 +38,7 @@ class Hash
     end
 
     def split_key(key, separator)
-      separator_rxp = (separator == '.') ? "\\#{separator}" : separator
+      separator_rxp = separator == '.' ? "\\#{separator}" : separator
       skipper = "[^#{separator}]"
       regexp = Regexp.new("^(#{skipper}*)#{separator_rxp}(.*)")
       match = key.match(regexp)
@@ -70,9 +70,7 @@ class Hash
 
     def array_index(key)
       match = key.match(/\[([^)]+)\]/)
-      if match
-        match[1].to_i
-      end
+      match && match[1].to_i
     end
 
     def set_deep_hash_value(hash, base_key, value, key = nil)

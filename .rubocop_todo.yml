@@ -37,18 +37,6 @@ Style/Documentation:
   Enabled: false
 
 # Offense count: 1
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
-  Exclude:
-    - 'lib/darthjee/core_ext/hash/deep_hash_constructor.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/IfUnlessModifier:
-  Exclude:
-    - 'lib/darthjee/core_ext/hash/deep_hash_constructor.rb'
-
-# Offense count: 1
 # Cop supports --auto-correct.
 Style/MutableConstant:
   Exclude:
@@ -94,14 +82,6 @@ Style/SymbolArray:
 Style/SymbolProc:
   Exclude:
     - 'lib/darthjee/core_ext/hash/key_changer.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, AllowSafeAssignment.
-# SupportedStyles: require_parentheses, require_no_parentheses, require_parentheses_when_complex
-Style/TernaryParentheses:
-  Exclude:
-    - 'lib/darthjee/core_ext/hash/deep_hash_constructor.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
