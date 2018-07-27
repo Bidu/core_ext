@@ -1,28 +1,18 @@
 # frozen_string_literal: true
 
 class Hash
-  autoload :ValueChanger, 'darthjee/core_ext/hash/value_changer'
+  autoload :ValueChanger,        'darthjee/core_ext/hash/value_changer'
   autoload :DeepHashConstructor, 'darthjee/core_ext/hash/deep_hash_constructor'
-  autoload :KeyChanger, 'darthjee/core_ext/hash/key_changer'
-  autoload :ChainFetcher, 'darthjee/core_ext/hash/chain_fetcher'
+  autoload :KeyChanger,          'darthjee/core_ext/hash/key_changer'
+  autoload :ChainFetcher,        'darthjee/core_ext/hash/chain_fetcher'
+  autoload :Squasher,            'darthjee/core_ext/hash/squasher'
 
   def chain_fetch(*keys, &block)
     ChainFetcher.new(self, *keys).fetch(&block)
   end
 
   def squash
-    {}.tap do |hash|
-      each do |key, value|
-        if value.is_a? Hash
-          value.squash.each do |k, v|
-            new_key = [key, k].join('.')
-            hash[new_key] = v
-          end
-        else
-          hash[key] = value
-        end
-      end
-    end
+    Squasher.squash(self)
   end
 
   def map_to_hash
