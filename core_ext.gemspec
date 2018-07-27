@@ -1,26 +1,30 @@
-# coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
+# frozen_string_literal: true
+
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'bidu/core_ext/version'
+require 'darthjee/core_ext/version'
 
-Gem::Specification.new do |spec|
-  spec.name = 'bidu-core_ext'
-  spec.version = Bidu::CoreExt::VERSION
-  spec.authors = ['Bidu Developers']
-  spec.email = ['dev@bidu.com.br']
-  spec.summary = 'Core Extensions'
+Gem::Specification.new do |gem|
+  gem.name          = 'darthjee-core_ext'
+  gem.version       = Darthjee::CoreExt::VERSION
+  gem.authors       = ['Darthjee']
+  gem.email         = ['darthjee@gmail.com']
+  gem.summary       = 'Core Extensions'
+  gem.homepage      = 'https://github.com/darthjee/core_ext'
+  gem.description   = 'Extension of basic classes with usefull methods'
 
-  spec.files = `git ls-files -z`.split("\x0")
-  spec.executables = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
-  spec.require_paths = ['lib']
+  gem.files         = `git ls-files -z`.split("\x0")
+  gem.executables   = gem.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
+  gem.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'activesupport'
+  gem.add_runtime_dependency 'activesupport', '>= 5.x'
 
-  spec.add_development_dependency 'bundler', '~> 1.6'
-  spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'rspec', '~> 2.14'
-  spec.add_development_dependency 'rspec-mocks'
-  spec.add_development_dependency 'pry-nav'
-  spec.add_development_dependency 'simplecov'
+  gem.add_development_dependency 'bundler',   '~> 1.6'
+  gem.add_development_dependency 'pry-nav',   '~> 0.2.4'
+  gem.add_development_dependency 'rake',      '>= 12.3.1'
+  gem.add_development_dependency 'rspec',     '>= 3.7'
+  gem.add_development_dependency 'rubocop'
+  gem.add_development_dependency 'simplecov', '~> 0.14.1'
+  gem.add_development_dependency 'yard'
 end

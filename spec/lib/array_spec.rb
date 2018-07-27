@@ -1,12 +1,94 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Array do
+  it_behaves_like 'an array with map_to_hash method'
+
+  describe '#mapk' do
+    let(:array) { [{ a: { b: 1 }, b: 2 }, { a: { b: 3 }, b: 4 }] }
+
+    it 'maps using the keys given as arguments' do
+      expect(array.mapk(:a, :b)).to eq([1, 3])
+    end
+  end
+
+  describe '#procedural_join' do
+    let(:array) { [1, 2, -3, -4, 5] }
+    let(:map_proc) { proc { |v| v > 0 ? v + 1 : v - 1 } }
+    let(:result) do
+      array.procedural_join(map_proc) do |previous, nexte|
+        previous * nexte > 0 ? ',' : '|'
+      end
+    end
+
+    it 'joins proceduraly' do
+      expect(result).to eq('2,3|-4,-5|6')
+    end
+
+    it 'does not change the array' do
+      expect do
+        result
+      end.not_to(change { array })
+    end
+
+    context 'when array is empty' do
+      let(:array) { [] }
+
+      it do
+        expect do
+          result
+        end.not_to raise_error
+      end
+
+      it 'acts as join for an empty array' do
+        expect(result).to eq(array.join)
+      end
+    end
+
+    context 'when array has only one element' do
+      let(:array) { [2] }
+
+      it do
+        expect do
+          result
+        end.not_to raise_error
+      end
+
+      it 'acts as map join for a single element array' do
+        expect(result).to eq(array.map(&map_proc).join)
+      end
+    end
+
+    context 'when no mapping proc is passed' do
+      let(:result) do
+        array.procedural_join do |previous, nexte|
+          previous * nexte > 0 ? ',' : '|'
+        end
+      end
+
+      it 'proceduraly joins without mapping' do
+        expect(result).to eq('1,2|-3,-4|5')
+      end
+    end
+
+    context 'when no block is given' do
+      let(:result) do
+        array.procedural_join(map_proc)
+      end
+
+      it 'acts as map join for a single element array' do
+        expect(result).to eq(array.map(&map_proc).join)
+      end
+    end
+  end
+
   describe '#chain_map' do
-    let(:array) { [ :a, :long_name, :sym ] }
+    let(:array) { %i[a long_name sym] }
     let(:mapped) { array.chain_map(:to_s, :size, :to_s) }
 
     it 'calls each argument as method of the mapped result' do
-      expect(mapped).to eq([ '1', '9', '3' ])
+      expect(mapped).to eq(%w[1 9 3])
     end
 
     context 'when an extra block is given' do
@@ -17,14 +99,14 @@ describe Array do
       end
 
       it 'calls each argument as method of the mapped result' do
-        expect(mapped).to eq([ 'final: 1', 'final: 9', 'final: 3' ])
+        expect(mapped).to eq(['final: 1', 'final: 9', 'final: 3'])
       end
     end
   end
 
   describe '#as_hash' do
     let(:array) { [1, 2, 3] }
-    let(:keys) { %w(a b c) }
+    let(:keys) { %w[a b c] }
     let(:expected) { { 'a' => 1, 'b' => 2, 'c' => 3 } }
 
     it 'creates a hash using the array as value and the argument as keys' do
@@ -32,24 +114,21 @@ describe Array do
     end
 
     context 'when there are more keys than values' do
-      let(:keys) { %w(a b c d e f) }
+      let(:keys) { %w[a b c d e f] }
       let(:expected) { { 'a' => 1, 'b' => 2, 'c' => 3, 'd' => nil, 'e' => nil, 'f' => nil } }
 
       it 'creates a hash with nil values for the extra keys' do
         expect(array.as_hash(keys)).to eq(expected)
       end
 
-      it { expect { array.as_hash(keys) }.not_to change { keys } }
-      it { expect { array.as_hash(keys) }.not_to change { array } }
+      it { expect { array.as_hash(keys) }.not_to(change { keys }) }
+      it { expect { array.as_hash(keys) }.not_to(change { array }) }
     end
 
     context 'when there are more values than keys' do
       let(:array) { [1, 2, 3, 4, 5, 6, 7] }
 
       it { expect { array.as_hash(keys) }.to raise_error(IndexError) }
-
-      it { expect { array.as_hash(keys) rescue nil }.not_to change { keys } }
-      it { expect { array.as_hash(keys) rescue nil }.not_to change { array } }
     end
   end
 
@@ -93,12 +172,20 @@ describe Array do
 
   describe '#random' do
     it_behaves_like 'a method that returns a random element', :random
+
+    let(:array) { [8, 4, 2] }
+
+    it 'removes an the returned element' do
+      expect do
+        array.random
+      end.not_to(change { array })
+    end
   end
 
   describe '#random!' do
     it_behaves_like 'a method that returns a random element', :random!
 
-    let(:array) { [ 8,4,2 ] }
+    let(:array) { [8, 4, 2] }
 
     it 'removes an the returned element' do
       expect do
@@ -108,7 +195,7 @@ describe Array do
   end
 
   describe '#map_and_select' do
-    let(:array) { [1, 2, 3, 4].map { |i| { value: i} } }
+    let(:array) { [1, 2, 3, 4].map { |i| { value: i } } }
     let(:filtered) { array.map_and_select(&block) }
 
     context 'when block returns nil' do
@@ -141,87 +228,6 @@ describe Array do
 
         it 'calls the mapping only once per element' do
           expect(transformer).to have_received(:transform).exactly(4)
-        end
-      end
-    end
-  end
-
-  describe '#map_to_hash' do
-    context 'whe subject is an array' do
-      let(:subject) { %w(word1 wooord2) }
-      let(:mapping_block) { proc{ |word| word.length } }
-      let(:mapped) { subject.map_to_hash(&mapping_block) }
-      let(:expected) { { 'word1' => 5, 'wooord2' => 7 } }
-
-      it { expect(mapped).to be_a(Hash) }
-
-      it 'has the original array as keys' do
-        expect(mapped.keys).to eq(subject)
-      end
-
-      it 'has the mapped values as values' do
-        expect(mapped.values).to eq(subject.map(&mapping_block))
-      end
-
-      it 'correctly map keys to value' do
-        expect(mapped).to eq(expected)
-      end
-
-      context 'whe subject is an array' do
-        let(:subject) { [%w(w1), %w(w2 w3)] }
-        let(:mapped) { subject.map_to_hash(&mapping_block) }
-        let(:expected) { { %w(w1) => 1, %w(w2 w3) => 2 } }
-
-
-        it 'has the original array as keys' do
-          expect(mapped.keys).to eq(subject)
-        end
-
-        it 'has the mapped values as values' do
-          expect(mapped.values).to eq(subject.map(&mapping_block))
-        end
-
-        it 'correctly map keys to value' do
-          expect(mapped).to eq(expected)
-        end
-      end
-    end
-
-    context 'whe subject is a hash' do
-      let(:subject) { { a: 1, b: 2 } }
-      let(:mapping_block) { proc{ |k, v| "#{k}_#{v}" } }
-      let(:mapped) { subject.map_to_hash(&mapping_block) }
-      let(:expected) { { a: 'a_1', b: 'b_2' } }
-
-      it { expect(mapped).to be_a(Hash) }
-
-      it 'has the original keys as keys' do
-        expect(mapped.keys).to eq(subject.keys)
-      end
-
-      it 'has the mapped values as values' do
-        expect(mapped.values).to eq(subject.map(&mapping_block))
-      end
-
-      it 'correctly map keys to value' do
-        expect(mapped).to eq(expected)
-      end
-
-      context 'when hash uses arrays for keys' do
-        let(:subject) { { [:a, :b] => 1, [:c, :d] => 2 } }
-        let(:mapping_block) { proc{ |k, v| "#{k.join('_')}_#{v}" } }
-        let(:expected) { { [:a, :b]=> 'a_b_1', [:c, :d] => 'c_d_2' } }
-
-        it 'has the original keys as keys' do
-          expect(mapped.keys).to eq(subject.keys)
-        end
-
-        it 'has the mapped values as values' do
-          expect(mapped.values).to eq(subject.map(&mapping_block))
-        end
-
-        it 'correctly map keys to value' do
-          expect(mapped).to eq(expected)
         end
       end
     end

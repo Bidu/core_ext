@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Symbol
   def camelize(type = :upper)
     to_s.camelize(type).to_sym

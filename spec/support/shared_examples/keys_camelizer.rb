@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'a class with camlize_keys method' do
   describe :lower_camelize_keys do
     let(:expected) { { inputKey: 'value' } }
@@ -10,7 +12,7 @@ shared_examples 'a class with camlize_keys method' do
       end
 
       it 'does not change original hash' do
-        expect { hash.lower_camelize_keys }.not_to change { hash }
+        expect { hash.lower_camelize_keys }.not_to(change { hash })
       end
     end
 
@@ -81,7 +83,7 @@ shared_examples 'a class with camlize_keys method' do
       end
 
       it 'does not change original hash' do
-        expect { hash.lower_camelize_keys! }.to change { hash }
+        expect { hash.lower_camelize_keys! }.to(change { hash })
       end
     end
 
@@ -152,7 +154,7 @@ shared_examples 'a class with camlize_keys method' do
       end
 
       it 'does not change original hash' do
-        expect { hash.camelize_keys }.not_to change { hash }
+        expect { hash.camelize_keys }.not_to(change { hash })
       end
     end
 
@@ -223,7 +225,7 @@ shared_examples 'a class with camlize_keys method' do
       end
 
       it 'does not change original hash' do
-        expect { hash.camelize_keys! }.to change { hash }
+        expect { hash.camelize_keys! }.to(change { hash })
       end
     end
 
