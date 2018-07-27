@@ -4,21 +4,10 @@ class Hash
   autoload :ValueChanger, 'darthjee/core_ext/hash/value_changer'
   autoload :DeepHashConstructor, 'darthjee/core_ext/hash/deep_hash_constructor'
   autoload :KeyChanger, 'darthjee/core_ext/hash/key_changer'
+  autoload :ChainFetcher, 'darthjee/core_ext/hash/chain_fetcher'
 
-  def chain_fetch(*keys)
-    value = self
-
-    if block_given?
-      value = value.fetch(keys.shift) do |*args|
-        missed_keys = keys
-        keys = []
-        yield(*(args + [missed_keys]))
-      end until keys.empty?
-    else
-      value = value.fetch(keys.shift) until keys.empty?
-    end
-
-    value
+  def chain_fetch(*keys, &block)
+    ChainFetcher.new(self, *keys).fetch(&block)
   end
 
   def squash
