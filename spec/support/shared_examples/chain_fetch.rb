@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-shared_examples 'an object with chain_fetch method' do
+shared_examples 'an object with capable of performing chain fetch' do
   describe :chain_fetch do
     let(:value) { 10 }
+    let(:keys)  { %i[a b c d] }
+    let(:block) { nil }
     let(:hash) do
       {
         b: 1, c: 2, d: 3, a: {
@@ -14,8 +16,6 @@ shared_examples 'an object with chain_fetch method' do
         }
       }
     end
-    let(:keys) { %i[a b c d] }
-    let(:result) { hash.chain_fetch(*keys) }
 
     context 'when fetching existing keys' do
       it 'returns the value' do
@@ -52,7 +52,7 @@ shared_examples 'an object with chain_fetch method' do
 
       context 'but a default value block is given' do
         let(:default_value) { 100 }
-        let(:result) { hash.chain_fetch(*keys) { default_value } }
+        let(:block) { proc { default_value } }
 
         it 'returns the default_value' do
           expect(result).to eq(default_value)
@@ -70,7 +70,7 @@ shared_examples 'an object with chain_fetch method' do
         end
 
         context 'and the block uses the key for the return' do
-          let(:result) { hash.chain_fetch(*keys) { |k| "returned #{k}" } }
+          let(:block) { proc { |k| "returned #{k}" } }
           it 'hnadles the missing keys' do
             expect(result).to eq('returned x')
           end
