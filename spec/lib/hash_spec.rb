@@ -10,9 +10,12 @@ describe Hash do
   it_behaves_like 'a class with append_keys method'
   it_behaves_like 'a class with change_values method'
   it_behaves_like 'a class with remap method'
-  it_behaves_like 'an object with chain_fetch method'
   it_behaves_like 'a hash with map_to_hash method'
   it_behaves_like 'a class with transpose methods'
+
+  it_behaves_like 'an object with capable of performing chain fetch' do
+    let(:result) { hash.chain_fetch(*keys, &block) }
+  end
 
   describe :squash do
     let(:hash) { { a: { b: 1, c: { d: 2 } } } }
