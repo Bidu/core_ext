@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 shared_examples 'an object with capable of performing chain fetch' do
-  describe :chain_fetch do
+  describe '#chain_fetch' do
     let(:value) { 10 }
     let(:keys)  { %i[a b c d] }
     let(:block) { nil }
