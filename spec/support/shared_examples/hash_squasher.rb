@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 shared_examples 'a class that has a method to squash a hash' do
@@ -18,5 +20,4 @@ shared_examples 'a class that has a method to squash a hash' do
       end
     end
   end
-
 end
