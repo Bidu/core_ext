@@ -8,7 +8,7 @@ class Hash
   autoload :Squasher,            'darthjee/core_ext/hash/squasher'
 
   def chain_fetch(*keys, &block)
-    ChainFetcher.new(self, *keys).fetch(&block)
+    ChainFetcher.new(self, *keys, &block).fetch
   end
 
   def squash

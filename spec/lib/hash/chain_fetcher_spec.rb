@@ -3,9 +3,9 @@
 require 'spec_helper'
 
 describe Hash::ChainFetcher do
-  subject { described_class.new(hash, *keys) }
+  subject { described_class.new(hash, *keys, &block) }
 
   it_behaves_like 'an object with capable of performing chain fetch' do
-    let(:result) { subject.fetch(&block) }
+    let(:result) { subject.fetch }
   end
 end
