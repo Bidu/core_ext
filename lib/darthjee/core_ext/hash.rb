@@ -6,6 +6,7 @@ class Hash
   autoload :KeyChanger,          'darthjee/core_ext/hash/key_changer'
   autoload :ChainFetcher,        'darthjee/core_ext/hash/chain_fetcher'
   autoload :Squasher,            'darthjee/core_ext/hash/squasher'
+  autoload :ToHashMapper,        'darthjee/core_ext/hash/to_hash_mapper'
 
   def chain_fetch(*keys, &block)
     ChainFetcher.new(self, *keys, &block).fetch
@@ -15,12 +16,8 @@ class Hash
     Squasher.squash(self)
   end
 
-  def map_to_hash
-    {}.tap do |hash|
-      each do |k, v|
-        hash[k] = yield(k, v)
-      end
-    end
+  def map_to_hash(&block)
+    ToHashMapper.new(self).map(&block)
   end
 
   def remap_keys(remap)
