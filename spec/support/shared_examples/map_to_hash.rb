@@ -43,23 +43,22 @@ end
 
 shared_examples 'a hash with map_to_hash method' do
   describe '#map_to_hash' do
-    let(:subject) { { a: 1, b: 2 } }
+    let(:hash) { { a: 1, b: 2 } }
     let(:mapping_block) { proc { |k, v| "#{k}_#{v}" } }
-    let(:mapped) { subject.map_to_hash(&mapping_block) }
     let(:expected) { { a: 'a_1', b: 'b_2' } }
 
     it { expect(mapped).to be_a(Hash) }
 
     it do
-      expect { subject.map_to_hash(&mapping_block) }.not_to(change { subject })
+      expect { mapped }.not_to(change { hash })
     end
 
     it 'has the original keys as keys' do
-      expect(mapped.keys).to eq(subject.keys)
+      expect(mapped.keys).to eq(hash.keys)
     end
 
     it 'has the mapped values as values' do
-      expect(mapped.values).to eq(subject.map(&mapping_block))
+      expect(mapped.values).to eq(hash.map(&mapping_block))
     end
 
     it 'correctly map keys to value' do
@@ -67,16 +66,16 @@ shared_examples 'a hash with map_to_hash method' do
     end
 
     context 'when hash uses arrays for keys' do
-      let(:subject) { { %i[a b] => 1, %i[c d] => 2 } }
+      let(:hash) { { %i[a b] => 1, %i[c d] => 2 } }
       let(:mapping_block) { proc { |k, v| "#{k.join('_')}_#{v}" } }
       let(:expected) { { %i[a b] => 'a_b_1', %i[c d] => 'c_d_2' } }
 
       it 'has the original keys as keys' do
-        expect(mapped.keys).to eq(subject.keys)
+        expect(mapped.keys).to eq(hash.keys)
       end
 
       it 'has the mapped values as values' do
-        expect(mapped.values).to eq(subject.map(&mapping_block))
+        expect(mapped.values).to eq(hash.map(&mapping_block))
       end
 
       it 'correctly map keys to value' do

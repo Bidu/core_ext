@@ -10,7 +10,6 @@ describe Hash do
   it_behaves_like 'a class with append_keys method'
   it_behaves_like 'a class with change_values method'
   it_behaves_like 'a class with remap method'
-  it_behaves_like 'a hash with map_to_hash method'
   it_behaves_like 'a class with transpose methods'
 
   it_behaves_like 'an object with capable of performing chain fetch' do
@@ -19,6 +18,10 @@ describe Hash do
 
   it_behaves_like 'a class that has a method to squash a hash' do
     let(:squashed) { hash.squash }
+  end
+
+  it_behaves_like 'a hash with map_to_hash method' do
+    let(:mapped) { hash.map_to_hash(&mapping_block) }
   end
 
   describe :sort_keys do
