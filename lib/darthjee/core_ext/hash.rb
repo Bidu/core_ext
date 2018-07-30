@@ -7,6 +7,7 @@ class Hash
   autoload :ChainFetcher,        'darthjee/core_ext/hash/chain_fetcher'
   autoload :Squasher,            'darthjee/core_ext/hash/squasher'
   autoload :ToHashMapper,        'darthjee/core_ext/hash/to_hash_mapper'
+  autoload :KeysRemapper,        'darthjee/core_ext/hash/keys_remapper'
 
   def chain_fetch(*keys, &block)
     ChainFetcher.new(self, *keys, &block).fetch
@@ -24,12 +25,8 @@ class Hash
     dup.remap_keys!(remap)
   end
 
-  def remap_keys!(remap)
-    new_hash = {}
-    remap.each do |o, n|
-      new_hash[n] = delete o
-    end
-    merge! new_hash
+  def remap_keys!(keys_map)
+    KeysRemapper.new(self).remap(keys_map)
   end
 
   def lower_camelize_keys(options = {})
