@@ -8,6 +8,7 @@ class Hash
   autoload :Squasher,            'darthjee/core_ext/hash/squasher'
   autoload :ToHashMapper,        'darthjee/core_ext/hash/to_hash_mapper'
   autoload :KeysRemapper,        'darthjee/core_ext/hash/keys_remapper'
+  autoload :KeysSorter,          'darthjee/core_ext/hash/keys_sorter'
 
   def chain_fetch(*keys, &block)
     ChainFetcher.new(self, *keys, &block).fetch
@@ -123,17 +124,7 @@ class Hash
   # options: { recursive: true }
   # ex: { b:1, a:2 }.sort_keys == { a:2, b:1 }
   def sort_keys(options = {})
-    options = {
-      recursive: true
-    }.merge(options)
-
-    {}.tap do |hash|
-      keys.sort.each do |key|
-        value = self[key]
-        hash[key] = value unless value.is_a?(Hash) && options[:recursive]
-        hash[key] = value.sort_keys(options) if value.is_a?(Hash) && options[:recursive]
-      end
-    end
+    Hash::KeysSorter.new(self, **options).sort
   end
 
   # creates a new hash with changes in its values
