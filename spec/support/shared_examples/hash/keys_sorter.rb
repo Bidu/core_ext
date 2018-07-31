@@ -28,7 +28,7 @@ shared_examples 'a class with a keys sort method' do
           expect(result).to eq(a: { c: 4, d: 3 }, b: 1)
         end
       end
-      
+
       context 'and recursive option is given' do
         let(:options) { { recursive: true } }
 
@@ -36,7 +36,7 @@ shared_examples 'a class with a keys sort method' do
           expect(result).to eq(a: { c: 4, d: 3 }, b: 1)
         end
       end
-      
+
       context 'and no recursive option is given' do
         let(:options) { { recursive: false } }
 

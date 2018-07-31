@@ -24,9 +24,9 @@ describe Hash do
     let(:mapped) { hash.map_to_hash(&mapping_block) }
   end
 
-   it_behaves_like 'a class with a keys sort method' do
-     let(:result) { hash.sort_keys(**options) }
-   end
+  it_behaves_like 'a class with a keys sort method' do
+    let(:result) { hash.sort_keys(**options) }
+  end
 
   describe :exclusive_merge do
     let(:subject) { { a: 1, b: 2 } }
