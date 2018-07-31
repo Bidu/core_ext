@@ -24,33 +24,9 @@ describe Hash do
     let(:mapped) { hash.map_to_hash(&mapping_block) }
   end
 
-  describe :sort_keys do
-    it 'sorts keys as symbols' do
-      expect({ b: 1, a: 2 }.sort_keys).to eq(a: 2, b: 1)
-    end
-    it 'sorts keys as string' do
-      expect({ 'b' => 1, 'a' => 2 }.sort_keys).to eq('a' => 2, 'b' => 1)
-    end
-    it 'sorts keys recursively' do
-      expect({ b: 1, a: { d: 3, c: 4 } }.sort_keys).to eq(a: { c: 4, d: 3 }, b: 1)
-    end
-    it 'sorts keys recursively when argumen is passed' do
-      expect({ b: 1, a: { d: 3, c: 4 } }.sort_keys(recursive: true)).to eq(a: { c: 4, d: 3 }, b: 1)
-    end
-    it 'does not sorts keys recursively when argumen is passed' do
-      expect({ b: 1, a: { d: 3, c: 4 } }.sort_keys(recursive: false)).to eq(a: { d: 3, c: 4 }, b: 1)
-    end
-    it 'sort recursevely on many levels' do
-      hash = { b: 1, a: { d: 2, c: { e: 3, f: 4 } } }
-      expected = { a: { c: { f: 4, e: 3 }, d: 2 }, b: 1 }
-      expect(hash.sort_keys(recursive: true)).to eq(expected)
-    end
-    it 'applies to arrays as well' do
-      hash = { b: 1, a: { d: 2, c: [{ e: 3, f: 4 }] } }
-      expected = { a: { c: [{ f: 4, e: 3 }], d: 2 }, b: 1 }
-      expect(hash.sort_keys(recursive: true)).to eq(expected)
-    end
-  end
+   it_behaves_like 'a class with a keys sort method' do
+     let(:result) { hash.sort_keys(**options) }
+   end
 
   describe :exclusive_merge do
     let(:subject) { { a: 1, b: 2 } }
