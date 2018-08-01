@@ -7,7 +7,6 @@ class Hash
   autoload :ChainFetcher,        'darthjee/core_ext/hash/chain_fetcher'
   autoload :Squasher,            'darthjee/core_ext/hash/squasher'
   autoload :ToHashMapper,        'darthjee/core_ext/hash/to_hash_mapper'
-  autoload :KeysRemapper,        'darthjee/core_ext/hash/keys_remapper'
   autoload :KeysSorter,          'darthjee/core_ext/hash/keys_sorter'
 
   def chain_fetch(*keys, &block)
@@ -27,7 +26,7 @@ class Hash
   end
 
   def remap_keys!(keys_map)
-    KeysRemapper.new(self).remap(keys_map)
+    KeyChanger.new(self).remap(keys_map)
   end
 
   def lower_camelize_keys(options = {})

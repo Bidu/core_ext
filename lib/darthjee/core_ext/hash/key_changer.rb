@@ -8,6 +8,14 @@ class Hash
       @hash = hash
     end
 
+    def remap(keys_map)
+      new_hash = {}
+      keys_map.each do |o, n|
+        new_hash[n] = hash.delete(o)
+      end
+      hash.merge! new_hash
+    end
+
     def change_keys(settings = {}, &block)
       merge_options({
                       recursive: true
