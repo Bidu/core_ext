@@ -2,8 +2,6 @@
 
 class Hash
   class KeyChanger
-    attr_reader :hash, :block
-
     def initialize(hash)
       @hash = hash
     end
@@ -57,6 +55,8 @@ class Hash
     end
 
     private
+
+    attr_reader :hash
 
     def merge_options(default, custom)
       @options = {}.merge!(default).merge!(custom).merge!(options)
