@@ -6,3 +6,7 @@ AllCops:
 Naming/PredicateName:
   Exclude:
     - 'lib/darthjee/core_ext/object.rb'
+
+Metrics/ClassLength:
+  Exclude:
+    - 'lib/darthjee/core_ext/hash.rb'
