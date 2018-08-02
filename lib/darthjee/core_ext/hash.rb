@@ -100,7 +100,8 @@ class Hash
   #  recursive: true,
   #  type: :keep [keep, string, symbol] (key type to be returned)
   # }
-  # ex: { :a => 1, "b"=> 2 }.prepend_to_keys("foo_") == { :foo_a => 1, "foo_b"=> 2 }
+  # ex: { :a => 1, "b"=> 2 }.prepend_to_keys("foo_")
+  # # returns { :foo_a => 1, "foo_b"=> 2 }
   def prepend_to_keys(str, options = {})
     change_key_text(options) do |key|
       "#{str}#{key}"
@@ -112,7 +113,8 @@ class Hash
   #  recursive: true,
   #  type: :keep [keep, string, symbol] (key type to be returned)
   # }
-  # ex: { :a => 1, "b"=> 2 }.append_to_keys("_bar") == { :a_bar => 1, "b_bar"=> 2 }
+  # ex: { :a => 1, "b"=> 2 }.append_to_keys("_bar")
+  # # returns { :a_bar => 1, "b_bar"=> 2 }
   def append_to_keys(str, options = {})
     change_key_text(options) do |key|
       "#{key}#{str}"
@@ -132,8 +134,10 @@ class Hash
   #   skip_hash:true
   # }
   # ex: { a:1, b:2 }.change_values{ |v| v+1 } == { a:2, b:3 }
-  # ex: { a:1, b:{ c:1 } }.change_values(skip_hash:false) { |v| v.to_s } == { a:"1", b:"{ c=>1 }
-  # ex: { a:1, b:{ c:1 } }.change_values(skip_hash:true) { |v| v.to_s } == { a:"1", b:{ c=>"1" } }
+  # ex: { a:1, b:{ c:1 } }.change_values(skip_hash:false) { |v| v.to_s }
+  # # returns { a:"1", b:"{ c=>1 }
+  # ex: { a:1, b:{ c:1 } }.change_values(skip_hash:true) { |v| v.to_s }
+  # # returns { a:"1", b:{ c=>"1" } }
   def change_values(options = {}, &block)
     deep_dup.change_values!(options, &block)
   end
@@ -170,7 +174,8 @@ class Hash
   #  recursive: true,
   #  type: :keep [keep, string, symbol] (key type to be returned)
   # }
-  # ex: { :a => 1, "b"=> 2 }.change_key_text{ |key| key.upcase } == { :A => 1, "B"=> 2 }
+  # ex: { :a => 1, "b"=> 2 }.change_key_text{ |key| key.upcase }
+  # # returns { :A => 1, "B"=> 2 }
   def change_key_text(options = {}, &block)
     Hash::KeyChanger.new(self).change_text(options, &block)
   end

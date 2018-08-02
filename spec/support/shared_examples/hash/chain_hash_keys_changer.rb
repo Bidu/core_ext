@@ -6,7 +6,8 @@ shared_examples 'a class with chain_change_key method' do
   end
 
   describe :chain_change_keys do
-    it_behaves_like 'a method that is able to chain change keys', :chain_change_keys
+    it_behaves_like 'a method that is able to chain change keys',
+                    :chain_change_keys
     it 'does not affects the original hash' do
       expect do
         hash.chain_change_keys(:to_s, :upcase)
@@ -15,7 +16,8 @@ shared_examples 'a class with chain_change_key method' do
   end
 
   describe :ichain_change_keys! do
-    it_behaves_like 'a method that is able to chain change keys', :chain_change_keys!
+    it_behaves_like 'a method that is able to chain change keys',
+                    :chain_change_keys!
 
     it 'affects the original hash' do
       expect do

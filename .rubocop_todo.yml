@@ -21,8 +21,3 @@ Metrics/MethodLength:
 Style/Documentation:
   Enabled: false
 
-# Offense count: 48
-# Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
-# URISchemes: http, https
-Metrics/LineLength:
-  Max: 182

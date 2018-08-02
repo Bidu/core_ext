@@ -115,7 +115,16 @@ describe Array do
 
     context 'when there are more keys than values' do
       let(:keys) { %w[a b c d e f] }
-      let(:expected) { { 'a' => 1, 'b' => 2, 'c' => 3, 'd' => nil, 'e' => nil, 'f' => nil } }
+      let(:expected) do
+        {
+          'a' => 1,
+          'b' => 2,
+          'c' => 3,
+          'd' => nil,
+          'e' => nil,
+          'f' => nil
+        }
+      end
 
       it 'creates a hash with nil values for the extra keys' do
         expect(array.as_hash(keys)).to eq(expected)

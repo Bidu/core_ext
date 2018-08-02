@@ -18,7 +18,11 @@ class Array
     private
 
     def fixes_sizes
-      values.concat Array.new(keys.size - values.size) if keys.size > values.size
+      values.concat Array.new(keys.size - values.size) if needs_resizing?
+    end
+
+    def needs_resizing?
+      keys.size > values.size
     end
   end
 end
