@@ -9,10 +9,17 @@ class Hash
   autoload :ToHashMapper,        'darthjee/core_ext/hash/to_hash_mapper'
   autoload :KeysSorter,          'darthjee/core_ext/hash/keys_sorter'
 
+  ########################################
+  # Fetching methods
+  #########################################
+
   def chain_fetch(*keys, &block)
     ChainFetcher.new(self, *keys, &block).fetch
   end
 
+  #######################################
+  # transformation methods
+  #####################################
   def squash
     Squasher.squash(self)
   end
@@ -21,6 +28,38 @@ class Hash
     ToHashMapper.new(self).map(&block)
   end
 
+  def exclusive_merge(hash)
+    dup.exclusive_merge!(hash)
+  end
+
+  def exclusive_merge!(hash)
+    merge!(hash.slice(*keys))
+  end
+
+  def to_deep_hash(separator = '.')
+    Hash::DeepHashConstructor.new(separator).deep_hash(self)
+  end
+
+  def transpose!
+    aux = dup
+    keys.each { |k| delete(k) }
+    aux.each do |k, v|
+      self[v] = k
+    end
+    self
+  end
+
+  def transpose
+    {}.tap do |new_hash|
+      each do |k, v|
+        new_hash[v] = k
+      end
+    end
+  end
+
+  #######################################
+  # keys changing methods
+  ####################################
   def remap_keys(remap)
     dup.remap_keys!(remap)
   end
@@ -53,14 +92,6 @@ class Hash
 
   def underscore_keys!(options = {})
     Hash::KeyChanger.new(self).underscore_keys(options)
-  end
-
-  def exclusive_merge(hash)
-    dup.exclusive_merge!(hash)
-  end
-
-  def exclusive_merge!(hash)
-    merge!(hash.slice(*keys))
   end
 
   # change all keys returning the new map
@@ -128,6 +159,10 @@ class Hash
     Hash::KeysSorter.new(self, **options).sort
   end
 
+  ##########################################
+  # Value change methods
+  ##########################################
+
   # creates a new hash with changes in its values
   # options: {
   #   recursive: true,
@@ -144,27 +179,6 @@ class Hash
 
   def change_values!(options = {}, &block)
     Hash::ValueChanger.new(options, &block).change(self)
-  end
-
-  def to_deep_hash(separator = '.')
-    Hash::DeepHashConstructor.new(separator).deep_hash(self)
-  end
-
-  def transpose!
-    aux = dup
-    keys.each { |k| delete(k) }
-    aux.each do |k, v|
-      self[v] = k
-    end
-    self
-  end
-
-  def transpose
-    {}.tap do |new_hash|
-      each do |k, v|
-        new_hash[v] = k
-      end
-    end
   end
 
   private
