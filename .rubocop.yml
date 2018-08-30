@@ -10,3 +10,8 @@ Naming/PredicateName:
 Metrics/ClassLength:
   Exclude:
     - 'lib/darthjee/core_ext/hash.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*_spec.rb'
+    - 'spec/support/shared_*/**/*.rb'
