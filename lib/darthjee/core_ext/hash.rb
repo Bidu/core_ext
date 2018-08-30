@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class Hash
-  autoload :ValueChanger,        'darthjee/core_ext/hash/value_changer'
+  autoload :ChainFetcher,        'darthjee/core_ext/hash/chain_fetcher'
   autoload :DeepHashConstructor, 'darthjee/core_ext/hash/deep_hash_constructor'
   autoload :KeyChanger,          'darthjee/core_ext/hash/key_changer'
-  autoload :ChainFetcher,        'darthjee/core_ext/hash/chain_fetcher'
-  autoload :Squasher,            'darthjee/core_ext/hash/squasher'
-  autoload :ToHashMapper,        'darthjee/core_ext/hash/to_hash_mapper'
   autoload :KeysSorter,          'darthjee/core_ext/hash/keys_sorter'
+  autoload :Squasher,            'darthjee/core_ext/hash/squasher'
+  autoload :ValueChanger,        'darthjee/core_ext/hash/value_changer'
+  autoload :ToHashMapper,        'darthjee/core_ext/hash/to_hash_mapper'
 
   ########################################
   # Fetching methods
