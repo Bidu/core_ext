@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Hash::DeepHashConstructor do
@@ -46,7 +48,7 @@ describe Hash::DeepHashConstructor do
             { 'name' => 'First person', 'age' => 22 },
             { 'name' => 'Second person', 'age' => 27 }
           ],
-          'device' => %w(GEAR_LOCK GPS),
+          'device' => %w[GEAR_LOCK GPS],
           'zipCode' => '122345-123'
         }
       end

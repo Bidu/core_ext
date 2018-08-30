@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class Array
-  autoload :HashBuilder,      'darthjee/core_ext/array/hash_builder'
+  autoload :HashBuilder, 'darthjee/core_ext/array/hash_builder'
 
   def mapk(*keys)
     keys.inject(self) do |enum, key|
@@ -39,6 +41,6 @@ class Array
   end
 
   def random!
-    self.slice!(rand(size))
+    slice!(rand(size))
   end
 end

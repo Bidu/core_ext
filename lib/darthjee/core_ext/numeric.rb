@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class Numeric
-  def percent_of(n)
-    return Float::INFINITY if n == 0
-    (to_f / n.to_f) * 100.0
+  def percent_of(total)
+    return Float::INFINITY if total&.zero?
+    (to_f / total.to_f) * 100.0
   end
 end

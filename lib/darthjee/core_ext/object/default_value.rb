@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Object
   class << self
     private
@@ -13,4 +15,3 @@ class Object
     end
   end
 end
-

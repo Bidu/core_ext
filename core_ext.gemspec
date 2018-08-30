@@ -1,5 +1,6 @@
-# coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
+# frozen_string_literal: true
+
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'darthjee/core_ext/version'
 
@@ -20,8 +21,10 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'activesupport', '>= 5.x'
 
   gem.add_development_dependency 'bundler',   '~> 1.6'
+  gem.add_development_dependency 'pry-nav',   '~> 0.2.4'
   gem.add_development_dependency 'rake',      '>= 12.3.1'
   gem.add_development_dependency 'rspec',     '>= 3.7'
-  gem.add_development_dependency 'pry-nav',   '~> 0.2.4'
+  gem.add_development_dependency 'rubocop'
   gem.add_development_dependency 'simplecov', '~> 0.14.1'
+  gem.add_development_dependency 'yard'
 end

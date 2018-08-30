@@ -1,7 +1,17 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Hash::KeyChanger do
   let(:subject) { described_class.new(hash) }
+
+  describe '#remap_keys!' do
+    it_behaves_like 'a method that remaps the keys', :remap do
+      it 'changes the original hash' do
+        expect { result }.to(change { hash })
+      end
+    end
+  end
 
   describe '#underscore_keys' do
     let(:hash) { { keyUnderscore: 1 } }
@@ -14,7 +24,8 @@ describe Hash::KeyChanger do
       let(:hash) { { keyUnderscore: { anotherKey: 1 } } }
 
       it 'underscore all the keys' do
-        expect(subject.underscore_keys).to eq(key_underscore: { another_key: 1 })
+        result = subject.underscore_keys
+        expect(result).to eq(key_underscore: { another_key: 1 })
       end
     end
 
@@ -22,7 +33,8 @@ describe Hash::KeyChanger do
       let(:hash) { { keyUnderscore: [{ anotherKey: 1 }] } }
 
       it 'underscore all the keys' do
-        expect(subject.underscore_keys).to eq(key_underscore: [{ another_key: 1 }])
+        result = { key_underscore: [{ another_key: 1 }] }
+        expect(subject.underscore_keys).to eq(result)
       end
     end
 
@@ -30,7 +42,7 @@ describe Hash::KeyChanger do
       it 'underscore all the keys' do
         expect do
           subject.underscore_keys
-        end.to change { hash }
+        end.to(change { hash })
       end
     end
 
@@ -39,7 +51,8 @@ describe Hash::KeyChanger do
         let(:hash) { { keyUnderscore: { anotherKey: 1 } } }
 
         it 'underscore all the keys' do
-          expect(subject.underscore_keys(recursive: false)).to eq(key_underscore: { anotherKey: 1 })
+          result = subject.underscore_keys(recursive: false)
+          expect(result).to eq(key_underscore: { anotherKey: 1 })
         end
       end
 
@@ -47,7 +60,8 @@ describe Hash::KeyChanger do
         let(:hash) { { keyUnderscore: [{ anotherKey: 1 }] } }
 
         it 'underscore all the keys' do
-          expect(subject.underscore_keys(recursive: false)).to eq(key_underscore: [{ anotherKey: 1 }])
+          result = subject.underscore_keys(recursive: false)
+          expect(result).to eq(key_underscore: [{ anotherKey: 1 }])
         end
       end
     end

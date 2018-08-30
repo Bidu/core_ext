@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Array do
   it_behaves_like 'an array with map_to_hash method'
 
   describe '#mapk' do
-    let(:array) { [{a: { b: 1 }, b: 2}, {a: { b: 3 }, b: 4}] }
+    let(:array) { [{ a: { b: 1 }, b: 2 }, { a: { b: 3 }, b: 4 }] }
 
     it 'maps using the keys given as arguments' do
-      expect(array.mapk(:a, :b)).to eq([ 1, 3 ])
+      expect(array.mapk(:a, :b)).to eq([1, 3])
     end
   end
 
@@ -27,7 +29,7 @@ describe Array do
     it 'does not change the array' do
       expect do
         result
-      end.not_to change { array }
+      end.not_to(change { array })
     end
 
     context 'when array is empty' do
@@ -45,7 +47,7 @@ describe Array do
     end
 
     context 'when array has only one element' do
-      let(:array) { [ 2 ] }
+      let(:array) { [2] }
 
       it do
         expect do
@@ -82,11 +84,11 @@ describe Array do
   end
 
   describe '#chain_map' do
-    let(:array) { [ :a, :long_name, :sym ] }
+    let(:array) { %i[a long_name sym] }
     let(:mapped) { array.chain_map(:to_s, :size, :to_s) }
 
     it 'calls each argument as method of the mapped result' do
-      expect(mapped).to eq([ '1', '9', '3' ])
+      expect(mapped).to eq(%w[1 9 3])
     end
 
     context 'when an extra block is given' do
@@ -97,14 +99,14 @@ describe Array do
       end
 
       it 'calls each argument as method of the mapped result' do
-        expect(mapped).to eq([ 'final: 1', 'final: 9', 'final: 3' ])
+        expect(mapped).to eq(['final: 1', 'final: 9', 'final: 3'])
       end
     end
   end
 
   describe '#as_hash' do
     let(:array) { [1, 2, 3] }
-    let(:keys) { %w(a b c) }
+    let(:keys) { %w[a b c] }
     let(:expected) { { 'a' => 1, 'b' => 2, 'c' => 3 } }
 
     it 'creates a hash using the array as value and the argument as keys' do
@@ -112,24 +114,30 @@ describe Array do
     end
 
     context 'when there are more keys than values' do
-      let(:keys) { %w(a b c d e f) }
-      let(:expected) { { 'a' => 1, 'b' => 2, 'c' => 3, 'd' => nil, 'e' => nil, 'f' => nil } }
+      let(:keys) { %w[a b c d e f] }
+      let(:expected) do
+        {
+          'a' => 1,
+          'b' => 2,
+          'c' => 3,
+          'd' => nil,
+          'e' => nil,
+          'f' => nil
+        }
+      end
 
       it 'creates a hash with nil values for the extra keys' do
         expect(array.as_hash(keys)).to eq(expected)
       end
 
-      it { expect { array.as_hash(keys) }.not_to change { keys } }
-      it { expect { array.as_hash(keys) }.not_to change { array } }
+      it { expect { array.as_hash(keys) }.not_to(change { keys }) }
+      it { expect { array.as_hash(keys) }.not_to(change { array }) }
     end
 
     context 'when there are more values than keys' do
       let(:array) { [1, 2, 3, 4, 5, 6, 7] }
 
       it { expect { array.as_hash(keys) }.to raise_error(IndexError) }
-
-      it { expect { array.as_hash(keys) rescue nil }.not_to change { keys } }
-      it { expect { array.as_hash(keys) rescue nil }.not_to change { array } }
     end
   end
 
@@ -174,19 +182,19 @@ describe Array do
   describe '#random' do
     it_behaves_like 'a method that returns a random element', :random
 
-    let(:array) { [ 8,4,2 ] }
+    let(:array) { [8, 4, 2] }
 
     it 'removes an the returned element' do
       expect do
         array.random
-      end.not_to change { array }
+      end.not_to(change { array })
     end
   end
 
   describe '#random!' do
     it_behaves_like 'a method that returns a random element', :random!
 
-    let(:array) { [ 8,4,2 ] }
+    let(:array) { [8, 4, 2] }
 
     it 'removes an the returned element' do
       expect do
@@ -196,7 +204,7 @@ describe Array do
   end
 
   describe '#map_and_select' do
-    let(:array) { [1, 2, 3, 4].map { |i| { value: i} } }
+    let(:array) { [1, 2, 3, 4].map { |i| { value: i } } }
     let(:filtered) { array.map_and_select(&block) }
 
     context 'when block returns nil' do

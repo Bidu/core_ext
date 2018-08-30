@@ -1,20 +1,28 @@
-class Array::HashBuilder
-  attr_accessor :values, :keys
+# frozen_string_literal: true
 
-  def initialize(values, keys)
-    @values = values.dup
-    @keys = keys.dup
-  end
+class Array
+  class HashBuilder
+    attr_accessor :values, :keys
 
-  def build
-    fixes_sizes
+    def initialize(values, keys)
+      @values = values.dup
+      @keys = keys.dup
+    end
 
-    Hash[[keys, values].transpose]
-  end
+    def build
+      fixes_sizes
 
-  private
+      Hash[[keys, values].transpose]
+    end
 
-  def fixes_sizes
-    values.concat Array.new(keys.size - values.size) if keys.size > values.size
+    private
+
+    def fixes_sizes
+      values.concat Array.new(keys.size - values.size) if needs_resizing?
+    end
+
+    def needs_resizing?
+      keys.size > values.size
+    end
   end
 end

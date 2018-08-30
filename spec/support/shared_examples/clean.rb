@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'a hash clean method' do |method|
   context 'when hash has one level' do
     let(:subject) do
@@ -29,7 +31,11 @@ shared_examples 'a hash clean method' do |method|
 
   context 'when hash has many levels' do
     let(:subject) do
-      { a: 1, d: { e: { k: { l: { m: { n: 1 } } } } }, f: { g: { h: { i: { j: { c: '' } } } } } }
+      {
+        a: 1,
+        d: { e: { k: { l: { m: { n: 1 } } } } },
+        f: { g: { h: { i: { j: { c: '' } } } } }
+      }
     end
 
     let(:expected) do
@@ -129,7 +135,13 @@ shared_examples 'an array clean method' do |method|
 
   context 'when array has many levels' do
     let(:subject) do
-      [1, nil, '', {}, [[[{ a: [[[[[[[]]]]]]] }]]], [[[[[[[2]]]]]]], [{ a: [2] }]]
+      [
+        1,
+        nil,
+        '',
+        {},
+        [[[{ a: [[[[[[[]]]]]]] }]]], [[[[[[[2]]]]]]], [{ a: [2] }]
+      ]
     end
 
     let(:expected) do

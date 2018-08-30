@@ -1,57 +1,32 @@
+# frozen_string_literal: true
+
 class Hash
-  autoload :ValueChanger, 'darthjee/core_ext/hash/value_changer'
+  autoload :ValueChanger,        'darthjee/core_ext/hash/value_changer'
   autoload :DeepHashConstructor, 'darthjee/core_ext/hash/deep_hash_constructor'
-  autoload :KeyChanger, 'darthjee/core_ext/hash/key_changer'
+  autoload :KeyChanger,          'darthjee/core_ext/hash/key_changer'
+  autoload :ChainFetcher,        'darthjee/core_ext/hash/chain_fetcher'
+  autoload :Squasher,            'darthjee/core_ext/hash/squasher'
+  autoload :ToHashMapper,        'darthjee/core_ext/hash/to_hash_mapper'
+  autoload :KeysSorter,          'darthjee/core_ext/hash/keys_sorter'
 
-  def chain_fetch(*keys)
-    value = self
-
-    if block_given?
-      value = value.fetch(keys.shift) do |*args|
-        missed_keys = keys
-        keys = []
-        yield(*(args + [missed_keys]))
-      end until keys.empty?
-    else
-      value = value.fetch(keys.shift) until keys.empty?
-    end
-
-    value
+  def chain_fetch(*keys, &block)
+    ChainFetcher.new(self, *keys, &block).fetch
   end
 
   def squash
-    {}.tap do |hash|
-      each do |key, value|
-        if value.is_a? Hash
-          value.squash.each do |k, v|
-            new_key = [key, k].join('.')
-            hash[new_key] = v
-          end
-        else
-          hash[key] = value
-        end
-      end
-    end
+    Squasher.squash(self)
   end
 
-  def map_to_hash
-    {}.tap do |hash|
-      each do |k, v|
-        hash[k] = yield(k, v)
-      end
-    end
+  def map_to_hash(&block)
+    ToHashMapper.new(self).map(&block)
   end
 
   def remap_keys(remap)
     dup.remap_keys!(remap)
   end
 
-  def remap_keys!(remap)
-    new_hash = {}
-    remap.each do |o, n|
-      new_hash[n] = delete o
-    end
-    merge! new_hash
+  def remap_keys!(keys_map)
+    KeyChanger.new(self).remap(keys_map)
   end
 
   def lower_camelize_keys(options = {})
@@ -59,7 +34,7 @@ class Hash
   end
 
   def lower_camelize_keys!(options = {})
-    options = options.merge({ uppercase_first_letter: false })
+    options = options.merge(uppercase_first_letter: false)
 
     camelize_keys!(options)
   end
@@ -125,7 +100,8 @@ class Hash
   #  recursive: true,
   #  type: :keep [keep, string, symbol] (key type to be returned)
   # }
-  # ex: { :a => 1, "b"=> 2 }.prepend_to_keys("foo_") == { :foo_a => 1, "foo_b"=> 2 }
+  # ex: { :a => 1, "b"=> 2 }.prepend_to_keys("foo_")
+  # # returns { :foo_a => 1, "foo_b"=> 2 }
   def prepend_to_keys(str, options = {})
     change_key_text(options) do |key|
       "#{str}#{key}"
@@ -137,7 +113,8 @@ class Hash
   #  recursive: true,
   #  type: :keep [keep, string, symbol] (key type to be returned)
   # }
-  # ex: { :a => 1, "b"=> 2 }.append_to_keys("_bar") == { :a_bar => 1, "b_bar"=> 2 }
+  # ex: { :a => 1, "b"=> 2 }.append_to_keys("_bar")
+  # # returns { :a_bar => 1, "b_bar"=> 2 }
   def append_to_keys(str, options = {})
     change_key_text(options) do |key|
       "#{key}#{str}"
@@ -148,17 +125,7 @@ class Hash
   # options: { recursive: true }
   # ex: { b:1, a:2 }.sort_keys == { a:2, b:1 }
   def sort_keys(options = {})
-    options = {
-      recursive: true
-    }.merge(options)
-
-    {}.tap do |hash|
-      keys.sort.each do |key|
-        value = self[key]
-        hash[key] = value unless value.is_a?(Hash) && options[:recursive]
-        hash[key] = value.sort_keys(options) if value.is_a?(Hash) && options[:recursive]
-      end
-    end
+    Hash::KeysSorter.new(self, **options).sort
   end
 
   # creates a new hash with changes in its values
@@ -167,8 +134,10 @@ class Hash
   #   skip_hash:true
   # }
   # ex: { a:1, b:2 }.change_values{ |v| v+1 } == { a:2, b:3 }
-  # ex: { a:1, b:{ c:1 } }.change_values(skip_hash:false) { |v| v.to_s } == { a:"1", b:"{ c=>1 }
-  # ex: { a:1, b:{ c:1 } }.change_values(skip_hash:true) { |v| v.to_s } == { a:"1", b:{ c=>"1" } }
+  # ex: { a:1, b:{ c:1 } }.change_values(skip_hash:false) { |v| v.to_s }
+  # # returns { a:"1", b:"{ c=>1 }
+  # ex: { a:1, b:{ c:1 } }.change_values(skip_hash:true) { |v| v.to_s }
+  # # returns { a:"1", b:{ c=>"1" } }
   def change_values(options = {}, &block)
     deep_dup.change_values!(options, &block)
   end
@@ -183,7 +152,7 @@ class Hash
 
   def transpose!
     aux = dup
-    keys.each { |k| self.delete(k) }
+    keys.each { |k| delete(k) }
     aux.each do |k, v|
       self[v] = k
     end
@@ -205,7 +174,8 @@ class Hash
   #  recursive: true,
   #  type: :keep [keep, string, symbol] (key type to be returned)
   # }
-  # ex: { :a => 1, "b"=> 2 }.change_key_text{ |key| key.upcase } == { :A => 1, "B"=> 2 }
+  # ex: { :a => 1, "b"=> 2 }.change_key_text{ |key| key.upcase }
+  # # returns { :A => 1, "B"=> 2 }
   def change_key_text(options = {}, &block)
     Hash::KeyChanger.new(self).change_text(options, &block)
   end

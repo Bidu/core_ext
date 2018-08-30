@@ -1,25 +1,28 @@
+# frozen_string_literal: true
+
 shared_examples 'a class with remap method' do
-  let(:subject) { { a: 1, b: 2 } }
+  subject { hash }
 
-  describe :remap_keys do
-    it_behaves_like 'a method that remaps the keys', :remap_keys
-
-    it 'does not change the original hash' do
-      expect { subject.remap_keys(a: :e) }.not_to change { subject }
+  describe '#remap_keys' do
+    it_behaves_like 'a method that remaps the keys', :remap_keys do
+      it 'does not change the original hash' do
+        expect { result }.not_to(change { hash })
+      end
     end
   end
 
-  describe :remap_keys! do
-    it_behaves_like 'a method that remaps the keys', :remap_keys!
-
-    it 'changes the original hash' do
-      expect { subject.remap_keys!(a: :e) }.to change { subject }
+  describe '#remap_keys!' do
+    it_behaves_like 'a method that remaps the keys', :remap_keys! do
+      it 'changes the original hash' do
+        expect { result }.to(change { hash })
+      end
     end
   end
-
 end
 
 shared_examples 'a method that remaps the keys' do |method|
+  let(:hash) { { a: 1, b: 2 } }
+  let(:remap) { { a: :e } }
   let(:result) { subject.public_send(method, remap) }
 
   context 'when remap and hash keys match' do
@@ -78,7 +81,7 @@ shared_examples 'a method that remaps the keys' do |method|
     end
 
     context 'and the original key is an string' do
-      let(:subject) { { 'a' => 1, 'b' => 2 } }
+      let(:hash) { { 'a' => 1, 'b' => 2 } }
       let(:remap) { { 'a' => :a } }
 
       it 'does not remap the keys' do

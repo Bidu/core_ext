@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'a class with transpose method' do |method|
   let(:hash) { { a: 1 } }
 
@@ -61,7 +63,7 @@ shared_examples 'a class with transpose method' do |method|
     end
 
     context 'when there is a clash of keys' do
-      let(:hash) { { a: :b, c: :b} }
+      let(:hash) { { a: :b, c: :b } }
 
       it 'uses the last key for value' do
         expect(hash.public_send(method)).to eq(b: :c)
@@ -69,7 +71,7 @@ shared_examples 'a class with transpose method' do |method|
     end
 
     context 'when there is a key which alreay has been defined' do
-      let(:hash) { { a: :b, b: :c} }
+      let(:hash) { { a: :b, b: :c } }
 
       it 'does not override values' do
         expect(hash.public_send(method)).to eq(b: :a, c: :b)
@@ -83,18 +85,18 @@ shared_examples 'a class with transpose method' do |method|
 end
 
 shared_examples 'a class with transpose methods' do
- it_behaves_like 'a class with transpose method', :transpose do
+  it_behaves_like 'a class with transpose method', :transpose do
     it do
       expect do
         hash.transpose
-      end.not_to change { hash }
+      end.not_to(change { hash })
     end
   end
- it_behaves_like 'a class with transpose method', :transpose! do
+  it_behaves_like 'a class with transpose method', :transpose! do
     it do
       expect do
         hash.transpose!
-      end.to change { hash }
+      end.to(change { hash })
     end
   end
 end

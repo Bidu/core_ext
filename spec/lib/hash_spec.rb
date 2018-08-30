@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Hash do
@@ -8,54 +10,22 @@ describe Hash do
   it_behaves_like 'a class with append_keys method'
   it_behaves_like 'a class with change_values method'
   it_behaves_like 'a class with remap method'
-  it_behaves_like 'an object with chain_fetch method'
-  it_behaves_like 'a hash with map_to_hash method'
   it_behaves_like 'a class with transpose methods'
 
-  describe :squash do
-    let(:hash) { { a: { b: 1, c: { d: 2 } } } }
-
-    it 'flattens the hash' do
-      expect(hash.squash).to eq('a.b' => 1, 'a.c.d' => 2)
-    end
-
-    it { expect { hash.squash }.not_to change { hash } }
-
-    context 'with array value' do
-      let(:hash) { { a: { b: [1, { x: 3, y: { z: 4 } }] } } }
-
-      it 'flattens the hash' do
-        expect(hash.squash).to eq('a.b' => [1, { x: 3, y: { z: 4 } }])
-      end
-    end
+  it_behaves_like 'an object with capable of performing chain fetch' do
+    let(:result) { hash.chain_fetch(*keys, &block) }
   end
 
-  describe :sort_keys do
-    it 'sorts keys as symbols' do
-      expect({ b: 1, a: 2 }.sort_keys).to eq(a: 2, b: 1)
-    end
-    it 'sorts keys as string' do
-      expect({ 'b' => 1, 'a' => 2 }.sort_keys).to eq('a' => 2, 'b' => 1)
-    end
-    it 'sorts keys recursively' do
-      expect({ b: 1, a: { d: 3, c: 4 } }.sort_keys).to eq(a: { c: 4, d: 3 }, b: 1)
-    end
-    it 'sorts keys recursively when argumen is passed' do
-      expect({ b: 1, a: { d: 3, c: 4 } }.sort_keys(recursive: true)).to eq(a: { c: 4, d: 3 }, b: 1)
-    end
-    it 'does not sorts keys recursively when argumen is passed' do
-      expect({ b: 1, a: { d: 3, c: 4 } }.sort_keys(recursive: false)).to eq(a: { d: 3, c: 4 }, b: 1)
-    end
-    it 'sort recursevely on many levels' do
-      hash = { b: 1, a: { d: 2, c: { e: 3, f: 4 } } }
-      expected = { a: { c: { f: 4, e: 3 }, d: 2 }, b: 1 }
-      expect(hash.sort_keys(recursive: true)).to eq(expected)
-    end
-    it 'applies to arrays as well' do
-      hash = { b: 1, a: { d: 2, c: [{ e: 3, f: 4 }] } }
-      expected = { a: { c: [{ f: 4, e: 3 }], d: 2 }, b: 1 }
-      expect(hash.sort_keys(recursive: true)).to eq(expected)
-    end
+  it_behaves_like 'a class that has a method to squash a hash' do
+    let(:squashed) { hash.squash }
+  end
+
+  it_behaves_like 'a hash with map_to_hash method' do
+    let(:mapped) { hash.map_to_hash(&mapping_block) }
+  end
+
+  it_behaves_like 'a class with a keys sort method' do
+    let(:result) { hash.sort_keys(**options) }
   end
 
   describe :exclusive_merge do
@@ -67,7 +37,7 @@ describe Hash do
     end
 
     it 'does not change the original hash' do
-      expect { subject.exclusive_merge(other) }.not_to change { subject }
+      expect { subject.exclusive_merge(other) }.not_to(change { subject })
     end
   end
 
@@ -80,7 +50,7 @@ describe Hash do
     end
 
     it 'does not change the original hash' do
-      expect { subject.exclusive_merge!(other) }.to change { subject }
+      expect { subject.exclusive_merge!(other) }.to(change { subject })
     end
   end
 
@@ -126,7 +96,7 @@ describe Hash do
             { 'name' => 'First person', 'age' => 22 },
             { 'name' => 'Second person', 'age' => 27 }
           ],
-          'device' => %w(GEAR_LOCK GPS),
+          'device' => %w[GEAR_LOCK GPS],
           'zipCode' => '122345-123'
         }
       end
@@ -317,7 +287,7 @@ describe Hash do
       context 'when block returns the key and not the value' do
         let(:block) { proc { |k, v| v > 1 && k } }
 
-        it { expect(list).to eq([:b, :c, :d]) }
+        it { expect(list).to eq(%i[b c d]) }
       end
 
       context 'but not for the first value' do
