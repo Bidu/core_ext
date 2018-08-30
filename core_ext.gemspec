@@ -18,13 +18,13 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ['lib']
 
-  gem.add_runtime_dependency 'activesupport', '>= 5.x'
+  gem.add_runtime_dependency 'activesupport', '>= 5.2.x'
 
-  gem.add_development_dependency 'bundler',   '~> 1.6'
+  gem.add_development_dependency 'bundler',   '~> 1.16'
   gem.add_development_dependency 'pry-nav',   '~> 0.2.4'
   gem.add_development_dependency 'rake',      '>= 12.3.1'
-  gem.add_development_dependency 'rspec',     '>= 3.7'
-  gem.add_development_dependency 'rubocop'
-  gem.add_development_dependency 'simplecov', '~> 0.14.1'
-  gem.add_development_dependency 'yard'
+  gem.add_development_dependency 'rspec',     '>= 3.8'
+  gem.add_development_dependency 'rubocop',   '>= 0.58.1'
+  gem.add_development_dependency 'simplecov', '~> 0.16.x'
+  gem.add_development_dependency 'yard',      '>= 0.9'
 end
