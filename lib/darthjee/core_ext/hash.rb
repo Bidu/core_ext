@@ -4,6 +4,20 @@ require 'darthjee/core_ext/hash/key_changeable'
 require 'darthjee/core_ext/hash/transposeable'
 require 'darthjee/core_ext/hash/transformable'
 
+module Darthjee
+  module CoreExt
+    module Hash
+      ########################################
+      # Fetching methods
+      #########################################
+
+      def chain_fetch(*keys, &block)
+        ::Hash::ChainFetcher.new(self, *keys, &block).fetch
+      end
+    end
+  end
+end
+
 class Hash
   autoload :ChainFetcher,        'darthjee/core_ext/hash/chain_fetcher'
   autoload :DeepHashConstructor, 'darthjee/core_ext/hash/deep_hash_constructor'
@@ -16,12 +30,5 @@ class Hash
   include Hash::KeyChangeable
   include Hash::Transposeable
   include Hash::Transformable
-
-  ########################################
-  # Fetching methods
-  #########################################
-
-  def chain_fetch(*keys, &block)
-    ChainFetcher.new(self, *keys, &block).fetch
-  end
+  include Darthjee::CoreExt::Hash
 end
