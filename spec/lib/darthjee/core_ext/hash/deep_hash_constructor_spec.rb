@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Hash::DeepHashConstructor do
+describe Darthjee::CoreExt::Hash::DeepHashConstructor do
   let(:subject) { described_class.new('.') }
   let(:deep_hash) { subject.deep_hash(hash) }
 

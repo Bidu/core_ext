@@ -12,6 +12,8 @@ require 'darthjee/core_ext/math'
 
 module Darthjee
   module CoreExt
+    PATH = 'darthjee/core_ext'
+
     require 'darthjee/core_ext/version'
 
     require 'darthjee/core_ext/hash'

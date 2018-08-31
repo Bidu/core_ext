@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Hash::KeyChanger do
+describe Darthjee::CoreExt::Hash::KeyChanger do
   let(:subject) { described_class.new(hash) }
 
   describe '#remap_keys!' do
