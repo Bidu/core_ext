@@ -23,7 +23,9 @@ module Darthjee
         private
 
         def array_deep_hash(array)
-          array.map { |v| v.is_a?(Hash) ? deep_hash(v) : v }
+          array.map do |value|
+            value.is_a?(Hash) ? deep_hash(value) : value
+          end
         end
 
         def hash_deep_hash(hash)
