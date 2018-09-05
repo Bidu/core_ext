@@ -16,4 +16,8 @@ end
 
 class Object
   include Darthjee::CoreExt::Object
+
+  class << self
+    include Darthjee::CoreExt::Object::DefaultValue
+  end
 end
