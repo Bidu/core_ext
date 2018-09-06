@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Object do
+describe Class do
   describe '.default_value' do
     subject { DefaultValueModel.new }
 
