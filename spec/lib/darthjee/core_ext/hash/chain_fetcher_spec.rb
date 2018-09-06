@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Hash::ChainFetcher do
+describe Darthjee::CoreExt::Hash::ChainFetcher do
   subject { described_class.new(hash, *keys, &block) }
 
   it_behaves_like 'an object with capable of performing chain fetch' do

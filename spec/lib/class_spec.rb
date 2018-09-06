@@ -2,9 +2,9 @@
 
 require 'spec_helper'
 
-describe Object do
+describe Class do
   describe '.default_value' do
-    subject { DefaultValue.new }
+    subject { DefaultValueModel.new }
 
     it 'accepts default value' do
       expect(subject.x).to eq(10)
@@ -16,7 +16,7 @@ describe Object do
   end
 
   describe '.default_values' do
-    subject { DefaultValue.new }
+    subject { DefaultValueModel.new }
 
     it 'accepts default values' do
       expect(subject.y).to eq(20)
