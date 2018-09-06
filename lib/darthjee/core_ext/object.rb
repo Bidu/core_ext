@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'darthjee/core_ext/object/default_value'
-
 module Darthjee
   module CoreExt
     module Object
@@ -16,8 +14,4 @@ end
 
 class Object
   include Darthjee::CoreExt::Object
-
-  class << self
-    include Darthjee::CoreExt::Object::DefaultValue
-  end
 end

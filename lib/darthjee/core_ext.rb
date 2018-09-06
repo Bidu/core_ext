@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'active_support/all'
+require 'darthjee/core_ext/class'
 require 'darthjee/core_ext/enumerable'
 require 'darthjee/core_ext/symbol'
 require 'darthjee/core_ext/array'
