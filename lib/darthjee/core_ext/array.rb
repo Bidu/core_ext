@@ -2,9 +2,20 @@
 
 module Darthjee
   module CoreExt
+    # Module containing new usefull methods to Ruby vanilla Array
     module Array
       autoload :HashBuilder, 'darthjee/core_ext/array/hash_builder'
 
+      # Maps array chain fetching the keys of the hashes inside
+      #
+      # @example
+      #   array = [
+      #     { a: { b: 1 }, b: 2 },
+      #     { a: { b: 3 }, b: 4 }
+      #   ]
+      #   array,mapk(:a)     # returns [{ b: 1 }, { b: 3 }]
+      #   array.mapk(:a, :b) # returns [1, 3]
+      #   array.mapk(:c)     # returns [nil, nil]
       def mapk(*keys)
         keys.inject(self) do |enum, key|
           enum.map { |hash| hash[key] }
@@ -49,6 +60,16 @@ module Darthjee
   end
 end
 
+# Ruby Array received
+#
+# - mapk
+# - procedural_join
+# - chain_map
+# - as_hash
+# - random
+# - random!
+#
+# @see Darthjee::CoreExt::Array
 class Array
   include Darthjee::CoreExt::Array
 end
