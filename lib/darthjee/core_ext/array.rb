@@ -20,7 +20,7 @@ module Darthjee
       def mapk(*keys)
         keys.inject(self) do |enum, key|
           enum.map do |hash|
-            hash.respond_to?(:[]) ? hash[key] : nil
+            hash&.[] key
           end
         end
       end
