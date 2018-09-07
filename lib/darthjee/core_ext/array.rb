@@ -16,9 +16,12 @@ module Darthjee
       #   array,mapk(:a)     # returns [{ b: 1 }, { b: 3 }]
       #   array.mapk(:a, :b) # returns [1, 3]
       #   array.mapk(:c)     # returns [nil, nil]
+      #   array.mapk(:c, :d) # returns [nil, nil]
       def mapk(*keys)
         keys.inject(self) do |enum, key|
-          enum.map { |hash| hash[key] }
+          enum.map do |hash|
+            hash.respond_to?(:[]) ? hash[key] : nil
+          end
         end
       end
 

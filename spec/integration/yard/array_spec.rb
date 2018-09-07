@@ -23,5 +23,11 @@ describe Array do
         expect(array.mapk(:c)).to eq([nil, nil])
       end
     end
+
+    describe 'when element is not a hash' do
+      it 'returns nil for value' do
+        expect(array.mapk(:c, :d)).to eq([nil, nil])
+      end
+    end
   end
 end

@@ -11,6 +11,18 @@ describe Array do
     it 'maps using the keys given as arguments' do
       expect(array.mapk(:a, :b)).to eq([1, 3])
     end
+
+    describe 'when fetching a non existing key' do
+      it 'returns nil for value' do
+        expect(array.mapk(:c)).to eq([nil, nil])
+      end
+    end
+
+    describe 'when element is not a hash' do
+      it do
+        expect(array.mapk(:c, :d)).to eq([nil, nil])
+      end
+    end
   end
 
   describe '#procedural_join' do
