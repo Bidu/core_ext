@@ -8,6 +8,9 @@ module Darthjee
 
       # Maps array chain fetching the keys of the hashes inside
       #
+      # @param [String/Symbol] keys list of keys to be
+      # fetched from hashes inside
+      #
       # @example
       #   array = [
       #     { a: { b: 1 }, b: 2 },
@@ -25,6 +28,25 @@ module Darthjee
         end
       end
 
+      # Joins elements in a string using a proc
+      # to convert elements to Strig and a block for joining
+      #
+      # @param [Proc] mapper Proc that will be used to map values
+      # to string before joining
+      #
+      # @yield [prev, val]
+      #   defines the string used to join the elements prev and val
+      #
+      # @example
+      #   [1, 2, -3, -4, 5].procedural_join do |_previous, nexte|
+      #     nexte.positive? ? '+' : ''
+      #   end     # returns '1+2-3-4+5'
+      #
+      # @example
+      #   mapper = proc { |value| value.to_f.to_s }
+      #   array.procedural_join(mapper) do |_previous, nexte|
+      #     nexte.positive? ? ' +' : ' '
+      #   end     # returns '1.0 +2.0 -3.0 -4.0 +5.0'
       def procedural_join(mapper = proc(&:to_s))
         return '' if empty?
         list = dup

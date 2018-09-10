@@ -30,4 +30,35 @@ describe Array do
       end
     end
   end
+
+  describe '#procedural_join' do
+    let(:array) { [1, 2, -3, -4, 5] }
+
+    context 'when not mapping the value' do
+      context 'when creating a sum' do
+        let(:result) do
+          array.procedural_join do |_previous, nexte|
+            nexte.positive? ? '+' : ''
+          end
+        end
+
+        it 'creates a sum' do
+          expect(result).to eq('1+2-3-4+5')
+        end
+      end
+    end
+
+    context 'when mapping the value' do
+      let(:result) do
+        mapper = proc { |value| value.to_f.to_s }
+        array.procedural_join(mapper) do |_previous, nexte|
+          nexte.positive? ? ' +' : ' '
+        end
+      end
+
+      it 'maps the value on the output' do
+        expect(result).to eq('1.0 +2.0 -3.0 -4.0 +5.0')
+      end
+    end
+  end
 end
