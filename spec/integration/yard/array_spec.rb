@@ -62,7 +62,7 @@ describe Array do
     end
   end
 
-  describe 'chain_main' do
+  describe '#chain_main' do
     let(:words) { %w[big_word tiny oh_my_god_such_a_big_word] }
 
     context 'when not passing a block' do
@@ -81,6 +81,17 @@ describe Array do
         end
         expect(output).to eq(['even size', 'even size', 'odd size'])
       end
+    end
+  end
+
+  describe '#as_hash' do
+    let(:array) { %w[each word one key] }
+    let(:keys)  { %i[a b c d] }
+
+    it 'Uses the keys arra as keys of the hash' do
+      expect(array.as_hash(keys)).to eq(
+        a: 'each', b: 'word', c: 'one', d: 'key'
+      )
     end
   end
 end

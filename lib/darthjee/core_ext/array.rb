@@ -90,6 +90,15 @@ module Darthjee
         result.map(&block)
       end
 
+      # Returns a Hash where the values are the elements of the array
+      #
+      # @param [Object] keys The keys of the hash
+      #
+      # @example
+      #   array = %w[each word one key]
+      #   array.as_hash(%i[a b c d])
+      #   # returns
+      #   # { a: 'each', b: 'word', c: 'one', d: 'key' }
       def as_hash(keys)
         Array::HashBuilder.new(self, keys).build
       end
