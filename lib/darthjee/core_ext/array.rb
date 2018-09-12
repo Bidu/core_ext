@@ -35,7 +35,8 @@ module Darthjee
       # to string before joining
       #
       # @yield [prev, val]
-      #   defines the string used to join the elements prev and val
+      #   defines the string to be used to join the previous and
+      #   next element
       #
       # @example
       #   [1, 2, -3, -4, 5].procedural_join do |_previous, nexte|
@@ -61,6 +62,25 @@ module Darthjee
         end
       end
 
+      # Maps the array using the given methods on each
+      # element of the array
+      #
+      # @param [String/Symbol] methods List of methods to be called sequentially
+      #   on each element of the array
+      #
+      # @yield [element] block to be called on each element performing
+      #   a final mapping
+      #
+      # @example
+      #   words = %w(big_word tiny oh_my_god_such_a_big_word)
+      #   words.chain_map(:size, :to_f, :to_s) # returns ["8.0", "4.0", "25.0"]
+      #
+      # @example
+      #   words = %w(big_word tiny oh_my_god_such_a_big_word)
+      #
+      #   output = words.chain_map(:size) do |size|
+      #     (size % 2).zero? ? 'even size' : 'odd size'
+      #   end  # returns ["even size", "even size", "odd size"]
       def chain_map(*methods, &block)
         result = methods.inject(self) do |array, method|
           array.map(&method)

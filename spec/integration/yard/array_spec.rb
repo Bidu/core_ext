@@ -61,4 +61,26 @@ describe Array do
       end
     end
   end
+
+  describe 'chain_main' do
+    let(:words) { %w[big_word tiny oh_my_god_such_a_big_word] }
+
+    context 'when not passing a block' do
+      let(:words) { %w[big_word tiny oh_my_god_such_a_big_word] }
+
+      it 'calls the methods in a succession to map' do
+        output = words.chain_map(:size, :to_f, :to_s)
+        expect(output).to eq(%w[8.0 4.0 25.0])
+      end
+    end
+
+    context 'when passing a block' do
+      it 'mapps with the block at the end' do
+        output = words.chain_map(:size) do |size|
+          (size % 2).zero? ? 'even size' : 'odd size'
+        end
+        expect(output).to eq(['even size', 'even size', 'odd size'])
+      end
+    end
+  end
 end
