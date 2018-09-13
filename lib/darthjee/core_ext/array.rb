@@ -103,10 +103,22 @@ module Darthjee
         Array::HashBuilder.new(self, keys).build
       end
 
+      # Reeturns a random element of the array without altering it
+      #
+      # @example
+      #   array = [10, 20, 30]
+      #   array.random # might return 10, 20 or 30
+      #   array        # returns unchanged [10, 20, 30]
       def random
         self[rand(size)]
       end
 
+      # Reeturns a random element of the array removing it from the array
+      #
+      # @example
+      #   array = [10, 20, 30]
+      #   array.random! # might return 10, 20 or 30 ... lets say 20
+      #   array         # returns changed [20, 30]
       def random!
         slice!(rand(size))
       end
