@@ -10,14 +10,14 @@ module Darthjee
       # @attribute [Array] keys
       #   keys of the hash to be built
       #
-      # @example
+      # @example Building the hash from the array
       #   values = [10, 20, 30]
       #   keys   = %i[a b c]
       #   builder = Darthjee::CoreExt::Array::HashBuilder.new(values, keys)
       #
       #   builder.build  # returns { a: 10, b: 20, c: 30 }
       #
-      # @example
+      # @example Rebuilding a hash from values and keys
       #   hash = { a: 20, b: 200, c: 2000 }
       #   builder = Darthjee::CoreExt::Array::HashBuilder.new(
       #     hash.values,
