@@ -5,7 +5,7 @@ module Darthjee
     module Date
       # Calculates the number of days between 2 dates
       #
-      # @param [Data/Time] future/past date for comparisom
+      # @param [Data/Time] other_date future/past date for comparisom
       #
       # @return [Integer] days between two dates
       #
