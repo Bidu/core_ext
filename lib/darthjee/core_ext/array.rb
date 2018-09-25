@@ -6,18 +6,65 @@ module Darthjee
     module Array
       autoload :HashBuilder, 'darthjee/core_ext/array/hash_builder'
 
+      # Returns a Hash where the values are the elements of the array
+      #
+      # @param [Object] keys The keys of the hash
+      #
+      # @example Creation of hash with symbol keys
+      #   array = %w[each word one key]
+      #   array.as_hash(%i[a b c d])
+      #   # returns
+      #   # { a: 'each', b: 'word', c: 'one', d: 'key' }
+      def as_hash(keys)
+        Array::HashBuilder.new(self, keys).build
+      end
+
+      # Maps the array using the given methods on each
+      # element of the array
+      #
+      # @param [String/Symbol] methods List of methods to be called sequentially
+      #   on each element of the array
+      #
+      # @yield [element] block to be called on each element performing
+      #   a final mapping
+      #
+      # @example Mapping to string out of float size of strings
+      #   words = %w(big_word tiny oh_my_god_such_a_big_word)
+      #   words.chain_map(:size, :to_f, :to_s) # returns ["8.0", "4.0", "25.0"]
+      #
+      # @example Mapping with a block mapping at the end
+      #   words = %w(big_word tiny oh_my_god_such_a_big_word)
+      #
+      #   output = words.chain_map(:size) do |size|
+      #     (size % 2).zero? ? 'even size' : 'odd size'
+      #   end  # returns ["even size", "even size", "odd size"]
+      def chain_map(*methods, &block)
+        result = methods.inject(self) do |array, method|
+          array.map(&method)
+        end
+
+        return result unless block_given?
+        result.map(&block)
+      end
+
       # Maps array chain fetching the keys of the hashes inside
       #
       # @param [String/Symbol] keys list of keys to be
       # fetched from hashes inside
       #
-      # @example
+      # @example Multi level hash mapping
       #   array = [
       #     { a: { b: 1 }, b: 2 },
       #     { a: { b: 3 }, b: 4 }
       #   ]
       #   array,mapk(:a)     # returns [{ b: 1 }, { b: 3 }]
       #   array.mapk(:a, :b) # returns [1, 3]
+      #
+      # @example Key missing
+      #   array = [
+      #     { a: { b: 1 }, b: 2 },
+      #     { a: { b: 3 }, b: 4 }
+      #   ]
       #   array.mapk(:c)     # returns [nil, nil]
       #   array.mapk(:c, :d) # returns [nil, nil]
       def mapk(*keys)
@@ -38,12 +85,12 @@ module Darthjee
       #   defines the string to be used to join the previous and
       #   next element
       #
-      # @example
+      # @example Addition of positive and negative numbers
       #   [1, 2, -3, -4, 5].procedural_join do |_previous, nexte|
       #     nexte.positive? ? '+' : ''
       #   end     # returns '1+2-3-4+5'
       #
-      # @example
+      # @example Spaced addition of positive and negative numbers
       #   mapper = proc { |value| value.to_f.to_s }
       #   array.procedural_join(mapper) do |_previous, nexte|
       #     nexte.positive? ? ' +' : ' '
@@ -62,50 +109,9 @@ module Darthjee
         end
       end
 
-      # Maps the array using the given methods on each
-      # element of the array
-      #
-      # @param [String/Symbol] methods List of methods to be called sequentially
-      #   on each element of the array
-      #
-      # @yield [element] block to be called on each element performing
-      #   a final mapping
-      #
-      # @example
-      #   words = %w(big_word tiny oh_my_god_such_a_big_word)
-      #   words.chain_map(:size, :to_f, :to_s) # returns ["8.0", "4.0", "25.0"]
-      #
-      # @example
-      #   words = %w(big_word tiny oh_my_god_such_a_big_word)
-      #
-      #   output = words.chain_map(:size) do |size|
-      #     (size % 2).zero? ? 'even size' : 'odd size'
-      #   end  # returns ["even size", "even size", "odd size"]
-      def chain_map(*methods, &block)
-        result = methods.inject(self) do |array, method|
-          array.map(&method)
-        end
-
-        return result unless block_given?
-        result.map(&block)
-      end
-
-      # Returns a Hash where the values are the elements of the array
-      #
-      # @param [Object] keys The keys of the hash
-      #
-      # @example
-      #   array = %w[each word one key]
-      #   array.as_hash(%i[a b c d])
-      #   # returns
-      #   # { a: 'each', b: 'word', c: 'one', d: 'key' }
-      def as_hash(keys)
-        Array::HashBuilder.new(self, keys).build
-      end
-
       # Reeturns a random element of the array without altering it
       #
-      # @example
+      # @example Picking a random element of numeric array
       #   array = [10, 20, 30]
       #   array.random # might return 10, 20 or 30
       #   array        # returns unchanged [10, 20, 30]
@@ -115,7 +121,7 @@ module Darthjee
 
       # Reeturns a random element of the array removing it from the array
       #
-      # @example
+      # @example Slicing a random element of a numeric array
       #   array = [10, 20, 30]
       #   array.random! # might return 10, 20 or 30 ... lets say 20
       #   array         # returns changed [20, 30]
