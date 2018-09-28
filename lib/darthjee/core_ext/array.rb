@@ -8,7 +8,9 @@ module Darthjee
 
       # Returns a Hash where the values are the elements of the array
       #
-      # @param [::Object] keys The keys of the hash
+      # @param [::Array<::Object>] keys The keys of the hash
+      #
+      # @return [::Hash] hash built pairing the keys and values
       #
       # @example Creation of hash with symbol keys
       #   array = %w[each word one key]
@@ -27,6 +29,10 @@ module Darthjee
       #
       # @yield [element] block to be called on each element performing
       #   a final mapping
+      # @yieldparam [::Object] element element that will receive the method calls
+      #   in chain
+      #
+      # @return [::Array] Array with the result of all method calls in chain
       #
       # @example Mapping to string out of float size of strings
       #   words = %w(big_word tiny oh_my_god_such_a_big_word)
@@ -51,6 +57,8 @@ module Darthjee
       #
       # @param [::String,::Symbol] keys list of keys to be
       # fetched from hashes inside
+      #
+      # @return [::Array] Array resulting of chain fetch of keys
       #
       # @example Multi level hash mapping
       #   array = [
@@ -81,9 +89,11 @@ module Darthjee
       # @param [Proc] mapper Proc that will be used to map values
       # to string before joining
       #
-      # @yield [prev, val]
+      # @yield [previous, nexte]
       #   defines the string to be used to join the previous and
       #   next element
+      # @yieldparam [::Object] previous previous element that was joined
+      # @yieldparam [::Object] nexte next element that will be joined
       #
       # @example Addition of positive and negative numbers
       #   [1, 2, -3, -4, 5].procedural_join do |_previous, nexte|
@@ -97,15 +107,16 @@ module Darthjee
       #   end     # returns '1.0 +2.0 -3.0 -4.0 +5.0'
       def procedural_join(mapper = proc(&:to_s))
         return '' if empty?
-        list = dup
-        prev = first
-        list[0] = mapper.call(prev).to_s
+        list =     dup
+        previous = first
+        list[0] =  mapper.call(previous).to_s
 
-        list.inject do |string, val|
-          j = yield(prev, val) if block_given?
-          "#{string}#{j}#{mapper.call(val)}".tap do
-            prev = val
-          end
+        list.inject do |string, value|
+          link =        yield(previous, value) if block_given?
+          next_string = mapper.call(value)
+          previous =   value
+
+          "#{string}#{link}#{next_string}"
         end
       end
 
