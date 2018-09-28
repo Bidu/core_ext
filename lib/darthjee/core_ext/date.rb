@@ -5,9 +5,8 @@ module Darthjee
     module Date
       # Calculates the number of days between 2 dates
       #
-      # @param [Data/Time] other_date future/past date for comparisom
-      #
-      # @return [Integer] days between two dates
+      # @param [::Date,::Time] other_date future/past date for comparisom
+      # @return [::Integer] days between two dates
       #
       # @example One year apart date
       #   date = Date.new(2018, 11, 21)

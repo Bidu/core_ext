@@ -7,9 +7,9 @@ module Darthjee
         # Merges both hashes not adding keys that don't
         # exist in the original hash
         #
-        # @param [Hash] other other hash to be merged
+        # @param [::Hash] other other hash to be merged
         #
-        # @return [Hash] the merged hash
+        # @return [::Hash] the merged hash
         #
         # @example merging of hashes with some clashing keys
         #   hash = { a: 1, b: 2, c: 3 }
@@ -24,9 +24,9 @@ module Darthjee
         # Merges both hashes not adding keys that don't
         # exist in the original hash
         #
-        # @param [Hash] other other hash to be merged
+        # @param [::Hash] other other hash to be merged
         #
-        # @return [Hash] the merged hash
+        # @return [::Hash] the merged hash
         #
         # @example merging of hashes with some clashing keys
         #   hash = { a: 1, b: 2, c: 3 }
@@ -65,7 +65,7 @@ module Darthjee
         #
         # This operation is the oposite of {#to_deep_hash}
         #
-        # @return [Hash] A one level hash
+        # @return [::Hash] A one level hash
         #
         # @see Squash::Builder
         # @see #to_deep_hash
@@ -98,7 +98,7 @@ module Darthjee
         #
         # this operation is the oposite from {#squash}
         #
-        # @return [Hash] A multi-level hash
+        # @return [::Hash] A multi-level hash
         #
         # @see Hash::DeepHashConstructor
         # @see #squash

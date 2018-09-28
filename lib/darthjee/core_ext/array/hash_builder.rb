@@ -5,9 +5,9 @@ module Darthjee
     module Array
       # Class responsible for building a Hash from 2 arrays
       #
-      # @attribute [Array] values
+      # @attribute [::Array] values
       #   values of the hash to be built
-      # @attribute [Array] keys
+      # @attribute [::Array] keys
       #   keys of the hash to be built
       #
       # @example Building the hash from the array
@@ -28,15 +28,15 @@ module Darthjee
       class HashBuilder
         attr_accessor :values, :keys
 
-        # @param [Array] values List of values of the hash
-        # @param [Array] keys List of keys of the hash
+        # @param [::Array] values List of values of the hash
+        # @param [::Array] keys List of keys of the hash
         def initialize(values, keys)
           @values = values.dup
           @keys = keys.dup
         end
 
         # Builds the hash
-        # @return [Hash] Hash whose keys and values are paired
+        # @return [::Hash] Hash whose keys and values are paired
         #   from builder's keys and values
         def build
           fixes_sizes

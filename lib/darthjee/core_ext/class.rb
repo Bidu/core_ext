@@ -11,8 +11,8 @@ module Darthjee
       # the value is evaluated on class definition, meaning that
       # everytime it is called it will be the same instance
       #
-      # @param [Symbol/String] name Name of the method to be added
-      # @param [Object] value default value
+      # @param [::Symbol,::String] name Name of the method to be added
+      # @param [::Object] value default value
       #
       # @example Defining a default value
       #   class MyClass
@@ -44,8 +44,8 @@ module Darthjee
       # everytime any of them are called they will return the same instance
       # of value
       #
-      # @param [Array of Symbol/String] names Names of the methods to be added
-      # @param [Object] value default value
+      # @param [::Array<::Symbol,::String>] names Names of the methods to be added
+      # @param [::Object] value default value
       #
       # @example Defining a default values
       #   class MyClass

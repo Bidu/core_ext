@@ -8,7 +8,7 @@ module Darthjee
 
       # Returns a Hash where the values are the elements of the array
       #
-      # @param [Object] keys The keys of the hash
+      # @param [::Object] keys The keys of the hash
       #
       # @example Creation of hash with symbol keys
       #   array = %w[each word one key]
@@ -22,7 +22,7 @@ module Darthjee
       # Maps the array using the given methods on each
       # element of the array
       #
-      # @param [String/Symbol] methods List of methods to be called sequentially
+      # @param [::String,::Symbol] methods List of methods to be called sequentially
       #   on each element of the array
       #
       # @yield [element] block to be called on each element performing
@@ -49,7 +49,7 @@ module Darthjee
 
       # Maps array chain fetching the keys of the hashes inside
       #
-      # @param [String/Symbol] keys list of keys to be
+      # @param [::String,::Symbol] keys list of keys to be
       # fetched from hashes inside
       #
       # @example Multi level hash mapping
