@@ -44,7 +44,8 @@ module Darthjee
       # everytime any of them are called they will return the same instance
       # of value
       #
-      # @param [::Array<::Symbol,::String>] names Names of the methods to be added
+      # @param [::Array<::Symbol,::String>] names Names of the
+      #   methods to be added
       # @param [::Object] value default value
       #
       # @example Defining a default values

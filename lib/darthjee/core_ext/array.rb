@@ -24,13 +24,13 @@ module Darthjee
       # Maps the array using the given methods on each
       # element of the array
       #
-      # @param [::String,::Symbol] methods List of methods to be called sequentially
-      #   on each element of the array
+      # @param [::String,::Symbol] methods List of methods to be called
+      #   sequentially on each element of the array
       #
       # @yield [element] block to be called on each element performing
       #   a final mapping
-      # @yieldparam [::Object] element element that will receive the method calls
-      #   in chain
+      # @yieldparam [::Object] element element that will receive
+      #   the method calls in chain
       #
       # @return [::Array] Array with the result of all method calls in chain
       #
@@ -109,12 +109,12 @@ module Darthjee
         return '' if empty?
         list =     dup
         previous = first
-        list[0] =  mapper.call(previous).to_s
+        list[0] = mapper.call(previous).to_s
 
         list.inject do |string, value|
           link =        yield(previous, value) if block_given?
           next_string = mapper.call(value)
-          previous =   value
+          previous = value
 
           "#{string}#{link}#{next_string}"
         end
