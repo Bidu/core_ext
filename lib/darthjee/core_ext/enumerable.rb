@@ -5,8 +5,25 @@ module Enumerable
     deep_dup.clean!
   end
 
-  # delete hash or array values if value is nil
-  # ex: { a: nil, b: 2 }.clean! => { b: 2 }
+  # Removes any element that is nil or empty
+  #
+  # @returns [::Enumerable] the enumerable itself
+  #
+  # @example cleaning a Hash
+  #   hash = {
+  #     keep: 'value',
+  #     nil_value: nil,
+  #     empty_array: [],
+  #     empty_string: '',
+  #     empty_hash: {}
+  #   }
+  #   hash.clean! # changes the hash to
+  #               # { keep: 'value' }
+  #
+  # @example cleaning an Array
+  #   array = ['value', nil, [], '', {}]
+  #   array.clean! # changes the array to be
+  #                # ['value']
   def clean!
     if is_a?(Hash)
       delete_if { |_k, v| empty_value?(v) }
