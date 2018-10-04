@@ -21,6 +21,17 @@ module Darthjee
         Array::HashBuilder.new(self, keys).build
       end
 
+      # Calculate the average of all values in the array
+      #
+      # @return [::Float] average of all numbers
+      #
+      # @example Average of array of integer values
+      #   array = [1, 2, 3, 4]
+      #   array.average # returns 2.5
+      def average
+        sum * 1.0 / length
+      end
+
       # Maps the array using the given methods on each
       # element of the array
       #

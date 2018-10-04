@@ -5,6 +5,14 @@ require 'spec_helper'
 describe Array do
   it_behaves_like 'an array with map_to_hash method'
 
+  describe '#average' do
+    subject(:array) { [1, 2, 3, 4] }
+
+    it 'returns the average' do
+      expect(array.average).to eq(2.5)
+    end
+  end
+
   describe '#mapk' do
     let(:array) { [{ a: { b: 1 }, b: 2 }, { a: { b: 3 }, b: 4 }] }
 
