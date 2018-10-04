@@ -7,6 +7,10 @@ Darthjee/CoreExt
 [![Test Coverage](https://codeclimate.com/github/darthjee/core_ext/badges/coverage.svg)](https://codeclimate.com/github/darthjee/core_ext/coverage)
 [![Issue Count](https://codeclimate.com/github/darthjee/core_ext/badges/issue_count.svg)](https://codeclimate.com/github/darthjee/core_ext)
 
+Yard Documentation
+-------------------
+https://www.rubydoc.info/gems/darthjee-core_ext/2.7.1
+
 # Usage
 This project adds some new methods to the core ruby classes
 
