@@ -1,4 +1,12 @@
 ## Array
+### #average
+returns the average of the values in the array
+
+```ruby
+array = [1, 2, 3, 4]
+array.average # returns 2.5
+```
+
 ### #map_to_hash
 map returning a hash with the original array for keys
 
