@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 module Enumerable
+  # (see #clean!)
+  #
+  # This method does not change the original
+  # enumerable
   def clean
     deep_dup.clean!
   end
