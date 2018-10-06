@@ -3,6 +3,9 @@
 module Darthjee
   module CoreExt
     module Hash
+      # Class responsible for running ::Hash#chain_fetch
+      #
+      # (see ::Hash#chain_fetch)
       class ChainFetcher
         def initialize(hash, *keys, &block)
           @hash = hash
