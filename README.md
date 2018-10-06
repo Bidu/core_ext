@@ -9,7 +9,7 @@ Darthjee/CoreExt
 
 Yard Documentation
 -------------------
-https://www.rubydoc.info/gems/darthjee-core_ext/1.7.2
+https://www.rubydoc.info/gems/darthjee-core_ext/1.7.3
 
 # Usage
 This project adds some new methods to the core ruby classes
