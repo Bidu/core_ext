@@ -28,7 +28,11 @@ module Darthjee
       # @example Average of array of integer values
       #   array = [1, 2, 3, 4]
       #   array.average # returns 2.5
+      #
+      # @example An empty array
+      #   [].average # returns 0
       def average
+        return 0 if empty?
         sum * 1.0 / length
       end
 

@@ -10,6 +10,10 @@ describe Array do
       it 'returns the average' do
         expect(array.average).to eq(2.5)
       end
+
+      context 'when array is empty' do
+        it { expect([].average).to eq(0) }
+      end
     end
 
     describe '#mapk' do
