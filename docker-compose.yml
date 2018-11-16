@@ -1,7 +1,7 @@
 version: '2'
 services:
   base: &base
-    image: ruby:2.4.0
+    image: ruby:2.5.0
     working_dir: /home/app/core_ext
     volumes:
       - .:/home/app/core_ext
