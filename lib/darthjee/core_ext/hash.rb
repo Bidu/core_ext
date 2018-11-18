@@ -23,6 +23,25 @@ module Darthjee
       # Fetching methods
       #########################################
 
+      # Crawls through the hash fetching a key value from inside it
+      #
+      # this is the equivalent of chaining several calls to fetch method
+      #
+      # ```
+      #   hash.chain_fetch(:key1, :key2)
+      #   hash.fetch(:key1).fetch(:key2)
+      # ```
+      #
+      # @example
+      #   hash = {
+      #     a: {
+      #       b: { c: 1 }
+      #     }
+      #   }
+      #
+      #   hash.chain_fetch(:a, :b, :c) # returns 1
+      #   hash.chain_fetch(:a, :b, :d) # raises KeyError
+      #   hash.chain_fetch(:a, :b, :d) { |_key, _missing| 10 } # returns 10
       def chain_fetch(*keys, &block)
         ::Hash::ChainFetcher.new(self, *keys, &block).fetch
       end
