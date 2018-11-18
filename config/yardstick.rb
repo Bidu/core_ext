@@ -2,12 +2,13 @@
 
 require 'yardstick/rake/measurement'
 require 'yardstick/rake/verify'
+require 'yaml'
 
-Yardstick::Rake::Verify.new do |verify|
-  verify.threshold = 54.7
-end
+options = YAML.load_file('config/yardstick.yml')
 
-Yardstick::Rake::Measurement.new(:yardstick_measure) do |measurement|
+Yardstick::Rake::Measurement.new(:yardstick_measure, options) do |measurement|
     measurement.output = 'measurement/report.txt'
 end
+
+Yardstick::Rake::Verify.new(:verify_measurements, options)
 
