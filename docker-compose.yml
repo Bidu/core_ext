@@ -1,11 +1,11 @@
 version: '2'
 services:
   base: &base
-    image: ruby:2.5.0
+    image: ruby:2.4.0
     working_dir: /home/app/core_ext
     volumes:
       - .:/home/app/core_ext
-      - core_ext_gems_2_5_0:/usr/local/bundle
+      - core_ext_gems_2_4_0:/usr/local/bundle
 
   #################### CONTAINERS ####################
 
@@ -15,4 +15,4 @@ services:
     command: bash -c 'gem install bundler; bundle install;  bundle exec rspec'
 
 volumes:
-  core_ext_gems_2_5_0:
+  core_ext_gems_2_4_0:

@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: darthjee/circleci_ruby_250:0.1.0
+      - image: darthjee/circleci_ruby_240:0.1.0
     steps:
       - checkout
       - run:
