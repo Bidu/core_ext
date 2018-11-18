@@ -8,7 +8,7 @@ describe Hash do
       subject(:hash) do
         {
           a: {
-            b: { c: 1 }
+            b: { c: 1, d: 2 }
           }
         }
       end
@@ -22,12 +22,12 @@ describe Hash do
       context 'when key is not found' do
         context 'and no block is given' do
           it do
-            expect { hash.chain_fetch(:a, :b, :d) }.to raise_error(KeyError)
+            expect { hash.chain_fetch(:a, :c, :d) }.to raise_error(KeyError)
           end
         end
         context 'and a block is given' do
           it do
-            expect { hash.chain_fetch(:a, :b, :d) { 10 } }.not_to raise_error
+            expect { hash.chain_fetch(:a, :c, :d) { 10 } }.not_to raise_error
           end
 
           it 'returns the result of the block' do

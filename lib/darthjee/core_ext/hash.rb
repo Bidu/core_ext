@@ -35,13 +35,15 @@ module Darthjee
       # @example
       #   hash = {
       #     a: {
-      #       b: { c: 1 }
+      #       b: { c: 1, d: 2 }
       #     }
       #   }
       #
       #   hash.chain_fetch(:a, :b, :c) # returns 1
-      #   hash.chain_fetch(:a, :b, :d) # raises KeyError
-      #   hash.chain_fetch(:a, :b, :d) { |_key, _missing| 10 } # returns 10
+      #   hash.chain_fetch(:a, :c, :d) # raises KeyError
+      #   hash.chain_fetch(:a, :c, :d) { 10 } # returns 10
+      #   hash.chain_fetch(:a, :c, :d) { |key, _| key } # returns :c
+      #   hash.chain_fetch(:a, :c, :d) { |_, missing| missing } # returns [:d]
       def chain_fetch(*keys, &block)
         ::Hash::ChainFetcher.new(self, *keys, &block).fetch
       end
