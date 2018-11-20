@@ -24,4 +24,13 @@ describe Darthjee::CoreExt::Hash::KeyChangeable do
       expect(result).to eq(:'2' => 1, :'3' => { '3' => 2 })
     end
   end
+
+  describe '#chain_change_keys' do
+    subject(:hash) { { first: 1, second: 2} }
+
+    it 'uses the block to change the keys' do
+      result = hash.chain_change_keys(:to_s, :size, :to_s, :to_sym)
+      expect(result).to eq(:'5' => 1, :'6' => 2)
+    end
+  end
 end

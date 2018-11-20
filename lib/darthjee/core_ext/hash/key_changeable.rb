@@ -7,6 +7,38 @@ module Darthjee
       #
       # @api public
       module KeyChangeable
+        # Change all keys by publically sending methods to the keys without
+        # changing the original hash
+        #
+        # @return [Hash] New hash with the resulting keys
+        # @param [Array<Symbol>] calls methods to be called form the key`
+        #
+        # @see #change_keys
+        #
+        # @example
+        #   hash = { first: 1, second: 2 }
+        #   hash.chain_change_keys(:to_s, :size, :to_s, :to_sym) # returns { :'5' => 1, :'6' => 2 } 
+        def chain_change_keys(*calls)
+          deep_dup.chain_change_keys!(*calls)
+        end
+
+        # Change all keys by publically sending methods to the keys
+        # changing the original hash
+        #
+        # @return [Hash] New hash with the resulting keys
+        # @param [Array<Symbol>] calls methods to be called form the key`
+        #
+        # @see #chain_change_keys
+        #
+        # @example (see #chain_change_keys)
+        def chain_change_keys!(*calls)
+          options = calls.extract_options!
+
+          calls.inject(self) do |h, m|
+            h.change_keys!(options, &m)
+          end
+        end
+
         # Change all keys returning the new hash
         #
         # @return new Hash with modified keys
@@ -42,24 +74,6 @@ module Darthjee
         # @example (see #change_keys)
         def change_keys!(options = {}, &block)
           Hash::KeyChanger.new(self).change_keys(options, &block)
-        end
-
-        # change all publicaly sending method calls
-        # options: { recursive: true }
-        # ex: { a: 1 }.chain_change_keys(:to_s, :upcase) == { "A" =>1 }
-        def chain_change_keys(*calls)
-          deep_dup.chain_change_keys!(*calls)
-        end
-
-        # change all publicaly sending method calls
-        # options: { recursive: true }
-        # ex: { a: 1 }.chain_change_keys(:to_s, :upcase) == { "A" =>1 }
-        def chain_change_keys!(*calls)
-          options = calls.extract_options!
-
-          calls.inject(self) do |h, m|
-            h.change_keys!(options, &m)
-          end
         end
 
         # prepend a string to all keys
