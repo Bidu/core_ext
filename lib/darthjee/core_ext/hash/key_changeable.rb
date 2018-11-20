@@ -3,19 +3,50 @@
 module Darthjee
   module CoreExt
     module Hash
+      # Module holding methods responsible for changing / transforming keys of a Hash
+      #
+      # @api public
       module KeyChangeable
+        # Changes the key of the hash without changing it
+        #
+        # @return [Hash] new hash
+        #
+        # @example
+        #   hash = { a: 1, b: 2 }
+        #   hash.remap_keys(a: :b, b: :c) # returns { b: 1, c: 2 }
         def remap_keys(remap)
           dup.remap_keys!(remap)
         end
 
+        # Changes the key of the hash changing the original
+        #
+        # @return [Hash] self
+        #
+        # @example (see #remap_keys)
         def remap_keys!(keys_map)
           KeyChanger.new(self).remap(keys_map)
         end
 
+        # Camelize all keys in the hash as `key.camelize(:lower)
+        #
+        # @return [Hash] the resulting hash
+        #
+        # @example
+        #   hash = { first_key: 1, 'second_key' => 2 }
+        #   hash.lower_camelize_keys # {
+        #                            #   firstKey: 1,
+        #                            #   'secondKey' => 2
+        #                            # }
+        #
         def lower_camelize_keys(options = {})
           dup.lower_camelize_keys!(options)
         end
 
+        # Camelize all keys in the hash
+        #
+        # @return [Hash] self after changing the keys
+        #
+        # @example (see #lower_camelize_keys)
         def lower_camelize_keys!(options = {})
           options = options.merge(uppercase_first_letter: false)
 
