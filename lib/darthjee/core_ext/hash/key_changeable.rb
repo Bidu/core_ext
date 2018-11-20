@@ -12,7 +12,7 @@ module Darthjee
         # changing the original hash
         #
         # @return [::Hash] New hash with the resulting keys
-        # @param [Array<Symbol>] calls methods to be called form the key`
+        # @param [::Array<Symbol>] calls methods to be called form the key`
         #
         # @see #change_keys
         #
@@ -28,7 +28,7 @@ module Darthjee
         # changing the original hash
         #
         # @return [::Hash] New hash with the resulting keys
-        # @param [Array<Symbol>] calls methods to be called form the key`
+        # @param [::Array<Symbol>] calls methods to be called form the key`
         #
         # @see #chain_change_keys
         #
