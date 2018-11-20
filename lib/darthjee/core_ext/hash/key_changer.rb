@@ -3,6 +3,7 @@
 module Darthjee
   module CoreExt
     module Hash
+      # @api private
       class KeyChanger
         def initialize(hash)
           @hash = hash
@@ -16,6 +17,16 @@ module Darthjee
           hash.merge! new_hash
         end
 
+        # Change the keys of the given hash returning the new hash
+        #
+        # @return New hash after keys tranformation
+        #
+        # @param [Hash] settings options for transformation
+        # @option settings [Boolean] recursive: flag defining
+        #   the change to happen also
+        #   on inner hashes (defaults to: true)
+        #
+        # @example (see Hash#change_keys)
         def change_keys(settings = {}, &block)
           merge_options({
                           recursive: true

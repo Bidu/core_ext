@@ -7,36 +7,39 @@ module Darthjee
       #
       # @api public
       module KeyChangeable
-        # Changes the key of the hash without changing it
+        # Change all keys returning the new hash
         #
-        # @return [Hash] new hash
+        # @return new Hash with modified keys
+        # @param [Hash] options options to passed to KeyChanger
+        # @option options [Boolean] recursive: flag defining the change to happen also
+        #   on inner hashes (defaults to: true)
+        #
+        # @see Hash::KeyChanger#change_keys
         #
         # @example
-        #   hash = { a: 1, b: 2 }
-        #   hash.remap_keys(a: :b, b: :c) # returns { b: 1, c: 2 }
-        def remap_keys(remap)
-          dup.remap_keys!(remap)
-        end
-
-        # Changes the key of the hash changing the original
+        #   hash = { '1' => 1, '2' => { '3' => 2} }
         #
-        # @return [Hash] self
+        #   hash.change_keys do |k|     #
+        #     (k.to_i + 1).to_s.to_sym  #
+        #   end                         # returns { :'2' => 1, :'3' => { :'4' => 2 } }
         #
-        # @example (see #remap_keys)
-        def remap_keys!(keys_map)
-          KeyChanger.new(self).remap(keys_map)
-        end
-
-        # change all keys returning the new map
-        # options: { recursive: true }
-        # ex: { "a" =>1 }.change_keys{ |key| key.upcase } == { "A" => 1 }
+        #   hash.change_keys(recursive:false) do |k|
+        #     (k.to_i + 1).to_s.to_sym  #
+        #   end                         # returns { :'2' => 1, :'3' => { '3' => 2 } }
         def change_keys(options = {}, &block)
           deep_dup.change_keys!(options, &block)
         end
 
-        # change all keys returning the new map
-        # options: { recursive: true }
-        # ex: { "a":1 }.change_keys{ |key| key.upcase } == { "A":1 }
+        # Change all keys modifying and returning the hash
+        #
+        # @return self
+        # @param [Hash] options options to passed to KeyChanger
+        # @option options [Boolean] recursive: flag defining the change to happen also
+        #   on inner hashes (defaults to: true)
+        #
+        # @see Hash::KeyChanger#change_keys
+        #
+        # @example (see #change_keys)
         def change_keys!(options = {}, &block)
           Hash::KeyChanger.new(self).change_keys(options, &block)
         end
@@ -112,6 +115,26 @@ module Darthjee
 
         def change_values!(options = {}, &block)
           Hash::ValueChanger.new(options, &block).change(self)
+        end
+
+        # Changes the key of the hash without changing it
+        #
+        # @return [Hash] new hash
+        #
+        # @example
+        #   hash = { a: 1, b: 2 }
+        #   hash.remap_keys(a: :b, b: :c) # returns { b: 1, c: 2 }
+        def remap_keys(remap)
+          dup.remap_keys!(remap)
+        end
+
+        # Changes the key of the hash changing the original
+        #
+        # @return [Hash] self
+        #
+        # @example (see #remap_keys)
+        def remap_keys!(keys_map)
+          KeyChanger.new(self).remap(keys_map)
         end
 
         private
