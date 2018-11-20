@@ -10,7 +10,7 @@ module Darthjee
       module Cameliazable
         # Camelize all keys in the hash as `key.camelize(:lower)
         #
-        # @return [Hash] the resulting hash
+        # @return [::Hash] the resulting hash
         #
         # @example
         #   hash = { first_key: 1, 'second_key' => 2 }
@@ -25,7 +25,7 @@ module Darthjee
 
         # Camelize all keys in the hash
         #
-        # @return [Hash] self after changing the keys
+        # @return [::Hash] self after changing the keys
         #
         # @example (see #lower_camelize_keys)
         def lower_camelize_keys!(options = {})

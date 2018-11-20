@@ -21,7 +21,7 @@ module Darthjee
         #
         # @return New hash after keys tranformation
         #
-        # @param [Hash] settings options for transformation
+        # @param [::Hash] settings options for transformation
         # @option settings [Boolean] recursive: flag defining
         #   the change to happen also
         #   on inner hashes (defaults to: true)

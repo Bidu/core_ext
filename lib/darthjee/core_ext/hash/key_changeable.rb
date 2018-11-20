@@ -11,7 +11,7 @@ module Darthjee
         # Change all keys by publically sending methods to the keys without
         # changing the original hash
         #
-        # @return [Hash] New hash with the resulting keys
+        # @return [::Hash] New hash with the resulting keys
         # @param [Array<Symbol>] calls methods to be called form the key`
         #
         # @see #change_keys
@@ -27,7 +27,7 @@ module Darthjee
         # Change all keys by publically sending methods to the keys
         # changing the original hash
         #
-        # @return [Hash] New hash with the resulting keys
+        # @return [::Hash] New hash with the resulting keys
         # @param [Array<Symbol>] calls methods to be called form the key`
         #
         # @see #chain_change_keys
@@ -44,7 +44,7 @@ module Darthjee
         # Change all keys returning the new hash
         #
         # @return new Hash with modified keys
-        # @param [Hash] options options to passed to KeyChanger
+        # @param [::Hash] options options to passed to KeyChanger
         # @option options [Boolean] recursive: flag defining the
         #   change to happen also
         #   on inner hashes (defaults to: true)
@@ -70,7 +70,7 @@ module Darthjee
         # Change all keys modifying and returning the hash
         #
         # @return self
-        # @param [Hash] options options to passed to KeyChanger
+        # @param [::Hash] options options to passed to KeyChanger
         # @option options [Boolean] recursive: flag defining the
         #   change to happen also
         #   on inner hashes (defaults to: true)
@@ -139,7 +139,7 @@ module Darthjee
 
         # Changes the key of the hash without changing it
         #
-        # @return [Hash] new hash
+        # @return [::Hash] new hash
         #
         # @example
         #   hash = { a: 1, b: 2 }
@@ -150,7 +150,7 @@ module Darthjee
 
         # Changes the key of the hash changing the original
         #
-        # @return [Hash] self
+        # @return [::Hash] self
         #
         # @example (see #remap_keys)
         def remap_keys!(keys_map)
