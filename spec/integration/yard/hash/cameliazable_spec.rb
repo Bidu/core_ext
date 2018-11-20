@@ -12,4 +12,3 @@ describe Darthjee::CoreExt::Hash::Cameliazable do
     end
   end
 end
-

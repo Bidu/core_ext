@@ -3,7 +3,8 @@
 module Darthjee
   module CoreExt
     module Hash
-      # Module holding methods responsible for changing / transforming keys of a Hash
+      # Module holding methods responsible for
+      # changing / transforming keys of a Hash
       #
       # @api public
       module KeyChangeable
@@ -17,7 +18,8 @@ module Darthjee
         #
         # @example
         #   hash = { first: 1, second: 2 }
-        #   hash.chain_change_keys(:to_s, :size, :to_s, :to_sym) # returns { :'5' => 1, :'6' => 2 } 
+        #   resut = hash.chain_change_keys(:to_s, :size, :to_s, :to_sym)
+        #   result     # returns { :'5' => 1, :'6' => 2 }
         def chain_change_keys(*calls)
           deep_dup.chain_change_keys!(*calls)
         end
@@ -43,7 +45,8 @@ module Darthjee
         #
         # @return new Hash with modified keys
         # @param [Hash] options options to passed to KeyChanger
-        # @option options [Boolean] recursive: flag defining the change to happen also
+        # @option options [Boolean] recursive: flag defining the
+        #   change to happen also
         #   on inner hashes (defaults to: true)
         #
         # @see Hash::KeyChanger#change_keys
@@ -51,13 +54,15 @@ module Darthjee
         # @example
         #   hash = { '1' => 1, '2' => { '3' => 2} }
         #
-        #   hash.change_keys do |k|     #
-        #     (k.to_i + 1).to_s.to_sym  #
-        #   end                         # returns { :'2' => 1, :'3' => { :'4' => 2 } }
+        #   result = hash.change_keys do |k|
+        #     (k.to_i + 1).to_s.to_sym
+        #   end
+        #   result   # returns { :'2' => 1, :'3' => { :'4' => 2 } }
         #
-        #   hash.change_keys(recursive:false) do |k|
-        #     (k.to_i + 1).to_s.to_sym  #
-        #   end                         # returns { :'2' => 1, :'3' => { '3' => 2 } }
+        #   result = hash.change_keys(recursive:false) do |k|
+        #     (k.to_i + 1).to_s.to_sym
+        #   end
+        #   result    # returns { :'2' => 1, :'3' => { '3' => 2 } }
         def change_keys(options = {}, &block)
           deep_dup.change_keys!(options, &block)
         end
@@ -66,7 +71,8 @@ module Darthjee
         #
         # @return self
         # @param [Hash] options options to passed to KeyChanger
-        # @option options [Boolean] recursive: flag defining the change to happen also
+        # @option options [Boolean] recursive: flag defining the
+        #   change to happen also
         #   on inner hashes (defaults to: true)
         #
         # @see Hash::KeyChanger#change_keys

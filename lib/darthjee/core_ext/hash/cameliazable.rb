@@ -3,7 +3,8 @@
 module Darthjee
   module CoreExt
     module Hash
-      # Module holding methods responsible for changing / transforming keys of a Hash
+      # Module holding methods responsible for camelizing
+      # keys of a hash
       #
       # @api public
       module Cameliazable
