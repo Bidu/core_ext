@@ -11,7 +11,7 @@ module Enumerable
 
   # Removes any element that is nil or empty
   #
-  # @returns [::Enumerable] the enumerable itself
+  # @return [::Enumerable] the enumerable itself
   #
   # @example cleaning a Hash
   #   hash = {
