@@ -34,7 +34,7 @@ module Darthjee
       #   hash.fetch(:key1).fetch(:key2)
       # ```
       #
-      # @param [:Array<::Object>] keys List of keys to be fetched
+      # @param [::Array<::Object>] keys List of keys to be fetched
       # @param [::Proc] block block to be called in case of key not found
       # @yield (key_not_found, keys_missing) The result of the yield
       #   will be the returned value instead of raising KeyError

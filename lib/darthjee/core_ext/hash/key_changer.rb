@@ -39,6 +39,14 @@ module Darthjee
           end
         end
 
+        # Performs camelization of the keys of the hash
+        #
+        # @return [::Hash] the given hash with it's keys changed
+        # @param [::Hash] settings options
+        # @option settings [::Boolean] uppercase_first_letter: flag
+        #   defining the type of CamelCase
+        #
+        # @example (see Hash#camelize_keys)
         def camelize_keys(settings = {})
           merge_options({
                           uppercase_first_letter: true
