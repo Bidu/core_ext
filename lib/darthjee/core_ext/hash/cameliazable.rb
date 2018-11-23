@@ -45,7 +45,7 @@ module Darthjee
         # @option options [::Boolean] uppercase_first_letter: flag
         #   defining the type of CamelCase
         #
-        # @example (#camelize_keys)
+        # @example (see #camelize_keys)
         #
         # @see #camelize_keys
         def camelize_keys!(options = {})
