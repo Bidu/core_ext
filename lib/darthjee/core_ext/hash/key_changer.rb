@@ -91,7 +91,8 @@ module Darthjee
         end
 
         def class_cast(old_clazz, options)
-          keep_class?(options) && old_clazz.to_s.downcase.to_sym || options[:type]
+          klass = keep_class?(options) && old_clazz.to_s.downcase.to_sym
+          klass || options[:type]
         end
       end
     end
