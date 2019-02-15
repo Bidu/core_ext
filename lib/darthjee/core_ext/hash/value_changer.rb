@@ -4,13 +4,11 @@ module Darthjee
   module CoreExt
     module Hash
       class ValueChanger
-        attr_accessor :options, :block
+        attr_accessor :recursive, :skip_inner, :block
 
-        def initialize(options, &block)
-          @options = {
-            recursive: true,
-            skip_inner: true
-          }.merge(options)
+        def initialize(recursive: true, skip_inner: true, &block)
+          @recursive = recursive
+          @skip_inner = skip_inner
 
           @block = block
         end
@@ -51,7 +49,7 @@ module Darthjee
         end
 
         def change_value?(value)
-          !iterable?(value) || !options[:skip_inner]
+          !iterable?(value) || !skip_inner
         end
 
         def iterable?(value)
@@ -64,7 +62,14 @@ module Darthjee
         end
 
         def apply_recursion?(value)
-          iterable?(value) && options[:recursive]
+          iterable?(value) && recursive
+        end
+
+        def options
+          @options ||= {
+            recursive: recursive,
+            skip_inner: skip_inner
+          }
         end
       end
     end
