@@ -41,19 +41,19 @@ describe Darthjee::CoreExt::Hash::ValueChanger do
         end
       end
 
-      context 'when passing skip inner option' do
-        let(:options) { { skip_inner: true } }
+      context 'when passing skip inner option as false' do
+        let(:options) { { skip_inner: false } }
 
-        it 'does not iterate over array' do
-          expect(changer.change(object)).to eq({ a: { b: 3 } })
+        it 'apply change on inner hash' do
+          expect(changer.change(object)).to eq({ a: 9 })
         end
       end
 
-      context 'when passing skip inner and skiping recursion option' do
-        let(:options) { { skip_inner: true, recursive: false } }
+      context 'when passing skip inner false and skiping recursion option' do
+        let(:options) { { skip_inner: false, recursive: false } }
 
-        it 'does not iterate over array' do
-          expect(changer.change(object)).to eq({ a: { b: 333 } })
+        it 'applies the transformation before attempting recusrsive' do
+          expect(changer.change(object)).to eq({ a: 9 })
         end
       end
     end
@@ -73,19 +73,19 @@ describe Darthjee::CoreExt::Hash::ValueChanger do
         end
       end
 
-      context 'when passing skip inner option' do
-        let(:options) { { skip_inner: true } }
+      context 'when passing skip inner option as false' do
+        let(:options) { { skip_inner: false } }
 
-        it 'does not iterate over array' do
-          expect(changer.change(object)).to eq({ a: [{ b: 3 }] })
+        it 'applies transformation over inner hash' do
+          expect(changer.change(object)).to eq({ a: 11 })
         end
       end
 
-      context 'when passing skip inner and skiping recursion option' do
-        let(:options) { { skip_inner: true, recursive: false } }
+      context 'when passing skip inner false and skiping recursion option' do
+        let(:options) { { skip_inner: false, recursive: false } }
 
-        it 'does not iterate over array' do
-          expect(changer.change(object)).to eq({ a: [{ b: 333 }] })
+        it 'applies transformation before going recursive' do
+          expect(changer.change(object)).to eq({ a: 11 })
         end
       end
     end
