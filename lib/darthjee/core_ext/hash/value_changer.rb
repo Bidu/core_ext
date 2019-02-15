@@ -20,6 +20,8 @@ module Darthjee
             change_hash(object)
           elsif iterable?(object)
             change_array(object)
+          else
+            object
           end
         end
 

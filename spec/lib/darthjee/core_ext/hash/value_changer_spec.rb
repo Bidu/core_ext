@@ -234,5 +234,13 @@ describe Darthjee::CoreExt::Hash::ValueChanger do
         expect { changer.change(object) }.not_to(change { array })
       end
     end
+
+    context 'when object is not an array or hash' do
+      let(:object) { Object.new }
+
+      it 'returns object' do
+        expect(changer.change(object)).to eq(object)
+      end
+    end
   end
 end
