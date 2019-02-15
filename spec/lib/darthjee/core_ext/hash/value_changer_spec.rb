@@ -14,7 +14,7 @@ describe Darthjee::CoreExt::Hash::ValueChanger do
       let(:object) { { a: 22, b: 333 } }
 
       it 'returns the hash with changed values' do
-        expect(changer.change(object)).to eq({ a: 2, b: 3 })
+        expect(changer.change(object)).to eq(a: 2, b: 3)
       end
     end
 
@@ -30,14 +30,14 @@ describe Darthjee::CoreExt::Hash::ValueChanger do
       let(:object) { { a: { b: 333 } } }
 
       it 'iterates over inner hash' do
-        expect(changer.change(object)).to eq({ a: { b: 3 } })
+        expect(changer.change(object)).to eq(a: { b: 3 })
       end
 
       context 'when skiping recursion option' do
         let(:options) { { recursive: false } }
 
         it 'does not iterate over array' do
-          expect(changer.change(object)).to eq({ a: { b: 333 } })
+          expect(changer.change(object)).to eq(a: { b: 333 })
         end
       end
 
@@ -45,7 +45,7 @@ describe Darthjee::CoreExt::Hash::ValueChanger do
         let(:options) { { skip_inner: false } }
 
         it 'apply change on inner hash' do
-          expect(changer.change(object)).to eq({ a: 9 })
+          expect(changer.change(object)).to eq(a: 9)
         end
       end
 
@@ -53,7 +53,7 @@ describe Darthjee::CoreExt::Hash::ValueChanger do
         let(:options) { { skip_inner: false, recursive: false } }
 
         it 'applies the transformation before attempting recusrsive' do
-          expect(changer.change(object)).to eq({ a: 9 })
+          expect(changer.change(object)).to eq(a: 9)
         end
       end
     end
@@ -62,14 +62,14 @@ describe Darthjee::CoreExt::Hash::ValueChanger do
       let(:object) { { a: [{ b: 333 }] } }
 
       it 'iterates over array and inner hash' do
-        expect(changer.change(object)).to eq({ a: [{ b: 3 }] })
+        expect(changer.change(object)).to eq(a: [{ b: 3 }])
       end
 
       context 'when skiping recursion option' do
         let(:options) { { recursive: false } }
 
         it 'does not iterate over array' do
-          expect(changer.change(object)).to eq({ a: [{ b: 333 }] })
+          expect(changer.change(object)).to eq(a: [{ b: 333 }])
         end
       end
 
@@ -77,7 +77,7 @@ describe Darthjee::CoreExt::Hash::ValueChanger do
         let(:options) { { skip_inner: false } }
 
         it 'applies transformation over inner hash' do
-          expect(changer.change(object)).to eq({ a: 11 })
+          expect(changer.change(object)).to eq(a: 11)
         end
       end
 
@@ -85,7 +85,7 @@ describe Darthjee::CoreExt::Hash::ValueChanger do
         let(:options) { { skip_inner: false, recursive: false } }
 
         it 'applies transformation before going recursive' do
-          expect(changer.change(object)).to eq({ a: 11 })
+          expect(changer.change(object)).to eq(a: 11)
         end
       end
     end
