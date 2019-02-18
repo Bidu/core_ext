@@ -3,9 +3,44 @@
 module Darthjee
   module CoreExt
     module Hash
+      # Class responsible for changing values on a hash
+      #
+      # @attribute [Boolean] recursive
+      #   flag telling to apply transformation recursively
+      # @attribute [Boolean] skip_inner
+      #   flag telling to not apply change block call to inner hashes
+      # @attribute [::Proc] block
+      #   block to be called when changing the values
+      #
+      # @example
+      #   (see initialize)
+      #
+      # @example
+      #   (see #change)
       class ValueChanger
         attr_accessor :recursive, :skip_inner, :block
 
+        # @param [Boolean] recursive
+        #   flag telling to apply transformation recursively
+        # @param [Boolean] skip_inner
+        #   flag telling to not apply change block call to inner hashes
+        # @param [::Proc] block
+        #   block to be called when changing the values
+        #
+        #
+        # @example
+        #   changer = Darthjee::CoreExt::Hash::ValueChanger.new(
+        #     recursive: false,
+        #     skip_inner: false,
+        #     &:class
+        #   )
+        #
+        #   hash = { a: 1, b: { c: 2 }, d: [{ e: 1 }] }
+        #   changer.change(hash)  # {
+        #                         #   a: Integer,
+        #                         #   b: Hash,
+        #                         #   d: Array
+        #                         # }
         def initialize(recursive: true, skip_inner: true, &block)
           @recursive = recursive
           @skip_inner = skip_inner
@@ -13,6 +48,65 @@ module Darthjee
           @block = block
         end
 
+        # Change the given object
+        #
+        # @return the resulting object (hash or array)
+        #   with it`s values changed
+        # @param [::Hash/::Array] object
+        #   object to have it's values changed
+        #
+        # @example
+        #   changer = Darthjee::CoreExt::Hash::ValueChanger.new do |value|
+        #     value.to_s.size
+        #   end
+        #
+        #   hash = { a: 15, b: { c: 2 }, d: [{ e: 100 }] }
+        #   changer.change(hash)  # {
+        #                         #   a: 2,
+        #                         #   b: { c: 1 },
+        #                         #   d: [{ e: 3 }]
+        #                         # }
+        #
+        # @example
+        #   changer = Darthjee::CoreExt::Hash::ValueChanger.new(
+        #     skip_inner: true
+        #   ) do |value|
+        #     value.to_s.size
+        #   end
+        #
+        #   hash = { a: 15, b: { c: 2 }, d: [{ e: 100 }] }
+        #   changer.change(hash)  # {
+        #                         #   a: 2,
+        #                         #   b: 11,
+        #                         #   d: 7
+        #                         # }
+        #
+        # @example
+        #   changer = Darthjee::CoreExt::Hash::ValueChanger.new(
+        #     recursive: true
+        #   ) do |value|
+        #     value.to_s.size
+        #   end
+        #
+        #   hash = { a: 15, b: { c: 2 }, d: [{ e: 100 }] }
+        #   changer.change(hash)  # {
+        #                         #   a: 2,
+        #                         #   b: { c: 1 },
+        #                         #   d: [{ e: 3 }]
+        #                         # }
+        #
+        # @example
+        #   changer = Darthjee::CoreExt::Hash::ValueChanger.new do |value|
+        #     value.to_s.size
+        #   end
+        #
+        #   array = [15, { c: 2 }, [{ e: 100 }]]
+        #
+        #   changer.change(array) # [
+        #                         #   2,
+        #                         #   { c: 1 },
+        #                         #   [{ e: 3 }]
+        #                         # ]
         def change(object)
           if object.respond_to?(:change_values)
             change_hash(object)
@@ -25,6 +119,9 @@ module Darthjee
 
         private
 
+        # Apply change logic to hash object
+        #
+        # @private
         def change_hash(original_hash)
           original_hash.tap do |hash|
             original_hash.each do |key, value|
@@ -33,6 +130,9 @@ module Darthjee
           end
         end
 
+        # Apply change logic to iterator
+        #
+        # @private
         def change_array(array)
           method = %w[map! map].find { |m| array.respond_to? m }
 
@@ -47,6 +147,14 @@ module Darthjee
           end
         end
 
+        # check wehether block should be called over
+        # value or not
+        #
+        # when the block is not iterable (not Array or Hash)
+        # or when skip_inner option is set to be false,
+        # then block should be called
+        #
+        # @private
         def change_value?(value)
           !iterable?(value) || !skip_inner
         end
