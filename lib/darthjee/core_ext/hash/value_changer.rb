@@ -28,8 +28,7 @@ module Darthjee
         def change_hash(original_hash)
           original_hash.tap do |hash|
             original_hash.each do |key, value|
-              value = new_value(value)
-              hash[key] = value
+              hash[key] = new_value(value)
             end
           end
         end
@@ -58,7 +57,10 @@ module Darthjee
 
         def new_value(value)
           value = block.call(value) if change_value?(value)
-          apply_recursion?(value) ? change(value) : value
+
+          return value unless apply_recursion?(value)
+
+          change(value)
         end
 
         def apply_recursion?(value)
