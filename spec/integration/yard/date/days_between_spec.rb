@@ -5,10 +5,10 @@ require 'spec_helper'
 describe Date do
   describe 'yard' do
     describe '#days_between' do
-      subject { Date.new(2018, 11, 21) }
+      subject { described_class.new(2018, 11, 21) }
 
       context 'when checking against another date' do
-        let(:other_date) { Date.new(2019, 11, 21) }
+        let(:other_date) { described_class.new(2019, 11, 21) }
 
         it 'returns the days between' do
           expect(subject.days_between(other_date)).to eq(365)
@@ -16,7 +16,7 @@ describe Date do
       end
 
       context 'when cheking agains a 4 years apart date' do
-        let(:other_date) { Date.new(2014, 11, 21) }
+        let(:other_date) { described_class.new(2014, 11, 21) }
 
         it 'returns the days between' do
           expect(subject.days_between(other_date)).to eq(1461)

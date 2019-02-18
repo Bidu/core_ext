@@ -71,6 +71,7 @@ shared_examples 'an object with capable of performing chain fetch' do
 
         context 'and the block uses the key for the return' do
           let(:block) { proc { |k| "returned #{k}" } }
+
           it 'hnadles the missing keys' do
             expect(result).to eq('returned x')
           end

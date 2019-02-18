@@ -28,8 +28,8 @@ shared_examples 'a class with chain_change_key method' do
 end
 
 shared_examples 'a method that is able to chain change keys' do |method|
-  let(:result) { hash.public_send(method, *transformations, options) }
-  let(:options) { {} }
+  let(:result)          { hash.public_send(method, *transformations, options) }
+  let(:options)         { {} }
   let(:transformations) { [:to_s] }
 
   context 'with simple level hash' do
@@ -37,12 +37,14 @@ shared_examples 'a method that is able to chain change keys' do |method|
 
     context 'with symbol transformation' do
       let(:transformations) { [:to_sym] }
-      let(:expected) { { a: 1, b: 2 } }
+      let(:expected)        { { a: 1, b: 2 } }
+
       it_behaves_like 'result is as expected'
     end
 
     context 'with string transformation' do
       let(:expected) { { 'a' => 1, 'b' => 2 } }
+
       it_behaves_like 'result is as expected'
     end
   end
@@ -62,12 +64,14 @@ shared_examples 'a method that is able to chain change keys' do |method|
 
       context 'with recursion' do
         let(:recursive) { true }
+
         it_behaves_like 'result is as expected'
       end
 
       context 'without recursion' do
         let(:recursive) { false }
         let(:expected) { { 'a' => 1, 'b' => { c: 3, 'd' => 4 } } }
+
         it_behaves_like 'result is as expected'
       end
     end
@@ -78,6 +82,7 @@ shared_examples 'a method that is able to chain change keys' do |method|
     let(:expected) do
       { 'a' => 1, 'b' => { 'c' => 2, 'd' => { 'e' => 3, 'f' => 4 } } }
     end
+
     it_behaves_like 'result is as expected'
   end
 

@@ -30,7 +30,7 @@ describe Hash do
 
   describe :exclusive_merge do
     let(:subject) { { a: 1, b: 2 } }
-    let(:other) { { b: 3, c: 4 } }
+    let(:other)   { { b: 3, c: 4 } }
 
     it 'merge only the common keys' do
       expect(subject.exclusive_merge(other)).to eq(a: 1, b: 3)
@@ -219,11 +219,13 @@ describe Hash do
 
     context 'when block returns nil' do
       let(:block) { proc {} }
+
       it { expect(value).to be_nil }
     end
 
     context 'when block returns false' do
       let(:block) { proc { false } }
+
       it { expect(value).to be_nil }
     end
 
@@ -271,11 +273,13 @@ describe Hash do
 
     context 'when block returns nil' do
       let(:block) { proc {} }
+
       it { expect(list).to be_empty }
     end
 
     context 'when block returns false' do
       let(:block) { proc { false } }
+
       it { expect(list).to be_empty }
     end
 

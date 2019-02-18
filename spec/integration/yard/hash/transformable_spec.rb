@@ -6,6 +6,7 @@ describe Hash do
   describe 'yard' do
     describe '#exclusive_merge' do
       subject(:hash) { { a: 1, b: 2, c: 3 } }
+
       let(:other)    { { b: 4, 'c' => 5, e: 6 } }
 
       it 'merges only the existing keys' do
@@ -21,6 +22,7 @@ describe Hash do
 
     describe '#exclusive_merge' do
       subject(:hash) { { a: 1, b: 2, c: 3 } }
+
       let(:other)    { { b: 4, 'c' => 5, e: 6 } }
 
       it 'merges only the existing keys' do
@@ -60,7 +62,7 @@ describe Hash do
 
     context 'when squashing the result of a deep hash' do
       let(:person_data) { { 'person.name' => 'John', 'person.age' => 23 } }
-      let(:person) { person_data.to_deep_hash }
+      let(:person)      { person_data.to_deep_hash }
 
       it 'is the reverse operation' do
         expect(person.squash).to eq(person_data)

@@ -12,25 +12,25 @@ describe Object do
 
     context 'when no argument is passed' do
       it do
-        expect(subject.is_any?).to be_falsey
+        expect(subject).not_to be_is_any
       end
     end
 
     context 'when passing the correct class as argument' do
       it do
-        expect(subject.is_any?(subject.class)).to be_truthy
+        expect(subject).to be_is_any(subject.class)
       end
 
       context 'along any other class' do
         it do
-          expect(subject.is_any?(Symbol, subject.class)).to be_truthy
+          expect(subject).to be_is_any(Symbol, subject.class)
         end
       end
     end
 
     context 'when passing the wrong class' do
       it do
-        expect(subject.is_any?(Symbol)).to be_falsey
+        expect(subject).not_to be_is_any(Symbol)
       end
     end
   end

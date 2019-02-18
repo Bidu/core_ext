@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 shared_examples 'a class with change_values method' do
-  let(:subject) { { a: 1, b: 2, c: { d: 3, e: 4 } } }
+  let(:subject)    { { a: 1, b: 2, c: { d: 3, e: 4 } } }
   let(:inner_hash) { subject[:c] }
 
   describe :change_values do
@@ -157,6 +157,7 @@ shared_examples 'a method that change the hash values' do |method|
 
     context 'when class is an interactor' do
       subject { { a: 1, b: 2, c: object } }
+
       let(:expected) { { a: 2, b: 3, c: [{ d: 4 }, { e: { f: 5 } }] } }
       let(:object) do
         Hash::ValueChanger::DummyIteractor.new({ d: 3 }, e: { f: 4 })
@@ -168,8 +169,8 @@ shared_examples 'a method that change the hash values' do |method|
     end
 
     context 'when using mapping inner array with inner objecth' do
-      let(:object) { Hash::ValueChanger::Dummy.new(2) }
-      let(:array) { Hash::ValueChanger::DummyIteractor.new(object) }
+      let(:object)  { Hash::ValueChanger::Dummy.new(2) }
+      let(:array)   { Hash::ValueChanger::DummyIteractor.new(object) }
       let(:subject) { { a: 1, b: array } }
       let(:result) do
         subject.public_send(method, skip_inner: false) do |value|

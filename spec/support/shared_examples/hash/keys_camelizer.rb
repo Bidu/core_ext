@@ -97,7 +97,7 @@ shared_examples 'a class with camlize_keys method' do
 
     context 'with string keys' do
       let(:expected) { { 'inputKey' => 'value' } }
-      let(:hash) { { 'InputKey' => 'value' } }
+      let(:hash)     { { 'InputKey' => 'value' } }
 
       it 'converts the keys to lower camel case' do
         expect(hash.lower_camelize_keys).to eq(expected)
@@ -168,7 +168,7 @@ shared_examples 'a class with camlize_keys method' do
 
     context 'with string keys' do
       let(:expected) { { 'InputKey' => 'value' } }
-      let(:hash) { { 'inputKey' => 'value' } }
+      let(:hash)     { { 'inputKey' => 'value' } }
 
       it 'converts the keys to lower camel case' do
         expect(hash.camelize_keys).to eq(expected)
@@ -239,7 +239,7 @@ shared_examples 'a class with camlize_keys method' do
 
     context 'with string keys' do
       let(:expected) { { 'InputKey' => 'value' } }
-      let(:hash) { { 'inputKey' => 'value' } }
+      let(:hash)     { { 'inputKey' => 'value' } }
 
       it 'converts the keys to lower camel case' do
         expect(hash.camelize_keys!).to eq(expected)

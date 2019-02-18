@@ -14,7 +14,7 @@ shared_examples 'a class with underscore_keys method basic' do |method|
 
     context 'with string keys' do
       let(:expected) { { 'input_key' => 'value' } }
-      let(:hash) { { 'InputKey' => 'value' } }
+      let(:hash)     { { 'InputKey' => 'value' } }
 
       it 'converts the keys to snake case' do
         expect(hash.send(method)).to eq(expected)

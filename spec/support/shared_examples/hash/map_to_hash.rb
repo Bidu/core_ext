@@ -2,10 +2,10 @@
 
 shared_examples 'an array with map_to_hash method' do
   describe '#map_to_hash' do
-    let(:subject) { %w[word1 wooord2] }
+    let(:subject)       { %w[word1 wooord2] }
     let(:mapping_block) { proc { |word| word.length } }
-    let(:mapped) { subject.map_to_hash(&mapping_block) }
-    let(:expected) { { 'word1' => 5, 'wooord2' => 7 } }
+    let(:mapped)        { subject.map_to_hash(&mapping_block) }
+    let(:expected)      { { 'word1' => 5, 'wooord2' => 7 } }
 
     it { expect(mapped).to be_a(Hash) }
 
@@ -23,7 +23,7 @@ shared_examples 'an array with map_to_hash method' do
 
     context 'whe subject is an array' do
       let(:subject) { [%w[w1], %w[w2 w3]] }
-      let(:mapped) { subject.map_to_hash(&mapping_block) }
+      let(:mapped)   { subject.map_to_hash(&mapping_block) }
       let(:expected) { { %w[w1] => 1, %w[w2 w3] => 2 } }
 
       it 'has the original array as keys' do
@@ -45,7 +45,7 @@ shared_examples 'a hash with map_to_hash method' do
   describe '#map_to_hash' do
     let(:hash) { { a: 1, b: 2 } }
     let(:mapping_block) { proc { |k, v| "#{k}_#{v}" } }
-    let(:expected) { { a: 'a_1', b: 'b_2' } }
+    let(:expected)      { { a: 'a_1', b: 'b_2' } }
 
     it { expect(mapped).to be_a(Hash) }
 
@@ -68,7 +68,7 @@ shared_examples 'a hash with map_to_hash method' do
     context 'when hash uses arrays for keys' do
       let(:hash) { { %i[a b] => 1, %i[c d] => 2 } }
       let(:mapping_block) { proc { |k, v| "#{k.join('_')}_#{v}" } }
-      let(:expected) { { %i[a b] => 'a_b_1', %i[c d] => 'c_d_2' } }
+      let(:expected)      { { %i[a b] => 'a_b_1', %i[c d] => 'c_d_2' } }
 
       it 'has the original keys as keys' do
         expect(mapped.keys).to eq(hash.keys)

@@ -38,12 +38,14 @@ shared_examples 'a method that is able to change keys' do |method|
         hash.public_send(method) { |k| "foo_#{k}" }
       end
       let(:expected) { { 'foo_a' => 1, 'foo_b' => 2 } }
+
       it_behaves_like 'result is as expected'
     end
 
     context 'with symbol transformation' do
-      let(:result) { foo_sym_transformation }
+      let(:result)   { foo_sym_transformation }
       let(:expected) { { foo_a: 1, foo_b: 2 } }
+
       it_behaves_like 'result is as expected'
     end
   end
@@ -57,6 +59,7 @@ shared_examples 'a method that is able to change keys' do |method|
 
     context 'when no options are given' do
       let(:options) { {} }
+
       it_behaves_like 'result is as expected'
     end
 
@@ -65,12 +68,14 @@ shared_examples 'a method that is able to change keys' do |method|
 
       context 'with recursion' do
         let(:recursive) { true }
+
         it_behaves_like 'result is as expected'
       end
 
       context 'without recursion' do
         let(:recursive) { false }
-        let(:expected) { { 'foo_a' => 1, 'foo_b' => { c: 3, 'd' => 4 } } }
+        let(:expected)  { { 'foo_a' => 1, 'foo_b' => { c: 3, 'd' => 4 } } }
+
         it_behaves_like 'result is as expected'
       end
     end
@@ -82,6 +87,7 @@ shared_examples 'a method that is able to change keys' do |method|
       { foo_a: 1, foo_b: { foo_c: 2, foo_d: { foo_e: 3, foo_f: 4 } } }
     end
     let(:result) { foo_sym_transformation }
+
     it_behaves_like 'result is as expected'
   end
 end

@@ -25,6 +25,7 @@ describe Hash do
             expect { hash.chain_fetch(:a, :c, :d) }.to raise_error(KeyError)
           end
         end
+
         context 'and a block is given' do
           it do
             expect { hash.chain_fetch(:a, :c, :d) { 10 } }.not_to raise_error
