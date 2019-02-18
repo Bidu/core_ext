@@ -15,17 +15,17 @@ This project adds some new methods to the core ruby classes
 
 To use core-ext either intall directly
 
-```console
+```shell
 gem install darthjee-core_ext
 ```
 
 or add it to Gemfile
 
-```
+```shell
 gem 'darthjee-core_ext'
 ```
 
-```console
+```shell
 bundle install darthjee-core_ext
 ```
 
