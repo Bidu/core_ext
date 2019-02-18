@@ -26,5 +26,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rspec',     '>= 3.8'
   gem.add_development_dependency 'rubocop',   '0.58.1'
   gem.add_development_dependency 'simplecov', '~> 0.16.x'
-  gem.add_development_dependency 'yard',      '>= 0.9'
+  gem.add_development_dependency 'yard',      '>= 0.9.18'
+  gem.add_development_dependency 'yardstick', '>= 0.9.9'
 end

@@ -1,13 +1,17 @@
 # frozen_string_literal: true
 
 module Enumerable
+  # (see #clean!)
+  #
+  # This method does not change the original
+  # enumerable
   def clean
     deep_dup.clean!
   end
 
   # Removes any element that is nil or empty
   #
-  # @returns [::Enumerable] the enumerable itself
+  # @return [::Enumerable] the enumerable itself
   #
   # @example cleaning a Hash
   #   hash = {

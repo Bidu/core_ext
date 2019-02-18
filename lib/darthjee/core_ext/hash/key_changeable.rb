@@ -3,71 +3,83 @@
 module Darthjee
   module CoreExt
     module Hash
+      # Module holding methods responsible for
+      # changing / transforming keys of a Hash
+      #
+      # @api public
       module KeyChangeable
-        def remap_keys(remap)
-          dup.remap_keys!(remap)
-        end
-
-        def remap_keys!(keys_map)
-          KeyChanger.new(self).remap(keys_map)
-        end
-
-        def lower_camelize_keys(options = {})
-          dup.lower_camelize_keys!(options)
-        end
-
-        def lower_camelize_keys!(options = {})
-          options = options.merge(uppercase_first_letter: false)
-
-          camelize_keys!(options)
-        end
-
-        def camelize_keys(options = {})
-          dup.camelize_keys!(options)
-        end
-
-        def camelize_keys!(options = {})
-          Hash::KeyChanger.new(self).camelize_keys(options)
-        end
-
-        def underscore_keys(options = {})
-          dup.underscore_keys!(options)
-        end
-
-        def underscore_keys!(options = {})
-          Hash::KeyChanger.new(self).underscore_keys(options)
-        end
-
-        # change all keys returning the new map
-        # options: { recursive: true }
-        # ex: { "a" =>1 }.change_keys{ |key| key.upcase } == { "A" => 1 }
-        def change_keys(options = {}, &block)
-          deep_dup.change_keys!(options, &block)
-        end
-
-        # change all keys returning the new map
-        # options: { recursive: true }
-        # ex: { "a":1 }.change_keys{ |key| key.upcase } == { "A":1 }
-        def change_keys!(options = {}, &block)
-          Hash::KeyChanger.new(self).change_keys(options, &block)
-        end
-
-        # change all publicaly sending method calls
-        # options: { recursive: true }
-        # ex: { a: 1 }.chain_change_keys(:to_s, :upcase) == { "A" =>1 }
+        # Change all keys by publically sending methods to the keys without
+        # changing the original hash
+        #
+        # @return [::Hash] New hash with the resulting keys
+        # @param [::Array<Symbol>] calls methods to be called form the key`
+        #
+        # @see #change_keys
+        #
+        # @example
+        #   hash = { first: 1, second: 2 }
+        #   resut = hash.chain_change_keys(:to_s, :size, :to_s, :to_sym)
+        #   result     # returns { :'5' => 1, :'6' => 2 }
         def chain_change_keys(*calls)
           deep_dup.chain_change_keys!(*calls)
         end
 
-        # change all publicaly sending method calls
-        # options: { recursive: true }
-        # ex: { a: 1 }.chain_change_keys(:to_s, :upcase) == { "A" =>1 }
+        # Change all keys by publically sending methods to the keys
+        # changing the original hash
+        #
+        # @return [::Hash] New hash with the resulting keys
+        # @param [::Array<Symbol>] calls methods to be called form the key`
+        #
+        # @see #chain_change_keys
+        #
+        # @example (see #chain_change_keys)
         def chain_change_keys!(*calls)
           options = calls.extract_options!
 
           calls.inject(self) do |h, m|
             h.change_keys!(options, &m)
           end
+        end
+
+        # Change all keys returning the new hash
+        #
+        # @return new Hash with modified keys
+        # @param [::Hash] options options to passed to KeyChanger
+        # @option options [Boolean] recursive: flag defining the
+        #   change to happen also
+        #   on inner hashes (defaults to: true)
+        #
+        # @see Hash::KeyChanger#change_keys
+        #
+        # @example
+        #   hash = { '1' => 1, '2' => { '3' => 2} }
+        #
+        #   result = hash.change_keys do |k|
+        #     (k.to_i + 1).to_s.to_sym
+        #   end
+        #   result   # returns { :'2' => 1, :'3' => { :'4' => 2 } }
+        #
+        #   result = hash.change_keys(recursive:false) do |k|
+        #     (k.to_i + 1).to_s.to_sym
+        #   end
+        #   result    # returns { :'2' => 1, :'3' => { '3' => 2 } }
+        def change_keys(options = {}, &block)
+          deep_dup.change_keys!(options, &block)
+        end
+
+        # Change all keys modifying and returning the hash
+        #
+        # @return self
+        # @param [::Hash] options options to passed to KeyChanger
+        # @option options [Boolean] recursive: flag defining the
+        #   change to happen also
+        #   on inner hashes (defaults to: true)
+        #
+        # @see Hash::KeyChanger#change_keys
+        #
+        # @example (see #change_keys)
+        def change_keys!(options = {}, &block)
+          Hash::KeyChanger.new(self).change_keys(options, &block)
         end
 
         # prepend a string to all keys
@@ -123,6 +135,26 @@ module Darthjee
 
         def change_values!(options = {}, &block)
           Hash::ValueChanger.new(options, &block).change(self)
+        end
+
+        # Changes the key of the hash without changing it
+        #
+        # @return [::Hash] new hash
+        #
+        # @example
+        #   hash = { a: 1, b: 2 }
+        #   hash.remap_keys(a: :b, b: :c) # returns { b: 1, c: 2 }
+        def remap_keys(remap)
+          dup.remap_keys!(remap)
+        end
+
+        # Changes the key of the hash changing the original
+        #
+        # @return [::Hash] self
+        #
+        # @example (see #remap_keys)
+        def remap_keys!(keys_map)
+          KeyChanger.new(self).remap(keys_map)
         end
 
         private

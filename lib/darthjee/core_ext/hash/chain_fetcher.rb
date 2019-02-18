@@ -3,6 +3,11 @@
 module Darthjee
   module CoreExt
     module Hash
+      # Class responsible for running ::Hash#chain_fetch
+      #
+      # @api private
+      #
+      # @see Darthjee::CoreExt::Hash#chain_fetch
       class ChainFetcher
         def initialize(hash, *keys, &block)
           @hash = hash
@@ -10,6 +15,11 @@ module Darthjee
           @block = block
         end
 
+        # Crawls through the hash fetching the keys in chain
+        #
+        # @example (see Darthjee::CoreExt::Hash#chain_fetch)
+        #
+        # @return [Object] value fetched from array
         def fetch
           block.present? ? fetch_with_block : fetch_without_block
         end
