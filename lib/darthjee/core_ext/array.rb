@@ -142,7 +142,7 @@ module Darthjee
       #   array.random # might return 10, 20 or 30
       #   array        # returns unchanged [10, 20, 30]
       def random
-        self[rand(size)]
+        self[Random.rand(size)]
       end
 
       # Reeturns a random element of the array removing it from the array
@@ -152,7 +152,7 @@ module Darthjee
       #   array.random! # might return 10, 20 or 30 ... lets say 20
       #   array         # returns changed [20, 30]
       def random!
-        slice!(rand(size))
+        slice!(Random.rand(size))
       end
     end
   end
