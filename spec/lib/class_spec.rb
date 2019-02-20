@@ -4,10 +4,10 @@ require 'spec_helper'
 
 describe Class do
   describe '.default_value' do
-    subject { DefaultValueModel.new }
+    subject(:model) { DefaultValueModel.new }
 
     it 'accepts default value' do
-      expect(subject.x).to eq(10)
+      expect(model.x).to eq(10)
     end
 
     it do
@@ -16,14 +16,14 @@ describe Class do
   end
 
   describe '.default_values' do
-    subject { DefaultValueModel.new }
+    subject(:model) { DefaultValueModel.new }
 
     it 'accepts default values for first method' do
-      expect(subject.y).to eq(20)
+      expect(model.y).to eq(20)
     end
 
     it 'accepts default values for second method' do
-      expect(subject.z).to eq(20)
+      expect(model.z).to eq(20)
     end
 
     it do

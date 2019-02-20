@@ -5,13 +5,13 @@ require 'spec_helper'
 describe Darthjee::CoreExt::Array::HashBuilder do
   describe 'yard' do
     describe '#build' do
-      subject { described_class.new(values, keys) }
+      subject(:builder) { described_class.new(values, keys) }
 
       let(:values) { [10, 20, 30] }
       let(:keys)   { %i[a b c] }
 
       it 'builds a hash pairing the keys and values' do
-        expect(subject.build).to eq(
+        expect(builder.build).to eq(
           a: 10, b: 20, c: 30
         )
       end
@@ -22,7 +22,7 @@ describe Darthjee::CoreExt::Array::HashBuilder do
         let(:keys)   { hash.keys }
 
         it 'rebuilds the original hash' do
-          expect(subject.build).to eq(hash)
+          expect(builder.build).to eq(hash)
         end
       end
     end

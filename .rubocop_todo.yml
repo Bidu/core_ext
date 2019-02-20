@@ -40,21 +40,6 @@ RSpec/DescribeSymbol:
 RSpec/MultipleExpectations:
   Max: 2
 
-# Offense count: 87
-RSpec/NamedSubject:
-  Exclude:
-    - 'spec/integration/yard/darthjee/core_ext/array/hash_builder_spec.rb'
-    - 'spec/integration/yard/darthjee/core_ext/class/default_value_spec.rb'
-    - 'spec/integration/yard/darthjee/core_ext/date/days_between_spec.rb'
-    - 'spec/lib/class_spec.rb'
-    - 'spec/lib/darthjee/core_ext/hash/key_changer_spec.rb'
-    - 'spec/lib/hash_spec.rb'
-    - 'spec/lib/object_spec.rb'
-    - 'spec/support/shared_examples/clean.rb'
-    - 'spec/support/shared_examples/date.rb'
-    - 'spec/support/shared_examples/hash/map_to_hash.rb'
-    - 'spec/support/shared_examples/hash/value_changer.rb'
-
 # Offense count: 24
 Style/Documentation:
   Enabled: false
