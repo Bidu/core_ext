@@ -40,11 +40,13 @@ describe Hash do
   describe '#map_to_hash' do
     subject(:hash) { { a: 'word', b: 'bigword', c: 'c' } }
 
-    it 'remaps the values keeping the original keys' do
-      new_hash = hash.map_to_hash do |key, value|
+    let(:new_hash) do
+      hash.map_to_hash do |key, value|
         "#{key}->#{value.size}"
       end
+    end
 
+    it 'remaps the values keeping the original keys' do
       expect(new_hash).to eq(
         a: 'a->4',
         b: 'b->7',

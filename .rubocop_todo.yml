@@ -35,12 +35,6 @@ RSpec/DescribeSymbol:
     - 'spec/support/shared_examples/hash/keys_underscorer.rb'
     - 'spec/support/shared_examples/hash/value_changer.rb'
 
-# Offense count: 1
-# Configuration parameters: Max.
-RSpec/ExampleLength:
-  Exclude:
-    - 'spec/integration/yard/darthjee/core_ext/hash/transformable_spec.rb'
-
 # Offense count: 3
 # Configuration parameters: AggregateFailuresByDefault.
 RSpec/MultipleExpectations:
