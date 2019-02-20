@@ -71,16 +71,6 @@ RSpec/NamedSubject:
 RSpec/NestedGroups:
   Max: 5
 
-# Offense count: 19
-RSpec/RepeatedDescription:
-  Exclude:
-    - 'spec/integration/yard/darthjee/core_ext/class/default_value_spec.rb'
-    - 'spec/integration/yard/darthjee/core_ext/hash/key_changeable_spec.rb'
-    - 'spec/lib/class_spec.rb'
-    - 'spec/lib/numeric_spec.rb'
-    - 'spec/support/shared_examples/hash/keys_appender.rb'
-    - 'spec/support/shared_examples/hash/value_changer.rb'
-
 # Offense count: 24
 Style/Documentation:
   Enabled: false

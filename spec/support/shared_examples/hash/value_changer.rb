@@ -13,7 +13,7 @@ shared_examples 'a class with change_values method' do
       end.not_to(change { subject })
     end
 
-    it 'does not change original hash' do
+    it 'does not change original inner hash' do
       expect do
         subject.change_values { |value| value + 1 }
       end.not_to(change { inner_hash })
@@ -40,7 +40,7 @@ shared_examples 'a class with change_values method' do
       end.to(change { subject })
     end
 
-    it 'changes original hash' do
+    it 'changes original inner hash' do
       expect do
         subject.change_values! { |value| value + 1 }
       end.to(change { inner_hash })

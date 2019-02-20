@@ -35,11 +35,11 @@ describe Class do
       end
 
       context 'when calling method' do
-        it 'returns the same value always' do
+        it 'returns the same value always for first method' do
           expect(subject.name).to eq('John')
         end
 
-        it 'returns the same value always' do
+        it 'returns the same value always for second method' do
           expect(subject.nick_name).to eq('John')
         end
 
