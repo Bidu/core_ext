@@ -36,12 +36,6 @@ RSpec/DescribeSymbol:
     - 'spec/support/shared_examples/hash/value_changer.rb'
 
 # Offense count: 1
-# Configuration parameters: CustomIncludeMethods.
-RSpec/EmptyExampleGroup:
-  Exclude:
-    - 'spec/support/shared_examples/hash/chain_hash_keys_changer.rb'
-
-# Offense count: 1
 # Configuration parameters: Max.
 RSpec/ExampleLength:
   Exclude:
