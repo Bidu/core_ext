@@ -67,10 +67,6 @@ RSpec/NamedSubject:
     - 'spec/support/shared_examples/hash/map_to_hash.rb'
     - 'spec/support/shared_examples/hash/value_changer.rb'
 
-# Offense count: 59
-RSpec/NestedGroups:
-  Max: 5
-
 # Offense count: 24
 Style/Documentation:
   Enabled: false
