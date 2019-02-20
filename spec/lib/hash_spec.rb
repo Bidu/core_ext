@@ -241,17 +241,21 @@ describe Hash do
       end
 
       context 'but not for the first value' do
-        let(:transformer) { double(:transformer) }
         let(:block) { proc { |_, v| transformer.transform(v) } }
 
-        before do
-          allow(transformer).to receive(:transform) do |v|
-            v.to_s if v > 1
+        let(:transformer) do
+          DummyTransformer.new do |value|
+            value.to_s if value > 1
           end
+        end
+
+        before do
+          allow(transformer).to receive(:transform).and_call_original
           value
         end
 
         it { expect(value).to eq('2') }
+
         it 'calls the mapping only until it returns a valid value' do
           expect(transformer).to have_received(:transform).exactly(2)
         end
@@ -295,13 +299,16 @@ describe Hash do
       end
 
       context 'but not for the first value' do
-        let(:transformer) { double(:transformer) }
         let(:block) { proc { |_, v| transformer.transform(v) } }
 
-        before do
-          allow(transformer).to receive(:transform) do |v|
-            v.to_s if v > 1
+        let(:transformer) do
+          DummyTransformer.new do |value|
+            value.to_s if value > 1
           end
+        end
+
+        before do
+          allow(transformer).to receive(:transform).and_call_original
           list
         end
 

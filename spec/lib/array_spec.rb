@@ -187,13 +187,16 @@ describe Array do
       it { expect(value).to eq('1') }
 
       context 'but not for the first value' do
-        let(:transformer) { double(:transformer) }
-        let(:block)       { proc { |v| transformer.transform(v) } }
+        let(:block) { proc { |v| transformer.transform(v) } }
+
+        let(:transformer) do
+          DummyTransformer.new do |value|
+            value.to_s if value > 1
+          end
+        end
 
         before do
-          allow(transformer).to receive(:transform) do |v|
-            v.to_s if v > 1
-          end
+          allow(transformer).to receive(:transform).and_call_original
           value
         end
 
@@ -251,13 +254,16 @@ describe Array do
       it { expect(filtered).to eq(array.map(&:to_s)) }
 
       context 'but not for the first value' do
-        let(:transformer) { double(:transformer) }
-        let(:block)       { proc { |v| transformer.transform(v) } }
+        let(:block) { proc { |v| transformer.transform(v) } }
+
+        let(:transformer) do
+          DummyTransformer.new do |value|
+            value.to_s if value[:value] > 1
+          end
+        end
 
         before do
-          allow(transformer).to receive(:transform) do |v|
-            v.to_s if v[:value] > 1
-          end
+          allow(transformer).to receive(:transform).and_call_original
           filtered
         end
 

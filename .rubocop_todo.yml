@@ -81,13 +81,6 @@ RSpec/RepeatedDescription:
     - 'spec/support/shared_examples/hash/keys_appender.rb'
     - 'spec/support/shared_examples/hash/value_changer.rb'
 
-# Offense count: 4
-# Configuration parameters: IgnoreNameless, IgnoreSymbolicNames.
-RSpec/VerifiedDoubles:
-  Exclude:
-    - 'spec/lib/array_spec.rb'
-    - 'spec/lib/hash_spec.rb'
-
 # Offense count: 24
 Style/Documentation:
   Enabled: false
