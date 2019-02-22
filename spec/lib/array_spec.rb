@@ -129,8 +129,8 @@ describe Array do
   end
 
   describe '#as_hash' do
-    let(:array) { [1, 2, 3] }
-    let(:keys) { %w[a b c] }
+    let(:array)    { [1, 2, 3] }
+    let(:keys)     { %w[a b c] }
     let(:expected) { { 'a' => 1, 'b' => 2, 'c' => 3 } }
 
     it 'creates a hash using the array as value and the argument as keys' do
@@ -171,11 +171,13 @@ describe Array do
 
     context 'when block returns nil' do
       let(:block) { proc {} }
+
       it { expect(value).to be_nil }
     end
 
     context 'when block returns false' do
       let(:block) { proc { false } }
+
       it { expect(value).to be_nil }
     end
 
@@ -184,14 +186,17 @@ describe Array do
 
       it { expect(value).to eq('1') }
 
-      context 'but not for the first value' do
-        let(:transformer) { double(:transformer) }
+      context 'when first value returns nothing' do
         let(:block) { proc { |v| transformer.transform(v) } }
 
-        before do
-          allow(transformer).to receive(:transform) do |v|
-            v.to_s if v > 1
+        let(:transformer) do
+          DummyTransformer.new do |value|
+            value.to_s if value > 1
           end
+        end
+
+        before do
+          allow(transformer).to receive(:transform).and_call_original
           value
         end
 
@@ -204,9 +209,9 @@ describe Array do
   end
 
   describe '#random' do
-    it_behaves_like 'a method that returns a random element', :random
-
     let(:array) { [8, 4, 2] }
+
+    it_behaves_like 'a method that returns a random element', :random
 
     it 'removes an the returned element' do
       expect do
@@ -216,14 +221,14 @@ describe Array do
   end
 
   describe '#random!' do
-    it_behaves_like 'a method that returns a random element', :random!
-
     let(:array) { [8, 4, 2] }
+
+    it_behaves_like 'a method that returns a random element', :random!
 
     it 'removes an the returned element' do
       expect do
         array.random!
-      end.to change { array.size }.by(-1)
+      end.to change(array, :size).by(-1)
     end
   end
 
@@ -233,11 +238,13 @@ describe Array do
 
     context 'when block returns nil' do
       let(:block) { proc {} }
+
       it { expect(filtered).to be_empty }
     end
 
     context 'when block returns false' do
       let(:block) { proc { false } }
+
       it { expect(filtered).to be_empty }
     end
 
@@ -246,14 +253,17 @@ describe Array do
 
       it { expect(filtered).to eq(array.map(&:to_s)) }
 
-      context 'but not for the first value' do
-        let(:transformer) { double(:transformer) }
+      context 'when first value returns nothing' do
         let(:block) { proc { |v| transformer.transform(v) } }
 
-        before do
-          allow(transformer).to receive(:transform) do |v|
-            v.to_s if v[:value] > 1
+        let(:transformer) do
+          DummyTransformer.new do |value|
+            value.to_s if value[:value] > 1
           end
+        end
+
+        before do
+          allow(transformer).to receive(:transform).and_call_original
           filtered
         end
 

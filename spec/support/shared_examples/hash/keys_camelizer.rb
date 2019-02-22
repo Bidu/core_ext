@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 shared_examples 'a class with camlize_keys method' do
-  describe :lower_camelize_keys do
+  describe '#lower_camelize_keys' do
     let(:expected) { { inputKey: 'value' } }
 
     context 'with underscore keys' do
@@ -72,7 +72,7 @@ shared_examples 'a class with camlize_keys method' do
     end
   end
 
-  describe :lower_camelize_keys! do
+  describe '#lower_camelize_keys!' do
     let(:expected) { { inputKey: 'value' } }
 
     context 'with underscore keys' do
@@ -97,7 +97,7 @@ shared_examples 'a class with camlize_keys method' do
 
     context 'with string keys' do
       let(:expected) { { 'inputKey' => 'value' } }
-      let(:hash) { { 'InputKey' => 'value' } }
+      let(:hash)     { { 'InputKey' => 'value' } }
 
       it 'converts the keys to lower camel case' do
         expect(hash.lower_camelize_keys).to eq(expected)
@@ -143,7 +143,7 @@ shared_examples 'a class with camlize_keys method' do
     end
   end
 
-  describe :camelize_keys do
+  describe '#camelize_keys' do
     let(:expected) { { InputKey: 'value' } }
 
     context 'with underscore keys' do
@@ -168,7 +168,7 @@ shared_examples 'a class with camlize_keys method' do
 
     context 'with string keys' do
       let(:expected) { { 'InputKey' => 'value' } }
-      let(:hash) { { 'inputKey' => 'value' } }
+      let(:hash)     { { 'inputKey' => 'value' } }
 
       it 'converts the keys to lower camel case' do
         expect(hash.camelize_keys).to eq(expected)
@@ -214,7 +214,7 @@ shared_examples 'a class with camlize_keys method' do
     end
   end
 
-  describe :camelize_keys! do
+  describe '#camelize_keys!' do
     let(:expected) { { InputKey: 'value' } }
 
     context 'with underscore keys' do
@@ -239,7 +239,7 @@ shared_examples 'a class with camlize_keys method' do
 
     context 'with string keys' do
       let(:expected) { { 'InputKey' => 'value' } }
-      let(:hash) { { 'inputKey' => 'value' } }
+      let(:hash)     { { 'inputKey' => 'value' } }
 
       it 'converts the keys to lower camel case' do
         expect(hash.camelize_keys!).to eq(expected)

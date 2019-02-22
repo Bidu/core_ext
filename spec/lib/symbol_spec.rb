@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe Symbol do
   describe '#camelize' do
-    it { expect(:sym.camelize).to be_kind_of(Symbol) }
+    it { expect(:sym.camelize).to be_kind_of(described_class) }
 
     context 'when called with upper option' do
       it 'camelize the symbol' do
@@ -26,7 +26,7 @@ describe Symbol do
   end
 
   describe '#underscore' do
-    it { expect(:symBol.underscore).to be_kind_of(Symbol) }
+    it { expect(:symBol.underscore).to be_kind_of(described_class) }
 
     context 'when called with upper option' do
       it 'underscore the symbol' do

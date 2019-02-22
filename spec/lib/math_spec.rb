@@ -13,6 +13,7 @@ describe Math do
 
       context 'when average is not a round number' do
         let(:values) { [0, 1, 2, 3] }
+
         it 'returns the average' do
           expect(described_class.average(values)).to eq(1.5)
         end

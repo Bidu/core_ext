@@ -28,34 +28,36 @@ describe Hash do
     let(:result) { hash.sort_keys(**options) }
   end
 
-  describe :exclusive_merge do
-    let(:subject) { { a: 1, b: 2 } }
+  describe '#exclusive_merge' do
+    subject(:hash) { { a: 1, b: 2 } }
+
     let(:other) { { b: 3, c: 4 } }
 
     it 'merge only the common keys' do
-      expect(subject.exclusive_merge(other)).to eq(a: 1, b: 3)
+      expect(hash.exclusive_merge(other)).to eq(a: 1, b: 3)
     end
 
     it 'does not change the original hash' do
-      expect { subject.exclusive_merge(other) }.not_to(change { subject })
+      expect { hash.exclusive_merge(other) }.not_to(change { hash })
     end
   end
 
-  describe :exclusive_merge! do
-    let(:subject) { { a: 1, b: 2 } }
+  describe '#exclusive_merge!' do
+    subject(:hash) { { a: 1, b: 2 } }
+
     let(:other) { { b: 3, c: 4 } }
 
     it 'merge only the common keys' do
-      expect(subject.exclusive_merge!(other)).to eq(a: 1, b: 3)
+      expect(hash.exclusive_merge!(other)).to eq(a: 1, b: 3)
     end
 
     it 'does not change the original hash' do
-      expect { subject.exclusive_merge!(other) }.to(change { subject })
+      expect { hash.exclusive_merge!(other) }.to(change { hash })
     end
   end
 
-  describe :to_deep_hash do
-    let(:subject) do
+  describe '#to_deep_hash' do
+    subject(:hash) do
       {
         'person.name' => 'Some name',
         'person.age' => 22,
@@ -74,11 +76,11 @@ describe Hash do
     end
 
     it 'build a deep hash' do
-      expect(subject.to_deep_hash).to eq(expected)
+      expect(hash.to_deep_hash).to eq(expected)
     end
 
     context 'with indexed keys' do
-      let(:subject) do
+      subject(:hash) do
         {
           'person[0].name' => 'First person',
           'person[0].age' => 22,
@@ -102,12 +104,12 @@ describe Hash do
       end
 
       it 'build a deep hash with arrays' do
-        expect(subject.to_deep_hash).to eq(expected)
+        expect(hash.to_deep_hash).to eq(expected)
       end
     end
 
     context 'with a n level hash' do
-      let(:subject) do
+      subject(:hash) do
         {
           'quote_request.personal.person.name' => 'Some name',
           'quote_request.personal.person.age' => 22,
@@ -134,12 +136,12 @@ describe Hash do
       end
 
       it 'build a deep hash with arrays' do
-        expect(subject.to_deep_hash).to eq(expected)
+        expect(hash.to_deep_hash).to eq(expected)
       end
     end
 
     context 'with a n level hash and arrays' do
-      let(:subject) do
+      subject(:hash) do
         {
           'quote_request.personal.person[0].name' => 'Some name 1',
           'quote_request.personal.person[0].age' => 22,
@@ -172,12 +174,12 @@ describe Hash do
       end
 
       it 'build a deep hash with arrays' do
-        expect(subject.to_deep_hash).to eq(expected)
+        expect(hash.to_deep_hash).to eq(expected)
       end
     end
 
     context 'with custom separator' do
-      let(:subject) do
+      subject(:hash) do
         {
           'person_name' => 'Some name',
           'person_age' => 22,
@@ -188,12 +190,12 @@ describe Hash do
       end
 
       it 'build a deep hash with arrays' do
-        expect(subject.to_deep_hash('_')).to eq(expected)
+        expect(hash.to_deep_hash('_')).to eq(expected)
       end
     end
 
     context 'with custom separator on n level deep hash' do
-      let(:subject) do
+      subject(:hash) do
         {
           'person_name_clazz' => String
         }
@@ -208,22 +210,24 @@ describe Hash do
       end
 
       it 'build a deep hash with arrays' do
-        expect(subject.to_deep_hash('_')).to eq(expected)
+        expect(hash.to_deep_hash('_')).to eq(expected)
       end
     end
   end
 
   describe '#map_and_find' do
-    let(:hash) { { a: 1, b: 2, c: 3, d: 4 } }
+    let(:hash)  { { a: 1, b: 2, c: 3, d: 4 } }
     let(:value) { hash.map_and_find(&block) }
 
     context 'when block returns nil' do
       let(:block) { proc {} }
+
       it { expect(value).to be_nil }
     end
 
     context 'when block returns false' do
       let(:block) { proc { false } }
+
       it { expect(value).to be_nil }
     end
 
@@ -238,18 +242,22 @@ describe Hash do
         it { expect(value).to eq(:b) }
       end
 
-      context 'but not for the first value' do
-        let(:transformer) { double(:transformer) }
+      context 'when first value returns nothing' do
         let(:block) { proc { |_, v| transformer.transform(v) } }
 
-        before do
-          allow(transformer).to receive(:transform) do |v|
-            v.to_s if v > 1
+        let(:transformer) do
+          DummyTransformer.new do |value|
+            value.to_s if value > 1
           end
+        end
+
+        before do
+          allow(transformer).to receive(:transform).and_call_original
           value
         end
 
         it { expect(value).to eq('2') }
+
         it 'calls the mapping only until it returns a valid value' do
           expect(transformer).to have_received(:transform).exactly(2)
         end
@@ -271,11 +279,13 @@ describe Hash do
 
     context 'when block returns nil' do
       let(:block) { proc {} }
+
       it { expect(list).to be_empty }
     end
 
     context 'when block returns false' do
       let(:block) { proc { false } }
+
       it { expect(list).to be_empty }
     end
 
@@ -290,14 +300,17 @@ describe Hash do
         it { expect(list).to eq(%i[b c d]) }
       end
 
-      context 'but not for the first value' do
-        let(:transformer) { double(:transformer) }
+      context 'when first value does not return a value' do
         let(:block) { proc { |_, v| transformer.transform(v) } }
 
-        before do
-          allow(transformer).to receive(:transform) do |v|
-            v.to_s if v > 1
+        let(:transformer) do
+          DummyTransformer.new do |value|
+            value.to_s if value > 1
           end
+        end
+
+        before do
+          allow(transformer).to receive(:transform).and_call_original
           list
         end
 

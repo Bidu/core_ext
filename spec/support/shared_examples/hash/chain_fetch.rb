@@ -50,7 +50,7 @@ shared_examples 'an object with capable of performing chain fetch' do
         end
       end
 
-      context 'but a default value block is given' do
+      context 'when a default value block is given' do
         let(:default_value) { 100 }
         let(:block) { proc { default_value } }
 
@@ -58,7 +58,7 @@ shared_examples 'an object with capable of performing chain fetch' do
           expect(result).to eq(default_value)
         end
 
-        context 'and the block logs the missing keys' do
+        context 'when the block logs the missing keys' do
           it 'hnadles the missing keys' do
             missing_keys = nil
             hash.chain_fetch(*keys) do |_, keys|
@@ -69,8 +69,9 @@ shared_examples 'an object with capable of performing chain fetch' do
           end
         end
 
-        context 'and the block uses the key for the return' do
+        context 'when the block uses the key for the return' do
           let(:block) { proc { |k| "returned #{k}" } }
+
           it 'hnadles the missing keys' do
             expect(result).to eq('returned x')
           end

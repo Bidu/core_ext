@@ -21,8 +21,8 @@ shared_examples 'a class with remap method' do
 end
 
 shared_examples 'a method that remaps the keys' do |method|
-  let(:hash) { { a: 1, b: 2 } }
-  let(:remap) { { a: :e } }
+  let(:hash)   { { a: 1, b: 2 } }
+  let(:remap)  { { a: :e } }
   let(:result) { subject.public_send(method, remap) }
 
   context 'when remap and hash keys match' do
@@ -80,8 +80,8 @@ shared_examples 'a method that remaps the keys' do |method|
       expect(result).to eq('a' => 1, b: 2)
     end
 
-    context 'and the original key is an string' do
-      let(:hash) { { 'a' => 1, 'b' => 2 } }
+    context 'when the original key is an string' do
+      let(:hash)  { { 'a' => 1, 'b' => 2 } }
       let(:remap) { { 'a' => :a } }
 
       it 'does not remap the keys' do

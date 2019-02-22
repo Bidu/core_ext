@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 shared_examples 'a class with underscore_keys method basic' do |method|
-  describe :underscore_keys do
+  describe '#underscore_keys' do
     let(:expected) { { input_key: 'value' } }
 
     context 'with camel case keys' do
@@ -14,7 +14,7 @@ shared_examples 'a class with underscore_keys method basic' do |method|
 
     context 'with string keys' do
       let(:expected) { { 'input_key' => 'value' } }
-      let(:hash) { { 'InputKey' => 'value' } }
+      let(:hash)     { { 'InputKey' => 'value' } }
 
       it 'converts the keys to snake case' do
         expect(hash.send(method)).to eq(expected)

@@ -12,16 +12,28 @@ describe Darthjee::CoreExt::Hash::KeyChangeable do
   describe '#change_keys' do
     subject(:hash) { { '1' => 1, '2' => { '3' => 2 } } }
 
-    it 'uses the block to change the keys' do
-      result = hash.change_keys { |k| (k.to_i + 1).to_s.to_sym }
-      expect(result).to eq('2': 1, '3': { '4': 2 })
+    context 'when not passing options' do
+      let(:result) do
+        hash.change_keys do |k|
+          (k.to_i + 1).to_s.to_sym
+        end
+      end
+
+      it 'uses the block to change the keys' do
+        expect(result).to eq('2': 1, '3': { '4': 2 })
+      end
     end
 
-    it 'uses the block to change the keys' do
-      result = hash.change_keys(recursive: false) do |k|
-        (k.to_i + 1).to_s.to_sym
+    context 'when passing recursive option' do
+      let(:result) do
+        hash.change_keys(recursive: false) do |k|
+          (k.to_i + 1).to_s.to_sym
+        end
       end
-      expect(result).to eq('2': 1, '3': { '3' => 2 })
+
+      it 'uses the block to change the keys' do
+        expect(result).to eq('2': 1, '3': { '3' => 2 })
+      end
     end
   end
 

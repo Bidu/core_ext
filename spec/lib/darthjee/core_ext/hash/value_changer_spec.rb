@@ -208,7 +208,7 @@ describe Darthjee::CoreExt::Hash::ValueChanger do
     end
 
     context 'when value is not an array but responds to #map' do
-      let(:array) { [{ b: 22 }, { c: 333 }] }
+      let(:array)  { [{ b: 22 }, { c: 333 }] }
       let(:object) { { a: DummyIterator.new(array) } }
 
       it 'iterates over array' do
