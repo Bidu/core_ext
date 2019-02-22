@@ -21,7 +21,7 @@ describe Object do
         expect(object).to be_is_any(object.class)
       end
 
-      context 'along any other class' do
+      context 'when passing any other class' do
         it do
           expect(object).to be_is_any(Symbol, object.class)
         end

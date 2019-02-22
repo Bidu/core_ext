@@ -186,7 +186,7 @@ describe Array do
 
       it { expect(value).to eq('1') }
 
-      context 'but not for the first value' do
+      context 'when first value returns nothing' do
         let(:block) { proc { |v| transformer.transform(v) } }
 
         let(:transformer) do
@@ -253,7 +253,7 @@ describe Array do
 
       it { expect(filtered).to eq(array.map(&:to_s)) }
 
-      context 'but not for the first value' do
+      context 'when first value returns nothing' do
         let(:block) { proc { |v| transformer.transform(v) } }
 
         let(:transformer) do

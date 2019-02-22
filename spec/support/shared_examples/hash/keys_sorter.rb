@@ -23,13 +23,13 @@ shared_examples 'a class with a keys sort method' do
     context 'when there is a nested hash' do
       let(:hash) { { b: 1, a: { d: 3, c: 4 } } }
 
-      context 'and no option is given' do
+      context 'when no option is given' do
         it 'sorts keys recursively' do
           expect(result).to eq(a: { c: 4, d: 3 }, b: 1)
         end
       end
 
-      context 'and recursive option is given' do
+      context 'when recursive option is given' do
         let(:options) { { recursive: true } }
 
         it 'sorts keys recursively when argumen is passed' do
@@ -37,7 +37,7 @@ shared_examples 'a class with a keys sort method' do
         end
       end
 
-      context 'and no recursive option is given' do
+      context 'when no recursive option is given' do
         let(:options) { { recursive: false } }
 
         it 'does not sorts keys recursively when argumen is passed' do

@@ -22,7 +22,7 @@ shared_examples 'an array with map_to_hash method' do
       expect(mapped).to eq(expected)
     end
 
-    context 'whe hash is an array' do
+    context 'when hash is an array' do
       subject(:hash) { [%w[w1], %w[w2 w3]] }
 
       let(:mapped)   { hash.map_to_hash(&mapping_block) }

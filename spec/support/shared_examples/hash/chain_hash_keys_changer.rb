@@ -86,7 +86,7 @@ shared_examples 'a method that is able to chain change keys' do |method|
     it_behaves_like 'result is as expected'
   end
 
-  context 'calling with chained transformations' do
+  context 'when calling with chained transformations' do
     let(:transformations) { %i[to_s upcase to_sym] }
 
     let(:expected) do

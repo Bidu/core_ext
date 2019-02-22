@@ -24,7 +24,7 @@ shared_examples 'a class with transpose method' do |method|
         expect(hash.public_send(method).public_send(method)).to eq(hash)
       end
 
-      context 'whe key is already a hash' do
+      context 'when key is already a hash' do
         let(:key) { { c: 2 } }
         let(:hash) { { key => sub_hash } }
 

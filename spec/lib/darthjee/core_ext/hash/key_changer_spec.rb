@@ -38,7 +38,7 @@ describe Darthjee::CoreExt::Hash::KeyChanger do
       end
     end
 
-    context 'changes the hash' do
+    context 'when call changes the hash' do
       it 'underscore all the keys' do
         expect do
           key_changer.underscore_keys

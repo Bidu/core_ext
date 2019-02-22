@@ -36,7 +36,7 @@ describe Darthjee::CoreExt::Hash::ChainFetcher do
       described_class.new(hash, *keys) { |*args| args }
     end
 
-    context 'and keys are not found' do
+    context 'when keys are not found' do
       let(:keys) { %i[a c d] }
 
       it do

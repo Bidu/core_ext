@@ -73,7 +73,7 @@ describe Numeric do
         it { expect(100.percent_of(0)).to eq(Float::INFINITY) }
       end
 
-      context 'both are 0' do
+      context 'when both are 0' do
         it { expect(0.percent_of(0)).to eq(Float::INFINITY) }
       end
     end

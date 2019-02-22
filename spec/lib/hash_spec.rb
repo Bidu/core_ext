@@ -242,7 +242,7 @@ describe Hash do
         it { expect(value).to eq(:b) }
       end
 
-      context 'but not for the first value' do
+      context 'when first value returns nothing' do
         let(:block) { proc { |_, v| transformer.transform(v) } }
 
         let(:transformer) do
@@ -300,7 +300,7 @@ describe Hash do
         it { expect(list).to eq(%i[b c d]) }
       end
 
-      context 'but not for the first value' do
+      context 'when first value does not return a value' do
         let(:block) { proc { |_, v| transformer.transform(v) } }
 
         let(:transformer) do

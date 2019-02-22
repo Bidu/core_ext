@@ -80,7 +80,7 @@ shared_examples 'a method that remaps the keys' do |method|
       expect(result).to eq('a' => 1, b: 2)
     end
 
-    context 'and the original key is an string' do
+    context 'when the original key is an string' do
       let(:hash)  { { 'a' => 1, 'b' => 2 } }
       let(:remap) { { 'a' => :a } }
 
