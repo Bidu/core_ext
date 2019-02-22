@@ -28,7 +28,7 @@ describe Hash do
     let(:result) { hash.sort_keys(**options) }
   end
 
-  describe :exclusive_merge do
+  describe '#exclusive_merge' do
     subject(:hash) { { a: 1, b: 2 } }
 
     let(:other) { { b: 3, c: 4 } }
@@ -42,7 +42,7 @@ describe Hash do
     end
   end
 
-  describe :exclusive_merge! do
+  describe '#exclusive_merge!' do
     subject(:hash) { { a: 1, b: 2 } }
 
     let(:other) { { b: 3, c: 4 } }
@@ -56,7 +56,7 @@ describe Hash do
     end
   end
 
-  describe :to_deep_hash do
+  describe '#to_deep_hash' do
     subject(:hash) do
       {
         'person.name' => 'Some name',

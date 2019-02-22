@@ -5,7 +5,7 @@ shared_examples 'a class with change_values method' do
 
   let(:inner_hash) { subject[:c] }
 
-  describe :change_values do
+  describe '#change_values' do
     it_behaves_like 'a method that change the hash values', :change_values
 
     it 'does not change original hash' do
@@ -33,7 +33,7 @@ shared_examples 'a class with change_values method' do
     end
   end
 
-  describe :change_values! do
+  describe '#change_values!' do
     it_behaves_like 'a method that change the hash values', :change_values!
 
     it 'changes original hash' do

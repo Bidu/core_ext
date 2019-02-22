@@ -5,7 +5,7 @@ shared_examples 'a class with change_key method' do
     { 'a' => 1, b: 2, c: { d: 3, e: 4 }, f: [{ g: 5 }, { h: 6 }] }
   end
 
-  describe :change_keys do
+  describe '#change_keys' do
     it_behaves_like 'a method that is able to change keys', :change_keys
     it 'does not affects the original hash' do
       expect do
@@ -14,7 +14,7 @@ shared_examples 'a class with change_key method' do
     end
   end
 
-  describe :change_keys! do
+  describe '#change_keys!' do
     it_behaves_like 'a method that is able to change keys', :change_keys!
 
     it 'affects the original hash' do
