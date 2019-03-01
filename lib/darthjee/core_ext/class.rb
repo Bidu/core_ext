@@ -48,6 +48,8 @@ module Darthjee
       #   methods to be added
       # @param [::Object] value default value
       #
+      # @see default_value
+      #
       # @example Defining a default values
       #   class MyClass
       #     default_values :name, :nick_name, 'John'
@@ -88,14 +90,19 @@ module Darthjee
       # return a default value when the instance variable
       # was never set
       #
-      # @example
+      # @example Defining a default value
       #   class Person
       #     attr_writer :name
       #     default_reader :name, 'John Doe'
       #   end
       #
-      #   model = DefaultReaderModel
+      #   model = Person.new
       #
+      #   model.name # returns 'John Doe'
+      #
+      # @example Changing the instance value
+      #
+      #   model = Person.new
       #   model.name # returns 'John Doe'
       #
       #   model.name = 'Joe'
@@ -103,6 +110,15 @@ module Darthjee
       #
       #   model.name = nil
       #   model.name # returns nil
+      #
+      # @example Changing values accros instances
+      #
+      #   model = Person.new
+      #   model.name # returns 'John Doe'
+      #
+      #   model.name = 'Bob'
+      #   model.name # returns 'Bob'
+      #   Person.new.name # returns 'John Doe'
       def default_reader(name, value)
         define_method(name) do
           return value unless instance_variable_defined?("@#{name}")
@@ -110,6 +126,46 @@ module Darthjee
         end
       end
 
+      # @!visibility public
+      #
+      # Creates methods that will act as readers, but will
+      # return a default value when the instance variables
+      # ware never set
+      #
+      # @example Defining default values
+      #   class Person
+      #     attr_writer :cars, :houses
+      #     default_reader :cars, :houses, 'none'
+      #   end
+      #
+      #   model = Person.new
+      #
+      #   model.cars # returns 'none'
+      #
+      # @example Changing the instance value
+      #
+      #   model = Person.new
+      #   model.cars # returns 'none'
+      #
+      #   model.cars = ['volvo']
+      #   model.cars # returns ['volvo']
+      #
+      #   model.cars = nil
+      #   model.cars # returns nil
+      #
+      # @example Changing values accros instances
+      #
+      #   model = Person.new
+      #   model.cars # returns 'none'
+      #
+      #   model.cars = ['volvo']
+      #   model.cars # returns ['volvo']
+      #   Person.new.cars # returns 'none'
+      #
+      # @example Comparing value across methods
+      #   model.cars                           # returns 'none'
+      #   model.cars.equal?('none')            # returns false
+      #   model.nick_name.equal?(model.houses) # returns true
       def default_readers(*names, value)
         names.each do |name|
           default_reader(name, value)
