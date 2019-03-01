@@ -22,8 +22,6 @@ module Darthjee
       #   MyClass.new.name # returns 'John'
       #
       # @example Comparing value across instances
-      #   # frozen_string_literal: false
-      #
       #   class MyClass
       #     default_value :name, 'John'
       #   end

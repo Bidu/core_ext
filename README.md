@@ -8,7 +8,7 @@ Darthjee/CoreExt
 
 Yard Documentation
 -------------------
-https://www.rubydoc.info/gems/darthjee-core_ext/1.7.3
+https://www.rubydoc.info/gems/darthjee-core_ext/1.7.4
 
 # Usage
 This project adds some new methods to the core ruby classes
@@ -45,3 +45,5 @@ bundle install darthjee-core_ext
 [OBJECT_README.md](OBJECT_README.md)
 ## Math
 [MATH_README.md](MATH_README.md)
+## Class
+[CLASS_README.md](CLASS_README.md)
