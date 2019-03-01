@@ -88,6 +88,9 @@ module Darthjee
       # return a default value when the instance variable
       # was never set
       #
+      # @param [::Symbol,::String] name Name of the method to be added
+      # @param [::Object] value default value
+      #
       # @example Defining a default value
       #   class Person
       #     attr_writer :name
@@ -129,6 +132,10 @@ module Darthjee
       # Creates methods that will act as readers, but will
       # return a default value when the instance variables
       # ware never set
+      #
+      # @param [::Array<::Symbol,::String>] names Names of the
+      #   methods to be added
+      # @param [::Object] value default value
       #
       # @example Defining default values
       #   class Person
