@@ -35,30 +35,30 @@ describe Class do
     subject(:model) { DefaultReaderModel.new }
 
     it 'returns the default value' do
-      expect(model.x).to eq(10)
+      expect(model.name).to eq('John')
     end
 
     context 'when the value is set with a new value' do
-      before { model.x = 20 }
+      before { model.name = 'Bob' }
 
       it 'returns the new value' do
-        expect(model.x).to eq(20)
+        expect(model.name).to eq('Bob')
       end
     end
 
     context 'when the value is set to be false' do
-      before { model.x = false }
+      before { model.name = false }
 
       it do
-        expect(model.x).to be_falsey
+        expect(model.name).to be_falsey
       end
     end
 
     context 'when the value is set to be nil' do
-      before { model.x = nil }
+      before { model.name = nil }
 
       it do
-        expect(model.x).to be_nil
+        expect(model.name).to be_nil
       end
     end
   end

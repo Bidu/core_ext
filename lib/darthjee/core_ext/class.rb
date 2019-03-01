@@ -82,9 +82,31 @@ module Darthjee
         end
       end
 
+      # @!visibility public
+      #
+      # Creates a method that will act as reader, but will
+      # return a default value when the instance variable
+      # was never set
+      #
+      # @example
+      #   class Person
+      #     attr_writer :name
+      #     default_reader :name, 'John Doe'
+      #   end
+      #
+      #   model = DefaultReaderModel
+      #
+      #   model.name # returns 'John Doe'
+      #
+      #   model.name = 'Joe'
+      #   model.name # returns 'Joe'
+      #
+      #   model.name = nil
+      #   model.name # returns nil
       def default_reader(name, value)
         define_method(name) do
-          instance_eval "defined?(@#{name}) ? @#{name} : #{value}"
+          return value unless instance_variable_defined?("@#{name}")
+          instance_variable_get("@#{name}")
         end
       end
     end
