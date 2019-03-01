@@ -20,3 +20,6 @@ jobs:
       - run:
           name: Coverage Test Report
           command: cc-test-reporter after-build --exit-code $?
+      - run:
+          name: Yardstick coverage check
+          command: bundle exec rake verify_measurements
