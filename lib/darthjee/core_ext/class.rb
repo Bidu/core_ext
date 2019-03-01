@@ -109,6 +109,12 @@ module Darthjee
           instance_variable_get("@#{name}")
         end
       end
+
+      def default_readers(*names, value)
+        names.each do |name|
+          default_reader(name, value)
+        end
+      end
     end
   end
 end

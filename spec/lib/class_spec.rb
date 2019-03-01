@@ -61,5 +61,35 @@ describe Class do
         expect(model.name).to be_nil
       end
     end
+
+    it do
+      expect(Object).not_to respond_to(:default_value)
+    end
+  end
+
+  describe '.default_readers' do
+    subject(:model) { DefaultReaderModel.new }
+
+    context 'when calling first method' do
+      it 'returns the default value' do
+        expect(model.cars).to eq(2)
+      end
+
+      context 'when the value is set with a new value' do
+        before { model.cars = 10 }
+
+        it 'returns the new value' do
+          expect(model.cars).to eq(10)
+        end
+
+        it 'does not affect second method' do
+          expect(model.houses).to eq(2)
+        end
+      end
+    end
+
+    it do
+      expect(Object).not_to respond_to(:default_readers)
+    end
   end
 end
