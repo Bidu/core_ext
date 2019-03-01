@@ -50,15 +50,15 @@ describe Class do
       end
 
       it 'changes the value for the instance' do
-        expect(model.hash).to eq({ a: 2 })
+        expect(model.hash).to eq(a: 2)
       end
 
       it 'changes the value for new instances' do
-        expect(model.class.new.hash).to eq({ a: 2 })
+        expect(model.class.new.hash).to eq(a: 2)
       end
 
       it 'changes the value for all methods' do
-        expect(model.json).to eq({ a: 2 })
+        expect(model.json).to eq(a: 2)
       end
     end
   end
