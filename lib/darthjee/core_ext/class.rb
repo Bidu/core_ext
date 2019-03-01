@@ -57,8 +57,6 @@ module Darthjee
       #   MyClass.new.nick_name # returns 'John'
       #
       # @example Comparing value across instances
-      #   # frozen_string_literal: false
-      #
       #   class MyClass
       #     default_values :name, :nick_name, 'John'
       #   end
@@ -70,8 +68,6 @@ module Darthjee
       #   instance.name.equal?(other.name) # returns true
       #
       # @example Comparing value across methods
-      #   # frozen_string_literal: false
-      #
       #   class MyClass
       #     default_values :name, :nick_name, 'John'
       #   end
@@ -83,6 +79,12 @@ module Darthjee
       def default_values(*names, value)
         names.each do |name|
           default_value(name, value)
+        end
+      end
+
+      def default_reader(name, value)
+        define_method(name) do
+          instance_eval "defined?(@#{name}) ? @#{name} : #{value}"
         end
       end
     end
