@@ -1,10 +1,12 @@
 Darthjee/CoreExt
 ========
 
-![core_ext](https://raw.githubusercontent.com/darthjee/core_ext/master/mech.jpg)
+[![Code Climate](https://codeclimate.com/github/darthjee/core_ext/badges/gpa.svg)](https://codeclimate.com/github/darthjee/core_ext)
+[![Test Coverage](https://codeclimate.com/github/darthjee/core_ext/badges/coverage.svg)](https://codeclimate.com/github/darthjee/core_ext/coverage)
+[![Issue Count](https://codeclimate.com/github/darthjee/core_ext/badges/issue_count.svg)](https://codeclimate.com/github/darthjee/core_ext)
+[![Gem Version](https://badge.fury.io/rb/core_ext.svg)](https://badge.fury.io/rb/core_ext)
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/23f472dcc717ed285737/maintainability)](https://codeclimate.com/github/darthjee/core_ext/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/23f472dcc717ed285737/test_coverage)](https://codeclimate.com/github/darthjee/core_ext/test_coverage)
+![core_ext](https://raw.githubusercontent.com/darthjee/core_ext/master/mech.jpg)
 
 Yard Documentation
 -------------------

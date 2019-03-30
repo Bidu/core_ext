@@ -20,7 +20,7 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency 'activesupport', '>= 5.2.x'
 
-  gem.add_development_dependency 'bundler',       '~> 1.17.x'
+  gem.add_development_dependency 'bundler',       '~> 1.16.1'
   gem.add_development_dependency 'pry-nav',       '~> 0.2.4'
   gem.add_development_dependency 'rake',          '>= 12.3.1'
   gem.add_development_dependency 'rspec',         '>= 3.8'

@@ -1,15 +1,23 @@
-version: '2'
+version: '3'
 services:
   base: &base
-    build:
-      context: ./
-    working_dir: /home/app/core_ext
+    image: core_ext
+    working_dir: /home/app/app
     volumes:
-      - .:/home/app/core_ext
+      - .:/home/app/app
 
-  #################### CONTAINERS ####################
+  base_build:
+    <<: *base
+    build: .
+    command: echo done
 
   core_ext:
     <<: *base
     container_name: core_ext
-    command: bash -c 'bundle exec rspec'
+    depends_on: [base_build]
+    command: /bin/bash -c 'rspec'
+
+  test_all:
+    <<: *base
+    depends_on: [base_build]
+    command: /bin/bash -c 'rspec && yard && rake yardstick_measure && rake verify_measurements'
