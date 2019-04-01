@@ -12,7 +12,7 @@ Gem::Specification.new do |gem|
   gem.summary               = 'Core Extensions'
   gem.homepage              = 'https://github.com/darthjee/core_ext'
   gem.description           = 'Extension of basic classes with usefull methods'
-  gem.required_ruby_version = '>= 2.5.0'
+  gem.required_ruby_version = '>= 2.4.0'
 
   gem.files         = `git ls-files -z`.split("\x0")
   gem.executables   = gem.files.grep(%r{^bin/}) { |f| File.basename(f) }
@@ -21,7 +21,7 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency 'activesupport', '>= 5.2.x'
 
-  gem.add_development_dependency 'bundler',       '~> 1.16.1'
+  gem.add_development_dependency 'bundler',       '~> 1.17.3'
   gem.add_development_dependency 'pry-nav',       '~> 0.2.4'
   gem.add_development_dependency 'rake',          '>= 12.3.1'
   gem.add_development_dependency 'rspec',         '>= 3.8'
