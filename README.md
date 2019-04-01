@@ -4,7 +4,7 @@ Darthjee/CoreExt
 [![Code Climate](https://codeclimate.com/github/darthjee/core_ext/badges/gpa.svg)](https://codeclimate.com/github/darthjee/core_ext)
 [![Test Coverage](https://codeclimate.com/github/darthjee/core_ext/badges/coverage.svg)](https://codeclimate.com/github/darthjee/core_ext/coverage)
 [![Issue Count](https://codeclimate.com/github/darthjee/core_ext/badges/issue_count.svg)](https://codeclimate.com/github/darthjee/core_ext)
-[![Gem Version](https://badge.fury.io/rb/core_ext.svg)](https://badge.fury.io/rb/core_ext)
+[![Gem Version](https://badge.fury.io/rb/darthjee-core_ext.svg)](https://badge.fury.io/rb/darthjee-core_ext)
 
 ![core_ext](https://raw.githubusercontent.com/darthjee/core_ext/master/mech.jpg)
 
