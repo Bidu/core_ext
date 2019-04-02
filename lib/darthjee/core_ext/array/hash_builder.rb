@@ -3,6 +3,9 @@
 module Darthjee
   module CoreExt
     module Array
+      # @api private
+      # @author Darthjee
+      #
       # Class responsible for building a Hash from 2 arrays
       #
       # @attribute [::Array] values
@@ -36,8 +39,11 @@ module Darthjee
         end
 
         # Builds the hash
-        # @return [::Hash] Hash whose keys and values are paired
-        #   from builder's keys and values
+        #
+        # The building happens through the pairing of
+        # keys and values
+        #
+        # @return [::Hash]
         def build
           fixes_sizes
 
@@ -46,11 +52,21 @@ module Darthjee
 
         private
 
+        # @private
+        #
+        # Fixes the size of values array to match keys array size
+        #
+        # @return [::Array]
         def fixes_sizes
           return unless needs_resizing?
           values.concat ::Array.new(keys.size - values.size)
         end
 
+        # @private
+        #
+        # Checks if values array needs to be resized
+        #
+        # @return [::TrueClass,::FalseClass]
         def needs_resizing?
           keys.size > values.size
         end

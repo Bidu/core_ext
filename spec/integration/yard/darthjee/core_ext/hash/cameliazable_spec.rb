@@ -31,4 +31,15 @@ describe Darthjee::CoreExt::Hash::Cameliazable do
       expect(result).to eq(firstKey: 1, 'secondKey' => 2)
     end
   end
+
+  describe '#underscore_keys' do
+    subject(:hash) do
+      { firstKey: 1, 'SecondKey' => 2 }
+    end
+
+    it 'camelize all keys' do
+      result = hash.underscore_keys
+      expect(result).to eq(first_key: 1, 'second_key' => 2)
+    end
+  end
 end

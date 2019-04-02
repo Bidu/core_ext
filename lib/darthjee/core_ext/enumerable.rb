@@ -1,10 +1,30 @@
 # frozen_string_literal: true
 
+# @api public
 module Enumerable
-  # (see #clean!)
+  # Removes any element that is nil or empty
+  #
+  # @see #clean!
   #
   # This method does not change the original
   # enumerable
+  #
+  # @example cleaning a Hash
+  #   hash = {
+  #     keep: 'value',
+  #     nil_value: nil,
+  #     empty_array: [],
+  #     empty_string: '',
+  #     empty_hash: {}
+  #   }
+  #
+  #   hash.clean  # returns { keep: 'value' } without changing the hash
+  #
+  # @example cleaning an Array
+  #   array = ['value', nil, [], '', {}]
+  #
+  #   array.clean  # returns ['value'] without changing the array
+  # @return [::Enumerable] same class of +self+
   def clean
     deep_dup.clean!
   end
@@ -21,13 +41,15 @@ module Enumerable
   #     empty_string: '',
   #     empty_hash: {}
   #   }
-  #   hash.clean! # changes the hash to
-  #               # { keep: 'value' }
+  #
+  #   hash.clean! # changes the hash to { keep: 'value' }
   #
   # @example cleaning an Array
   #   array = ['value', nil, [], '', {}]
-  #   array.clean! # changes the array to be
-  #                # ['value']
+  #
+  #   array.clean! # changes the array to be  ['value']
+  #
+  # @return [::Enumerable] same class of +self+
   def clean!
     if is_a?(Hash)
       delete_if { |_k, v| empty_value?(v) }
@@ -36,8 +58,10 @@ module Enumerable
     end
   end
 
-  # Maps the elements into a new value, returning
-  # the first element that is evaluated to true
+  # Maps the elements into a new value, returning only one
+  #
+  # The result to be returned is
+  # the first mapping that is evaluated to true
   #
   # This method is equivalent to #map#find but
   # only calling the map block up to when a value
@@ -57,10 +81,14 @@ module Enumerable
   #
   #   keys = %i[a b c d e]
   #
-  #   keys.map_and_find { |key| service_values.delete(key) }
-  #               # returns 'found me'
+  #   keys.map_and_find do |key|   #
+  #     service_values.delete(key) #
+  #   end                          # returns 'found me'
+  #
   #   service_map # has lost only 3 keys returning
   #               # { d: nil, e: 'didnt find me' }
+  #
+  # @return [::Object]
   def map_and_find
     mapped = nil
     find do |*args|
@@ -69,8 +97,10 @@ module Enumerable
     mapped || nil
   end
 
-  # Maps the elements into a new value returning an
-  # array of the values mapped to non false values
+  # Maps the elements into a new value returning a subset
+  #
+  # The subset returned has the values mapped to non
+  # false values
   #
   # This method is equivalent to call #map#select
   #
@@ -88,6 +118,8 @@ module Enumerable
   #   end
   #
   #   values # returns [3, 1]
+  #
+  # @return [::Array<::Object>]
   def map_and_select
     mapped = map do |*args|
       yield(*args)
@@ -95,8 +127,10 @@ module Enumerable
     mapped.select { |e| e }
   end
 
-  # Maps values and creates a hash whose values are
-  # the result of the #map and the keys are the original values
+  # Maps values and creates a hash
+  #
+  # The keys will be the original values used in the
+  # mapping and the values the result of the #map
   #
   # @yield (*args) the mapping block
   #
@@ -104,6 +138,7 @@ module Enumerable
   #   strings =  %w[word big_word]
   #
   #   strings.map_to_hash(&:size) # returns { 'word' => 4, 'big_word' => 8 }
+  # @return [::Hash]
   def map_to_hash
     {}.tap do |hash|
       each do |element|
@@ -114,8 +149,18 @@ module Enumerable
 
   private
 
+  # @api private
+  #
+  # @private
+  #
+  # Checks if a value is considered empty
+  #
+  # This also clean empty values
+  #
+  # @return [::TrueClass,::FalseClass]
   def empty_value?(value)
-    value.nil? || value.try(:empty?) ||
-      ((value.is_a?(Hash) || value.is_a?(Array)) && value.clean!.empty?)
+    return true if value.nil? || value.try(:empty?)
+    return unless value.is_a?(Hash) || value.is_a?(Array)
+    value.clean!.empty?
   end
 end

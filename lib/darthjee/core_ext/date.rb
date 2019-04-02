@@ -2,6 +2,7 @@
 
 module Darthjee
   module CoreExt
+    # @api public
     module Date
       # Calculates the number of days between 2 dates
       #

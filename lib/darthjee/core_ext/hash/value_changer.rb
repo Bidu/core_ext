@@ -5,9 +5,9 @@ module Darthjee
     module Hash
       # Class responsible for changing values on a hash
       #
-      # @attribute [Boolean] recursive
+      # @attribute [::TrueClass,::FalseClass] recursive
       #   flag telling to apply transformation recursively
-      # @attribute [Boolean] skip_inner
+      # @attribute [::TrueClass,::FalseClass] skip_inner
       #   flag telling to not apply change block call to inner hashes
       # @attribute [::Proc] block
       #   block to be called when changing the values
@@ -20,9 +20,9 @@ module Darthjee
       class ValueChanger
         attr_accessor :recursive, :skip_inner, :block
 
-        # @param [Boolean] recursive
+        # @param [::TrueClass,::FalseClass] recursive
         #   flag telling to apply transformation recursively
-        # @param [Boolean] skip_inner
+        # @param [::TrueClass,::FalseClass] skip_inner
         #   flag telling to not apply change block call to inner hashes
         # @param [::Proc] block
         #   block to be called when changing the values

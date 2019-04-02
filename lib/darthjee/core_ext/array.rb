@@ -2,6 +2,8 @@
 
 module Darthjee
   module CoreExt
+    # @api public
+    #
     # Module containing new usefull methods to Ruby vanilla Array
     module Array
       autoload :HashBuilder, 'darthjee/core_ext/array/hash_builder'
@@ -36,8 +38,7 @@ module Darthjee
         sum * 1.0 / length
       end
 
-      # Maps the array using the given methods on each
-      # element of the array
+      # Maps the array using the given methods on each element of the array
       #
       # @param [::String,::Symbol] methods List of methods to be called
       #   sequentially on each element of the array
@@ -99,10 +100,14 @@ module Darthjee
       end
 
       # Joins elements in a string using a proc
+      #
+      # Uses the proc given
       # to convert elements to Strig and a block for joining
       #
       # @param [Proc] mapper Proc that will be used to map values
       # to string before joining
+      #
+      # @return [String]
       #
       # @yield [previous, nexte]
       #   defines the string to be used to join the previous and
@@ -137,6 +142,8 @@ module Darthjee
 
       # Reeturns a random element of the array without altering it
       #
+      # @return [Object] random element of the array
+      #
       # @example Picking a random element of numeric array
       #   array = [10, 20, 30]
       #   array.random # might return 10, 20 or 30
@@ -146,6 +153,8 @@ module Darthjee
       end
 
       # Reeturns a random element of the array removing it from the array
+      #
+      # @return [Object] random element of the array
       #
       # @example Slicing a random element of a numeric array
       #   array = [10, 20, 30]

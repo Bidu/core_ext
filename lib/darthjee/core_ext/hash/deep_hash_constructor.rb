@@ -3,13 +3,60 @@
 module Darthjee
   module CoreExt
     module Hash
+      # @api private
+      #
+      # @author Darthjee
+      #
+      # Class responsible for creating a Hash deep hash
+      #
+      # Deep hash construction happens when a hash of one layer
+      # (no sub hashes) has keys that, once explitted, can be
+      # assembled in a hash with many layers
+      #
+      # @example General Usage
+      #   hash = {
+      #     'person.name'   => 'John',
+      #     'person.age'    =>  20,
+      #     :'house.number' => 67,
+      #     :'house.zip'    => 12345
+      #   }
+      #
+      #   constructor = Darthjee::CoreExt::Hash::DeepHashConstructor.new('.')
+      #
+      #   constructor.deep_hash(hash)  # returns {
+      #                                #   'person' => {
+      #                                #     'name'   => 'John',
+      #                                #     'age'    =>  20
+      #                                #   },
+      #                                #   'house' => {
+      #                                #     'number' => 67,
+      #                                #     'zip'    => 12345
+      #                                #   }
+      #                                # }
       class DeepHashConstructor
         attr_accessor :separator
 
+        # @param separator [::String] keys splitter
         def initialize(separator)
           @separator = separator
         end
 
+        # Performs deep hash transformation
+        #
+        # @overload deep_hash(array)
+        #   @param array [::Array]
+        #
+        #   Performs deep_hash transformation on each
+        #   element that is a Hash
+        #
+        #   @return [::Array]
+        #
+        # @overload deep_hash(hash)
+        #   @param array [::Hash]
+        #
+        #   @return [::Hash]
+        #
+        # @example (see DeepHashConstructor)
         def deep_hash(object)
           if object.is_a? Array
             array_deep_hash(object)
@@ -22,12 +69,26 @@ module Darthjee
 
         private
 
+        # @private
+        #
+        # Map array performing deep hash on its Hash elements
+        #
+        # @param array [::Array] array to be mapped
+        #
+        # @return [::Array]
         def array_deep_hash(array)
           array.map do |value|
             value.is_a?(Hash) ? deep_hash(value) : value
           end
         end
 
+        # @private
+        #
+        # Map Hash to new deep hashed Hash
+        #
+        # @param hash [::Hash]
+        #
+        # @return [::Hash]
         def hash_deep_hash(hash)
           {}.tap do |new_hash|
             hash.each do |k, v|
@@ -41,6 +102,14 @@ module Darthjee
           end
         end
 
+        # @private
+        #
+        # Split key into array of keys
+        #
+        # @param key [::String,::Symbol] key to be splitted
+        # @param separator [::String] string of key splitting
+        #
+        # @return [::Array<::String>,::String]
         def split_key(key, separator)
           separator_rxp = separator == '.' ? "\\#{separator}" : separator
           skipper = "[^#{separator}]"

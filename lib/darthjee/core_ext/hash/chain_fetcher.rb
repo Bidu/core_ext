@@ -7,6 +7,8 @@ module Darthjee
       #
       # @api private
       #
+      # @author Darthjee
+      #
       # @see Darthjee::CoreExt::Hash#chain_fetch
       class ChainFetcher
         def initialize(hash, *keys, &block)
@@ -21,13 +23,22 @@ module Darthjee
         #
         # @return [Object] value fetched from array
         def fetch
-          block.present? ? fetch_with_block : fetch_without_block
+          return fetch_with_block if block.present?
+          fetch_without_block
         end
 
         private
 
+        # @private
         attr_reader :hash, :keys, :block
 
+        # @private
+        #
+        # Perform chain fetch when block is given
+        #
+        # The block will be called in case a key is missed
+        #
+        # @return [Object]
         def fetch_with_block
           @hash = hash.fetch(keys.shift) do |*args|
             missed_keys = keys
@@ -37,6 +48,11 @@ module Darthjee
           hash
         end
 
+        # @private
+        #
+        # Perform chain fetch when block is not given
+        #
+        # @return [Object]
         def fetch_without_block
           @hash = hash.fetch(keys.shift) until keys.empty?
           hash

@@ -45,7 +45,8 @@ module Darthjee
         #
         # @return new Hash with modified keys
         # @param [::Hash] options options to passed to KeyChanger
-        # @option options [Boolean] recursive: flag defining the
+        # @option options [::TrueClass,::FalseClass]
+        #   recursive: flag defining the
         #   change to happen also
         #   on inner hashes (defaults to: true)
         #
@@ -71,7 +72,8 @@ module Darthjee
         #
         # @return self
         # @param [::Hash] options options to passed to KeyChanger
-        # @option options [Boolean] recursive: flag defining the
+        # @option options [::TrueClass,::FalseClass]
+        #   recursive: flag defining the
         #   change to happen also
         #   on inner hashes (defaults to: true)
         #

@@ -7,6 +7,7 @@ require 'darthjee/core_ext/hash/transformable'
 
 module Darthjee
   module CoreExt
+    # @api public
     module Hash
       autoload :ChainFetcher,        "#{PATH}/hash/chain_fetcher"
       autoload :DeepHashConstructor, "#{PATH}/hash/deep_hash_constructor"
@@ -39,7 +40,7 @@ module Darthjee
       # @yield (key_not_found, keys_missing) The result of the yield
       #   will be the returned value instead of raising KeyError
       #
-      # @return Object value fetched
+      # @return [::Object] value fetched
       #
       # @example
       #   hash = {

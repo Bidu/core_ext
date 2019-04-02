@@ -2,6 +2,7 @@
 
 module Darthjee
   module CoreExt
+    # @api public
     module Class
       private
 
@@ -31,6 +32,8 @@ module Darthjee
       #
       #   instance.name.equal?('John')      # returns false
       #   instance.name.equal?(other.name)  # returns true
+      #
+      # @return [::Symbol] The name of the added method
       def default_value(name, value)
         define_method(name) { |*_| value }
       end
@@ -76,17 +79,21 @@ module Darthjee
       #
       #   instance.nick_name.equal?('John')        # returns false
       #   instance.nick_name.equal?(instance.name) # returns true
+      #
+      # @return [::Array<::Symbol>] Name of defined methods
       def default_values(*names, value)
-        names.each do |name|
+        names.map do |name|
           default_value(name, value)
         end
       end
 
       # @!visibility public
       #
-      # Creates a method that will act as reader, but will
-      # return a default value when the instance variable
-      # was never set
+      # Creates a method that will act as reader with default value
+      #
+      # The method will be a reader, but when no value was
+      # defined for the instance variable, it will
+      # return a default
       #
       # @param [::Symbol,::String] name Name of the method to be added
       # @param [::Object] value default value
@@ -120,6 +127,8 @@ module Darthjee
       #   model.name = 'Bob'
       #   model.name # returns 'Bob'
       #   Person.new.name # returns 'John Doe'
+      #
+      # @return [::Symbol] Defined method name
       def default_reader(name, value)
         define_method(name) do
           return value unless instance_variable_defined?("@#{name}")
@@ -129,9 +138,11 @@ module Darthjee
 
       # @!visibility public
       #
-      # Creates methods that will act as readers, but will
-      # return a default value when the instance variables
-      # ware never set
+      # Creates methods that will act as reader with default value
+      #
+      # The methods will be readers, but when no value was
+      # defined for the instance variable, it will
+      # return a default
       #
       # @param [::Array<::Symbol,::String>] names Names of the
       #   methods to be added
@@ -171,8 +182,10 @@ module Darthjee
       #   model.cars                           # returns 'none'
       #   model.cars.equal?('none')            # returns false
       #   model.nick_name.equal?(model.houses) # returns true
+      #
+      # @return [::Array<::Symbol>] Name of defined methods
       def default_readers(*names, value)
-        names.each do |name|
+        names.map do |name|
           default_reader(name, value)
         end
       end

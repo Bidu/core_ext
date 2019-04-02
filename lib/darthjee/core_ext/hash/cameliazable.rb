@@ -3,17 +3,16 @@
 module Darthjee
   module CoreExt
     module Hash
-      # Module holding methods responsible for camelizing
-      # keys of a hash
+      # Module holding methods for camelizing keys of a hash
       #
       # @api public
       module Cameliazable
-        # Change keys to CamelCase without changing the
-        # original hash
+        # Change keys to CamelCase without changing the original hash
         #
         # @return [::Hash] new hash with changed keys
         # @param [::Hash] options options of camelization
-        # @option options [::Boolean] uppercase_first_letter: flag
+        # @option options [::TrueClass,::FalseClass]
+        #   uppercase_first_letter: flag
         #   defining the type of CamelCase
         #
         # @see Hash::KeyChanger#camelize_keys
@@ -37,12 +36,12 @@ module Darthjee
           dup.camelize_keys!(options)
         end
 
-        # Change keys to CamelCase changing the
-        # original hash
+        # Change keys to CamelCase changing the original hash
         #
         # @return [::Hash] new hash with changed keys
         # @param [::Hash] options options of camelization
-        # @option options [::Boolean] uppercase_first_letter: flag
+        # @option options [::TrueClass,::FalseClass]
+        #   uppercase_first_letter: flag
         #   defining the type of CamelCase
         #
         # @example (see #camelize_keys)
@@ -78,10 +77,42 @@ module Darthjee
           camelize_keys!(options)
         end
 
+        # Change all keys to be snakecase
+        #
+        # THis method does not change the original hash
+        #
+        # @param options [::Hash]
+        # @option options recursive [::TrueClass,::FalseClass]
+        #   flag for recursive transformation
+        #
+        # @see Hash::KeyChanger#change_keys
+        #
+        # @example underscoring all keys
+        #   hash = { firstKey: 1, 'SecondKey' => 2 }
+        #
+        #   hash.underscore_keys  # returns {
+        #                         #   first_key: 1,
+        #                         #   'second_key' => 2
+        #                         # }
+        #
+        # @return [::Hash]
         def underscore_keys(options = {})
           dup.underscore_keys!(options)
         end
 
+        # Change all keys to be snakecase
+        #
+        # THis method changes the original hash
+        #
+        # @param options [::Hash]
+        # @option options recursive [::TrueClass,::FalseClass]
+        #   flag for recursive transformation
+        #
+        # @see Hash::KeyChanger#change_keys
+        #
+        # @example (see #underscore_keys)
+        #
+        # @return [::Hash]
         def underscore_keys!(options = {})
           Hash::KeyChanger.new(self).underscore_keys(options)
         end
