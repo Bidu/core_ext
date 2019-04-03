@@ -1,4 +1,4 @@
-threshold: 84.5
+threshold: 86.0
 require_exact_threshold: false
 rules:
   ApiTag::Presence:
@@ -28,6 +28,10 @@ rules:
       - Darthjee::CoreExt::Hash::ChainFetcher#hash
       - Darthjee::CoreExt::Hash::ChainFetcher#keys
       - Darthjee::CoreExt::Hash::ChainFetcher#block
+      - Darthjee::CoreExt::Hash::DeepHashConstructor#separator
+      - Darthjee::CoreExt::Hash::DeepHashConstructor::Setter#hash
+      - Darthjee::CoreExt::Hash::DeepHashConstructor::Setter#base_key
+      - Darthjee::CoreExt::Hash::DeepHashConstructor::Setter#key
   Summary::Presence:
     enabled: true
     exclude:
@@ -40,6 +44,10 @@ rules:
       - Darthjee::CoreExt::Hash::ChainFetcher#hash
       - Darthjee::CoreExt::Hash::ChainFetcher#keys
       - Darthjee::CoreExt::Hash::ChainFetcher#block
+      - Darthjee::CoreExt::Hash::DeepHashConstructor#separator
+      - Darthjee::CoreExt::Hash::DeepHashConstructor::Setter#hash
+      - Darthjee::CoreExt::Hash::DeepHashConstructor::Setter#base_key
+      - Darthjee::CoreExt::Hash::DeepHashConstructor::Setter#key
   Summary::Length:
     enabled: true
     exclude: []

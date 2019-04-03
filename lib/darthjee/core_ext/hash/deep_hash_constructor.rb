@@ -15,18 +15,22 @@ module Darthjee
       #
       # @example General Usage
       #   hash = {
-      #     'person.name'   => 'John',
-      #     'person.age'    =>  20,
-      #     :'house.number' => 67,
-      #     :'house.zip'    => 12345
+      #     'account.person.name' => 'John',
+      #     'account.person.age'  =>  20,
+      #     'account.number'      => '102030',
+      #     :'house.number'       => 67,
+      #     :'house.zip'          => 12_345
       #   }
       #
       #   constructor = Darthjee::CoreExt::Hash::DeepHashConstructor.new('.')
       #
       #   constructor.deep_hash(hash)  # returns {
-      #                                #   'person' => {
-      #                                #     'name'   => 'John',
-      #                                #     'age'    =>  20
+      #                                #   'account' => {
+      #                                #     'person' => {
+      #                                #       'name'   => 'John',
+      #                                #       'age'    =>  20
+      #                                #     },
+      #                                #     'number' => '102030',
       #                                #   },
       #                                #   'house' => {
       #                                #     'number' => 67,
@@ -34,7 +38,7 @@ module Darthjee
       #                                #   }
       #                                # }
       class DeepHashConstructor
-        attr_accessor :separator
+        autoload :Setter, "#{PATH}/hash/deep_hash_constructor/setter"
 
         # @param separator [::String] keys splitter
         def initialize(separator)
@@ -43,31 +47,74 @@ module Darthjee
 
         # Performs deep hash transformation
         #
-        # @overload deep_hash(array)
-        #   @param array [::Array]
+        # @param hash [::Hash] On layered hash
         #
-        #   Performs deep_hash transformation on each
-        #   element that is a Hash
-        #
-        #   @return [::Array]
-        #
-        # @overload deep_hash(hash)
-        #   @param array [::Hash]
-        #
-        #   @return [::Hash]
+        # @return [::Hash] Many layered hash
         #
         # @example (see DeepHashConstructor)
-        def deep_hash(object)
-          if object.is_a? Array
-            array_deep_hash(object)
-          elsif object.is_a? Hash
-            hash_deep_hash(object)
-          else
-            object
+        def deep_hash(hash)
+          break_keys(hash).tap do |new_hash|
+            new_hash.each do |key, value|
+              new_hash[key] = deep_hash_value(value)
+            end
           end
         end
 
         private
+
+        # @private
+        attr_reader :separator
+
+        # @private
+        # break the keys creating sub-hashes
+        #
+        # @param hash [::Hash] hash to be broken
+        #
+        # @example Breaking many level keys
+        #   hash = {
+        #     'account.person.name' => 'John',
+        #     'account.person.age'  =>  20,
+        #     'account.number'      => '102030',
+        #     :'house.number'       => 67,
+        #     :'house.zip'          => 12_345
+        #   }
+        #
+        #   constructor = Darthjee::CoreExt::Hash::DeepHashConstructor.new('.')
+        #
+        #   constructor.send(:break_keys, hash)
+        #
+        #   # Returns {
+        #   #   'account' => {
+        #   #     %w[person name] => 'John',
+        #   #     %w[person age]  =>  20,
+        #   #     %w[number]      => '102030'
+        #   #   },
+        #   #   'house' => {
+        #   #     %w[number] => 67,
+        #   #     %w[zip]    => 12_345
+        #   #   }
+        #   # }
+        #
+        # @return [Hash]
+        def break_keys(hash)
+          {}.tap do |new_hash|
+            hash.each do |key, value|
+              base_key, child_key = split_key(key, separator)
+              Setter.new(new_hash, base_key).set(child_key, value)
+            end
+          end
+        end
+
+        # @private
+        #
+        # Recursively proccess a value calling deep hash on it
+        #
+        # @return [::Object]
+        def deep_hash_value(object)
+          return array_deep_hash(object) if object.is_a? Array
+          return deep_hash(object) if object.is_a? Hash
+          object
+        end
 
         # @private
         #
@@ -78,27 +125,7 @@ module Darthjee
         # @return [::Array]
         def array_deep_hash(array)
           array.map do |value|
-            value.is_a?(Hash) ? deep_hash(value) : value
-          end
-        end
-
-        # @private
-        #
-        # Map Hash to new deep hashed Hash
-        #
-        # @param hash [::Hash]
-        #
-        # @return [::Hash]
-        def hash_deep_hash(hash)
-          {}.tap do |new_hash|
-            hash.each do |k, v|
-              base_key, child_key = split_key(k, separator)
-              set_deep_hash_positioned_value(new_hash, base_key, v, child_key)
-            end
-
-            new_hash.each do |k, v|
-              new_hash[k] = deep_hash(v)
-            end
+            deep_hash_value(value)
           end
         end
 
@@ -111,51 +138,11 @@ module Darthjee
         #
         # @return [::Array<::String>,::String]
         def split_key(key, separator)
-          separator_rxp = separator == '.' ? "\\#{separator}" : separator
-          skipper = "[^#{separator}]"
-          regexp = Regexp.new("^(#{skipper}*)#{separator_rxp}(.*)")
-          match = key.match(regexp)
+          keys = key.is_a?(Array) ? key : key.to_s.split(separator)
 
-          match ? match[1..2] : key
-        end
+          return keys.first unless keys.second
 
-        def set_deep_hash_array_value(hash, base_key, index, value, key = nil)
-          key_without_index = base_key.gsub("[#{index}]", '')
-          hash[key_without_index] ||= []
-
-          if key.nil?
-            hash[key_without_index][index] = value
-          else
-            hash[key_without_index][index] ||= {}
-            hash[key_without_index][index][key] = value
-          end
-        end
-
-        def set_deep_hash_positioned_value(new_hash, base_key, value, child_key)
-          index = array_index(base_key)
-
-          if index
-            set_deep_hash_array_value(
-              new_hash, base_key, index,
-              value, child_key
-            )
-          else
-            set_deep_hash_value(new_hash, base_key, value, child_key)
-          end
-        end
-
-        def array_index(key)
-          match = key.match(/\[([^)]+)\]/)
-          match && match[1].to_i
-        end
-
-        def set_deep_hash_value(hash, base_key, value, key = nil)
-          if key.nil?
-            hash[base_key] = value
-          else
-            hash[base_key] ||= {}
-            hash[base_key][key] = value
-          end
+          [keys.first, keys[1..-1]]
         end
       end
     end

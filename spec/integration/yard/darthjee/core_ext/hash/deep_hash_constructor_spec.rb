@@ -4,23 +4,27 @@ require 'spec_helper'
 
 describe Darthjee::CoreExt::Hash::DeepHashConstructor do
   describe 'yard' do
+    subject(:constructor) { described_class.new('.') }
+
+    let(:hash) do
+      {
+        'account.person.name' => 'John',
+        'account.person.age'  =>  20,
+        'account.number'      => '102030',
+        :'house.number'       => 67,
+        :'house.zip'          => 12_345
+      }
+    end
+
     describe 'general usage' do
-      subject(:constructor) { described_class.new('.') }
-
-      let(:hash) do
-        {
-          'person.name'   => 'John',
-          'person.age'    =>  20,
-          :'house.number' => 67,
-          :'house.zip'    => 12_345
-        }
-      end
-
       let(:expected) do
         {
-          'person' => {
-            'name'   => 'John',
-            'age'    =>  20
+          'account' => {
+            'person' => {
+              'name'   => 'John',
+              'age'    =>  20
+            },
+            'number' => '102030'
           },
           'house' => {
             'number' => 67,
@@ -31,6 +35,27 @@ describe Darthjee::CoreExt::Hash::DeepHashConstructor do
 
       it 'builds deep hash' do
         expect(constructor.deep_hash(hash))
+          .to eq(expected)
+      end
+    end
+
+    describe '#break_keys' do
+      let(:expected) do
+        {
+          'account' => {
+            %w[person name] => 'John',
+            %w[person age]  =>  20,
+            %w[number]      => '102030'
+          },
+          'house' => {
+            %w[number] => 67,
+            %w[zip]    => 12_345
+          }
+        }
+      end
+
+      it 'builds deep hash' do
+        expect(constructor.send(:break_keys, hash))
           .to eq(expected)
       end
     end
