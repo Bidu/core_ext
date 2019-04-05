@@ -7,14 +7,26 @@ module Darthjee
       # changing / transforming keys of a Hash
       #
       # @api public
+      #
+      # @author Darthjee
+      #
+      # @see KeyChanger
+      # @see KeysSorter
       module KeyChangeable
-        # Change all keys by publically sending methods to the keys without
-        # changing the original hash
+        ##########################################
+        # Key change methods
+        ##########################################
+
+        # Change all keys without changing the original hash
+        #
+        # It changes all keysby publically sending methods
+        # to the keys
         #
         # @return [::Hash] New hash with the resulting keys
-        # @param [::Array<Symbol>] calls methods to be called form the key`
+        # @param [::Array<Symbol>] calls methods to be
+        #   called form the key`
         #
-        # @see #change_keys
+        # @see #chain_change_keys!
         #
         # @example
         #   hash = { first: 1, second: 2 }
@@ -24,13 +36,15 @@ module Darthjee
           deep_dup.chain_change_keys!(*calls)
         end
 
-        # Change all keys by publically sending methods to the keys
-        # changing the original hash
+        # Change all keys changing the original hash
+        #
+        # It changes all keys by publically sending methods
+        # to the keys
         #
         # @return [::Hash] New hash with the resulting keys
         # @param [::Array<Symbol>] calls methods to be called form the key`
         #
-        # @see #chain_change_keys
+        # @see #change_keys
         #
         # @example (see #chain_change_keys)
         def chain_change_keys!(*calls)
@@ -46,9 +60,11 @@ module Darthjee
         # @return new Hash with modified keys
         # @param [::Hash] options options to passed to KeyChanger
         # @option options [::TrueClass,::FalseClass]
-        #   recursive: flag defining the
+        #   recursive (true) flag defining the
         #   change to happen also
         #   on inner hashes (defaults to: true)
+        #
+        # @yield (key) changing key block
         #
         # @see Hash::KeyChanger#change_keys
         #
@@ -73,9 +89,11 @@ module Darthjee
         # @return self
         # @param [::Hash] options options to passed to KeyChanger
         # @option options [::TrueClass,::FalseClass]
-        #   recursive: flag defining the
+        #   recursive: (true) flag defining the
         #   change to happen also
         #   on inner hashes (defaults to: true)
+        #
+        # @yield (key) changing key block
         #
         # @see Hash::KeyChanger#change_keys
         #
@@ -85,34 +103,73 @@ module Darthjee
         end
 
         # prepend a string to all keys
-        # options {
-        #  recursive: true,
-        #  type: :keep [keep, string, symbol] (key type to be returned)
-        # }
-        # ex: { :a => 1, "b"=> 2 }.prepend_to_keys("foo_")
-        # # returns { :foo_a => 1, "foo_b"=> 2 }
+        #
+        # @param options [::Hash]
+        # @option options [::TrueClass,::FalseClass]
+        #   recursive (true)
+        #   flag indicating transformation should be recursive
+        # @option options [::Symbol] type (:keep)
+        #   type of the final key
+        #   - keep : cast the result to the same type of the
+        #     original key
+        #   - string : cast the result to be {::String}
+        #   - symbol cast the result to be {::Symbol}
+        #
+        # @return [::Hash]
+        #
+        # @see KeyChanger#change_keys
+        #
+        # @example
+        #   hash = { :a => 1, "b"=> 2 }
+        #
+        #   hash.prepend_to_keys("foo_") # returns {
+        #                                #   :foo_a => 1,
+        #                                #   "foo_b"=> 2
+        #                                # }
         def prepend_to_keys(str, options = {})
           change_key_text(options) do |key|
             "#{str}#{key}"
           end
         end
 
-        # append a string to all keys
-        # options {
-        #  recursive: true,
-        #  type: :keep [keep, string, symbol] (key type to be returned)
-        # }
-        # ex: { :a => 1, "b"=> 2 }.append_to_keys("_bar")
-        # # returns { :a_bar => 1, "b_bar"=> 2 }
+        # Append a string to all keys
+        #
+        # @param options [::Hash]
+        # @option options [::TrueClass,::FalseClass]
+        #   recursive (true)
+        #   flag indicating transformation should be recursive
+        # @option options [::Symbol] type (:keep)
+        #   type of the final key
+        #   - keep : cast the result to the same type of the
+        #     original key
+        #   - string : cast the result to be {::String}
+        #   - symbol cast the result to be {::Symbol}
+        #
+        # @return [::Hash]
+        #
+        # @see KeyChanger#change_keys
+        #
+        # @example (see #prepend_to_keys)
         def append_to_keys(str, options = {})
           change_key_text(options) do |key|
             "#{key}#{str}"
           end
         end
 
-        # sorts keys for hash
-        # options: { recursive: true }
-        # ex: { b:1, a:2 }.sort_keys == { a:2, b:1 }
+        # Sorts keys for hash without changing the original
+        #
+        # @param options [::Hash]
+        # @option options [::TrueClass,::FalseClass]
+        #   recursive (true) flag indicating recursive sorting
+        #
+        # @return [::Hash]
+        #
+        # @see KeySorter#sort
+        #
+        # @example
+        #   hash = { b: 1, a: 2 }
+        #
+        #   hash.sort_keys  # returns { a: 2, b: 1 }
         def sort_keys(options = {})
           Hash::KeysSorter.new(self, **options).sort
         end
@@ -121,20 +178,76 @@ module Darthjee
         # Value change methods
         ##########################################
 
-        # creates a new hash with changes in its values
-        # options: {
-        #   recursive: true,
-        #   skip_hash:true
-        # }
-        # ex: { a:1, b:2 }.change_values{ |v| v+1 } == { a:2, b:3 }
-        # ex: { a:1, b:{ c:1 } }.change_values(skip_hash:false) { |v| v.to_s }
-        # # returns { a:"1", b:"{ c=>1 }
-        # ex: { a:1, b:{ c:1 } }.change_values(skip_hash:true) { |v| v.to_s }
-        # # returns { a:"1", b:{ c=>"1" } }
+        # Creates a new hash with changes in its values
+        #
+        # @param options [::Hash]
+        # @option options [::TrueClass,::FalseClass]
+        #   recursive (true) flag indicating recursive sorting
+        # @option options [::TrueClass,::FalseClass]
+        #   skip_inner (true) Flag indicating to skip running
+        #   transformation on Hash objects
+        #
+        # @yield (value) changing value block
+        #
+        # @return [::Hash]
+        #
+        # @example Simple Usage
+        #   hash = { a: 1, b: 2 }
+        #   hash.change_values do |value|
+        #     value + 1
+        #   end                     # returns { a: 2, b: 3 }
+        #
+        # @example Skipping inner hash transformation
+        #   hash = { a: 1, b: { c: 1 } }
+        #
+        #   hash.change_values(&:to_s)) # returns {
+        #                               #   a: "1",
+        #                               #   b: { c: "1" }
+        #                               # }
+        #
+        # @example Not skipping inner hash transformation
+        #   hash = { a: 1, b: { c: 1 } }
+        #
+        #   hash.change_values(skip_inner: false, &:to_s))
+        #                               # returns {
+        #                               #   a: "1",
+        #                               #   b: "{:c=>1}"
+        #                               # }
         def change_values(options = {}, &block)
           deep_dup.change_values!(options, &block)
         end
 
+        # Changes the values of a hash
+        #
+        # @param options [::Hash]
+        # @option options [::TrueClass,::FalseClass]
+        #   recursive (true) flag indicating recursive sorting
+        # @option options [::TrueClass,::FalseClass]
+        #   skip_inner (true) Flag indicating to skip running
+        #   transformation on Hash objects
+        #
+        # @yield (value) changing value block
+        #
+        # @return [::Hash]
+        #
+        # @example (see change_values)
+        #
+        # @example Changing inner hash
+        #   inner_hash = { c: 2 }
+        #   hash = { a: 1, b: inner_hash }
+        #
+        #   hash.change_values!(&:to_s)
+        #
+        #   inner_hash # changed to { c: "2" }
+        #
+        # @example Not changing inner hash
+        #   inner_hash = { c: 2 }
+        #   hash = { a: 1, b: inner_hash }
+        #
+        #   hash.change_values!(skip_inner: false, &:to_s)
+        #
+        #   hash       # changed to { a: "1", b: "{:c=>2}" }
+        #   inner_hash # still      { c: 2 }
         def change_values!(options = {}, &block)
           Hash::ValueChanger.new(options, &block).change(self)
         end
@@ -145,7 +258,10 @@ module Darthjee
         #
         # @example
         #   hash = { a: 1, b: 2 }
-        #   hash.remap_keys(a: :b, b: :c) # returns { b: 1, c: 2 }
+        #   hash.remap_keys(a: :b, b: :c) # returns {
+        #                                 #   b: 1,
+        #                                 #   c: 2
+        #                                 # }
         def remap_keys(remap)
           dup.remap_keys!(remap)
         end
@@ -161,13 +277,27 @@ module Darthjee
 
         private
 
-        # changes the text of the keys
-        # options {
-        #  recursive: true,
-        #  type: :keep [keep, string, symbol] (key type to be returned)
-        # }
-        # ex: { :a => 1, "b"=> 2 }.change_key_text{ |key| key.upcase }
-        # # returns { :A => 1, "B"=> 2 }
+        # @private
+        # @api private
+        #
+        # Changes the text of the keys
+        #
+        # @param options [::Hash]
+        # @option options [::TrueClass,::FalseClass]
+        #   recursive (true)
+        #   flag indicating transformation should be recursive
+        # @option options [::Symbol] type (:keep)
+        #   type of the final key
+        #   - keep : cast the result to the same type of the
+        #     original key
+        #   - string : cast the result to be {::String}
+        #   - symbol cast the result to be {::Symbol}
+        #
+        # @yield (key) changing key block
+        #
+        # @return [::Hash]
+        #
+        # @see KeyChanger
         def change_key_text(options = {}, &block)
           Hash::KeyChanger.new(self).change_text(options, &block)
         end
