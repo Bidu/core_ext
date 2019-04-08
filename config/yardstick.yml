@@ -19,6 +19,7 @@ rules:
   ReturnTag:
     enabled: true
     exclude:
+      - Darthjee::CoreExt::Hash::KeyChanger#initialize
       - Darthjee::CoreExt::Array::HashBuilder#initialize
       - Darthjee::CoreExt::Hash::ChainFetcher#initialize
       - Darthjee::CoreExt::Array::HashBuilder#values
@@ -32,9 +33,11 @@ rules:
       - Darthjee::CoreExt::Hash::DeepHashConstructor::Setter#hash
       - Darthjee::CoreExt::Hash::DeepHashConstructor::Setter#base_key
       - Darthjee::CoreExt::Hash::DeepHashConstructor::Setter#key
+      - Darthjee::CoreExt::Hash::KeyChanger#hash
   Summary::Presence:
     enabled: true
     exclude:
+      - Darthjee::CoreExt::Hash::KeyChanger#initialize
       - Darthjee::CoreExt::Array::HashBuilder#initialize
       - Darthjee::CoreExt::Hash::ChainFetcher#initialize
       - Darthjee::CoreExt::Array::HashBuilder#values
@@ -48,6 +51,7 @@ rules:
       - Darthjee::CoreExt::Hash::DeepHashConstructor::Setter#hash
       - Darthjee::CoreExt::Hash::DeepHashConstructor::Setter#base_key
       - Darthjee::CoreExt::Hash::DeepHashConstructor::Setter#key
+      - Darthjee::CoreExt::Hash::KeyChanger#hash
   Summary::Length:
     enabled: true
     exclude: []

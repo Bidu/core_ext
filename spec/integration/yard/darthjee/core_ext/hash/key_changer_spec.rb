@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'spec_helper'
+
 describe Darthjee::CoreExt::Hash::KeyChanger do
   describe 'yard' do
     subject(:changer) { described_class.new(hash) }
