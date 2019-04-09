@@ -156,6 +156,24 @@ module Darthjee
           end
         end
 
+        # Sorts keys for hash changing the original
+        #
+        # @param options [::Hash]
+        # @option options [::TrueClass,::FalseClass]
+        #   recursive (true) flag indicating recursive sorting
+        #
+        # @return [::Hash]
+        #
+        # @see KeySorter#sort
+        #
+        # @example
+        #   hash = { b: 1, a: 2 }
+        #
+        #   hash.sort_keys  # changes hash to { a: 2, b: 1 }
+        def sort_keys!(options = {})
+          Hash::KeysSorter.new(self, **options).sort
+        end
+
         # Sorts keys for hash without changing the original
         #
         # @param options [::Hash]
@@ -171,7 +189,7 @@ module Darthjee
         #
         #   hash.sort_keys  # returns { a: 2, b: 1 }
         def sort_keys(options = {})
-          Hash::KeysSorter.new(self, **options).sort
+          Hash::KeysSorter.new(deep_dup, **options).sort
         end
 
         ##########################################

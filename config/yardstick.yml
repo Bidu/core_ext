@@ -1,4 +1,4 @@
-threshold: 86.0
+threshold: 91.2
 require_exact_threshold: false
 rules:
   ApiTag::Presence:
@@ -34,6 +34,8 @@ rules:
       - Darthjee::CoreExt::Hash::DeepHashConstructor::Setter#base_key
       - Darthjee::CoreExt::Hash::DeepHashConstructor::Setter#key
       - Darthjee::CoreExt::Hash::KeyChanger#hash
+      - Darthjee::CoreExt::Hash::KeysSorter#hash
+      - Darthjee::CoreExt::Hash::KeysSorter#recursive
   Summary::Presence:
     enabled: true
     exclude:
@@ -52,6 +54,8 @@ rules:
       - Darthjee::CoreExt::Hash::DeepHashConstructor::Setter#base_key
       - Darthjee::CoreExt::Hash::DeepHashConstructor::Setter#key
       - Darthjee::CoreExt::Hash::KeyChanger#hash
+      - Darthjee::CoreExt::Hash::KeysSorter#hash
+      - Darthjee::CoreExt::Hash::KeysSorter#recursive
   Summary::Length:
     enabled: true
     exclude: []

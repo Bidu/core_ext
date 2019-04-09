@@ -95,8 +95,8 @@ module Darthjee
         def camelize_keys(uppercase_first_letter: true, **options)
           type = uppercase_first_letter ? :upper : :lower
 
-          change_keys(options) do |k|
-            k.camelize(type)
+          change_keys(options) do |key|
+            key.camelize(type)
           end
         end
 

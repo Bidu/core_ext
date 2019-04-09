@@ -3,9 +3,10 @@
 require 'spec_helper'
 
 describe Darthjee::CoreExt::Hash::KeysSorter do
-  it_behaves_like 'a class with a keys sort method' do
-    subject { described_class.new(hash, **options) }
+  subject { described_class.new(hash, **options) }
 
-    let(:result) { subject.sort }
-  end
+  let(:result) { subject.sort }
+
+  it_behaves_like 'a class with a keys sort method'
+  it_behaves_like 'a class with a keys sort method that changes original'
 end
