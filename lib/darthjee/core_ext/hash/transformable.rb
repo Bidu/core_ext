@@ -60,17 +60,22 @@ module Darthjee
           Hash::ToHashMapper.new(self).map(&block)
         end
 
-        # Squash the hash so that it becomes a single level hash
-        # merging the keys of outter and inner hashes
+        # Squash the hash returning a single level hash
+        #
+        # The squashing happens by merging the keys of
+        # outter and inner hashes
         #
         # This operation is the oposite of {#to_deep_hash}
         #
-        # @return [::Hash] A one level hash
+        # @param joiner [::String] String to be used when
+        #   joining keys
+        #
+        # @return [::Hash] A new hash
         #
         # @see Squash::Builder
         # @see #to_deep_hash
         #
-        # @example a name hash
+        # @example Simple Usage
         #   hash = { name: { first: 'John', last: 'Doe' } }
         #
         #   hash.squash # returns {
@@ -80,17 +85,60 @@ module Darthjee
         #
         # @example Reverting a #to_deep_hash call
         #   person_data = {
-        #     'person.name' => 'John',
-        #     'person.age' => 23
+        #     person: [{
+        #       name: %w[John Wick],
+        #       age: 22
+        #     }, {
+        #       name: %w[John Constantine],
+        #       age: 25
+        #     }]
         #   }
         #   person = person_data.to_deep_hash
         #
         #   person.squash # returns {
-        #                 #   'person.name' => 'John',
-        #                 #   'person.age' => 23
+        #                 #   'person' => [{
+        #                 #     'name' => %w[John Wick],
+        #                 #     'age' => 22
+        #                 #   }, {
+        #                 #     'name' => %w[John Constantine],
+        #                 #     'age' => 25
+        #                 #   }]
         #                 # }
-        def squash
-          Hash::Squasher.squash(self)
+        #
+        # @example Giving a custom joiner
+        #   hash = {
+        #     links: {
+        #       home: '/',
+        #       products: '/products'
+        #     }
+        #   }
+        #
+        #   hash.squash('> ')  # returns {
+        #                      #   'links> home' => '/',
+        #                      #   'links> products' => '/products'
+        #                      # }
+        def squash(joiner = '.')
+          Hash::Squasher.new(joiner).squash(deep_dup)
+        end
+
+        # Squash the hash so that it becomes a single level hash
+        #
+        # The squashing happens by merging the keys of
+        # outter and inner hashes
+        #
+        # This operation is the oposite of {#to_deep_hash!}
+        #
+        # @param joiner [::String] String to be used when
+        #   joining keys
+        #
+        # @return [::Hash] A new hash
+        #
+        # @see Squash::Builder
+        # @see #to_deep_hash!
+        #
+        # @example (see #squash)
+        def squash!(joiner = '.')
+          Hash::Squasher.new(joiner).squash(self)
         end
 
         # Creates a new hash of multiple levels from a one level
@@ -103,32 +151,64 @@ module Darthjee
         # @see Hash::DeepHashConstructor
         # @see #squash
         #
-        # @example construction of name hash
-        #   { 'name_first' => 'John', 'name_last' => 'Doe' }
+        # @example With custom separator
+        #   hash = {
+        #     'person[0]_name_first' => 'John',
+        #     'person[0]_name_last'  => 'Doe',
+        #     'person[1]_name_first' => 'John',
+        #     'person[1]_name_last'  => 'Wick'
+        #   }
         #
-        #   hash.to_deep_hash # return {
-        #                     #   'name' => {
-        #                     #     'first' => 'John',
-        #                     #     'last' => 'Doe'
-        #                     #   }
-        #                     # }
-        # @example Reverting squash
+        #   hash.to_deep_hash('_') # return {
+        #                          #   'person' => [{
+        #                          #     'name' => {
+        #                          #       'first' => 'John',
+        #                          #       'last'  => 'Doe'
+        #                          #   }, {
+        #                          #     'name' => {
+        #                          #       'first' => 'John',
+        #                          #       'last'  => 'Wick'
+        #                          #     }
+        #                          #   }]
+        #                          # }
+        #
+        # @example Reverting the result of a squash
         #   person = {
-        #     'person' => {
-        #       'name' => 'John',
-        #       'age' => 23
-        #     }
+        #     person: [{
+        #       name: ['John', 'Wick'],
+        #       age:  23
+        #     }, {
+        #       name: %w[John Constantine],
+        #       age:  25
+        #     }]
         #   }
         #   person_data = person.squash
         #
         #   person_data.to_deep_hash
         #   # returns {
-        #   #   'person' => {
-        #   #     'name' => 'John',
-        #   #     'age' => 23
-        #   #   }
+        #   #   'person' => [{
+        #   #     'name' => ['John', 'Wick'],
+        #   #     'age'  => 23
+        #   #   }, {
+        #   #     'name' => %w[John Constantine],
+        #   #     'age'  => 25
+        #   #   }]
         #   # }
         def to_deep_hash(separator = '.')
+          Hash::DeepHashConstructor.new(separator).deep_hash(deep_dup)
+        end
+
+        # Changes hash to be a multiple level hash
+        #
+        # this operation is the oposite from {#squash!}
+        #
+        # @return [::Hash] Self changed to be a multi-level hash
+        #
+        # @see Hash::DeepHashConstructor
+        # @see #squash
+        #
+        # @example (see #to_deep_hash)
+        def to_deep_hash!(separator = '.')
           Hash::DeepHashConstructor.new(separator).deep_hash(self)
         end
       end

@@ -36,6 +36,7 @@ rules:
       - Darthjee::CoreExt::Hash::KeyChanger#hash
       - Darthjee::CoreExt::Hash::KeysSorter#hash
       - Darthjee::CoreExt::Hash::KeysSorter#recursive
+      - Darthjee::CoreExt::Hash::Squasher#joiner
   Summary::Presence:
     enabled: true
     exclude:
@@ -56,6 +57,7 @@ rules:
       - Darthjee::CoreExt::Hash::KeyChanger#hash
       - Darthjee::CoreExt::Hash::KeysSorter#hash
       - Darthjee::CoreExt::Hash::KeysSorter#recursive
+      - Darthjee::CoreExt::Hash::Squasher#joiner
   Summary::Length:
     enabled: true
     exclude: []

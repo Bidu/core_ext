@@ -13,13 +13,18 @@ module Darthjee
       # (no sub hashes) has keys that, once explitted, can be
       # assembled in a hash with many layers
       #
+      # @see Transformable#squash
+      # @see Transformable#to_deep_hash
+      #
+      # @example (see Transformable#to_deep_hash)
       # @example General Usage
       #   hash = {
-      #     'account.person.name' => 'John',
-      #     'account.person.age'  =>  20,
-      #     'account.number'      => '102030',
-      #     :'house.number'       => 67,
-      #     :'house.zip'          => 12_345
+      #     'account.person.name[0]' => 'John',
+      #     'account.person.name[1]' => 'Wick',
+      #     'account.person.age'     =>  20,
+      #     'account.number'         => '102030',
+      #     :'house.number'          => 67,
+      #     :'house.zip'             => 12_345
       #   }
       #
       #   constructor = Darthjee::CoreExt::Hash::DeepHashConstructor.new('.')
@@ -27,7 +32,7 @@ module Darthjee
       #   constructor.deep_hash(hash)  # returns {
       #                                #   'account' => {
       #                                #     'person' => {
-      #                                #       'name'   => 'John',
+      #                                #       'name'   => ['John', 'Wick'],
       #                                #       'age'    =>  20
       #                                #     },
       #                                #     'number' => '102030',
@@ -41,7 +46,7 @@ module Darthjee
         autoload :Setter, "#{PATH}/hash/deep_hash_constructor/setter"
 
         # @param separator [::String] keys splitter
-        def initialize(separator)
+        def initialize(separator = '.')
           @separator = separator
         end
 
@@ -53,9 +58,9 @@ module Darthjee
         #
         # @example (see DeepHashConstructor)
         def deep_hash(hash)
-          break_keys(hash).tap do |new_hash|
-            new_hash.each do |key, value|
-              new_hash[key] = deep_hash_value(value)
+          break_keys(hash).tap do
+            hash.each do |key, value|
+              hash[key] = deep_hash_value(value)
             end
           end
         end
@@ -72,11 +77,12 @@ module Darthjee
         #
         # @example Breaking many level keys
         #   hash = {
-        #     'account.person.name' => 'John',
-        #     'account.person.age'  =>  20,
-        #     'account.number'      => '102030',
-        #     :'house.number'       => 67,
-        #     :'house.zip'          => 12_345
+        #     'account.person.name[0]' => 'John',
+        #     'account.person.name[1]' => 'Wick',
+        #     'account.person.age'     =>  20,
+        #     'account.number'         => '102030',
+        #     :'house.number'          => 67,
+        #     :'house.zip'             => 12_345
         #   }
         #
         #   constructor = Darthjee::CoreExt::Hash::DeepHashConstructor.new('.')
@@ -85,9 +91,10 @@ module Darthjee
         #
         #   # Returns {
         #   #   'account' => {
-        #   #     %w[person name] => 'John',
-        #   #     %w[person age]  =>  20,
-        #   #     %w[number]      => '102030'
+        #   #     %w[person name[0]] => 'John',
+        #   #     %w[person name[1]] => 'Wick',
+        #   #     %w[person age]     =>  20,
+        #   #     %w[number]         => '102030'
         #   #   },
         #   #   'house' => {
         #   #     %w[number] => 67,
@@ -97,12 +104,13 @@ module Darthjee
         #
         # @return [Hash]
         def break_keys(hash)
-          {}.tap do |new_hash|
-            hash.each do |key, value|
-              base_key, child_key = split_key(key, separator)
-              Setter.new(new_hash, base_key).set(child_key, value)
-            end
+          hash.keys.each do |key|
+            value = hash.delete(key)
+            base_key, child_key = split_key(key, separator)
+            Setter.new(hash, base_key).set(child_key, value)
           end
+
+          hash
         end
 
         # @private

@@ -10,7 +10,8 @@ describe Hash do
       let(:other)    { { b: 4, 'c' => 5, e: 6 } }
 
       it 'merges only the existing keys' do
-        expect(hash.exclusive_merge(other)).to eq(a: 1, b: 4, c: 3)
+        expect(hash.exclusive_merge(other))
+          .to eq(a: 1, b: 4, c: 3)
       end
 
       it 'does not change original hash' do
@@ -26,7 +27,8 @@ describe Hash do
       let(:other)    { { b: 4, 'c' => 5, e: 6 } }
 
       it 'merges only the existing keys' do
-        expect(hash.exclusive_merge!(other)).to eq(a: 1, b: 4, c: 3)
+        expect(hash.exclusive_merge!(other))
+          .to eq(a: 1, b: 4, c: 3)
       end
 
       it 'does not change original hash' do
@@ -56,44 +58,90 @@ describe Hash do
   end
 
   describe '#squash' do
-    subject(:hash) { { name: { first: 'John', last: 'Doe' } } }
+    describe 'Simple Usage' do
+      subject(:hash) do
+        { name: { first: 'John', last: 'Doe' } }
+      end
 
-    it 'squash the hash into a one level hash' do
-      expect(hash.squash).to eq('name.first' => 'John', 'name.last' => 'Doe')
+      it 'squash the hash into a one level hash' do
+        expect(hash.squash)
+          .to eq('name.first' => 'John', 'name.last' => 'Doe')
+      end
     end
 
-    context 'when squashing the result of a deep hash' do
-      let(:person_data) { { 'person.name' => 'John', 'person.age' => 23 } }
-      let(:person)      { person_data.to_deep_hash }
+    describe 'Reverting a #to_deep_hash call' do
+      let(:person) { person_data.to_deep_hash }
+      let(:person_data) do
+        { 'person.name' => 'John', 'person.age' => 23 }
+      end
 
       it 'is the reverse operation' do
         expect(person.squash).to eq(person_data)
       end
     end
+
+    describe 'Giving a custom joiner' do
+      subject(:hash) do
+        {
+          links: {
+            home: '/',
+            products: '/products'
+          }
+        }
+      end
+
+      it 'joins keys using custom joiner' do
+        expect(hash.squash('> ')).to eq(
+          'links> home' => '/',
+          'links> products' => '/products'
+        )
+      end
+    end
   end
 
   describe '#to_deep_hash' do
-    subject(:hash) { { 'name_first' => 'John', 'name_last' => 'Doe' } }
+    describe 'With custom separator' do
+      subject(:hash) do
+        {
+          'person[0]_name_first' => 'John',
+          'person[0]_name_last'  => 'Doe',
+          'person[1]_name_first' => 'John',
+          'person[1]_name_last'  => 'Wick'
+        }
+      end
 
-    it 'with custom separator' do
-      expect(hash.to_deep_hash('_')).to eq(
-        'name' => { 'first' => 'John', 'last' => 'Doe' }
-      )
+      let(:expected) do
+        {
+          'person' => [{
+            'name' => { 'first' => 'John', 'last' => 'Doe' }
+          }, {
+            'name' => { 'first' => 'John', 'last' => 'Wick' }
+          }]
+        }
+      end
+
+      it 'with custom separator' do
+        expect(hash.to_deep_hash('_')).to eq(expected)
+      end
     end
 
-    context 'when squashing the result of a deep hash' do
+    describe 'Reverting the result of a squash' do
       let(:person) do
         {
-          'person' => {
-            'name' => 'John',
-            'age' => 23
-          }
+          person: [{
+            name: %w[John Wick],
+            age: 22
+          }, {
+            name: %w[John Constantine],
+            age: 25
+          }]
         }
       end
       let(:person_data) { person.squash }
 
       it 'is the reverse operation' do
-        expect(person_data.to_deep_hash).to eq(person)
+        expect(person_data.to_deep_hash)
+          .to eq(person.deep_stringify_keys)
       end
     end
   end

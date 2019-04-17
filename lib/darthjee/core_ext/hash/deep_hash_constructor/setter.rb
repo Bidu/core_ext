@@ -37,6 +37,8 @@ module Darthjee
           # @param key [::String,::NilClass] key where value will live
           # @param value [::Object] value to be set
           #
+          # @return [::Object] value
+          #
           # @example (see DeepHashConstructor)
           #
           # @example With Array index
