@@ -4,4 +4,5 @@ Gemfile.lock
 doc
 .yardoc
 measurement
+rubycritc
 **/.*.swp
