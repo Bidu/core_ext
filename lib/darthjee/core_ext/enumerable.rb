@@ -132,19 +132,18 @@ module Enumerable
   # The keys will be the original values used in the
   # mapping and the values the result of the #map
   #
+  # @return [::Hash]
+  #
   # @yield (*args) the mapping block
   #
   # @example Mapping strings to their sizes
   #   strings =  %w[word big_word]
   #
   #   strings.map_to_hash(&:size) # returns { 'word' => 4, 'big_word' => 8 }
-  # @return [::Hash]
   def map_to_hash
-    {}.tap do |hash|
-      each do |element|
-        hash[element] = yield(element)
-      end
-    end
+    map do |value|
+      [value, yield(value)]
+    end.to_h
   end
 
   private

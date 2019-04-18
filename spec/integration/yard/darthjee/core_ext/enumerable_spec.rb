@@ -73,11 +73,31 @@ describe Enumerable do
     end
 
     describe 'map_to_hash' do
-      subject(:strings) { %w[word big_word] }
+      describe 'Mapping strings to their sizes' do
+        subject(:strings) { %w[word big_word] }
 
-      it 'returns a hash with the mapped values' do
-        hash = strings.map_to_hash(&:size)
-        expect(hash).to eq('word' => 4, 'big_word' => 8)
+        it 'returns a hash with the mapped values' do
+          hash = strings.map_to_hash(&:size)
+          expect(hash).to eq('word' => 4, 'big_word' => 8)
+        end
+      end
+
+      describe 'Mapping a hash' do
+        subject(:hash) { { a: 'word', b: 'bigword', c: 'c' } }
+
+        let(:new_hash) do
+          hash.map_to_hash do |key, value|
+            "#{key}->#{value.size}"
+          end
+        end
+
+        it 'remaps the values keeping the original keys' do
+          expect(new_hash).to eq(
+            a: 'a->4',
+            b: 'b->7',
+            c: 'c->1'
+          )
+        end
       end
     end
   end

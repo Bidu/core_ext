@@ -56,8 +56,10 @@ module Darthjee
         #   end
         #
         #   new_hash # returns { a: 'a->4', b: 'b->7', c: 'c->1' }
-        def map_to_hash(&block)
-          Hash::ToHashMapper.new(self).map(&block)
+        def map_to_hash
+          map do |key, value|
+            [key, yield(key, value)]
+          end.to_h
         end
 
         # Squash the hash returning a single level hash

@@ -15,7 +15,6 @@ module Darthjee
       autoload :KeysSorter,          "#{PATH}/hash/keys_sorter"
       autoload :Squasher,            "#{PATH}/hash/squasher"
       autoload :ValueChanger,        "#{PATH}/hash/value_changer"
-      autoload :ToHashMapper,        "#{PATH}/hash/to_hash_mapper"
 
       include Hash::Cameliazable
       include Hash::KeyChangeable
