@@ -4,8 +4,7 @@ require 'rubycritic/rake_task'
 
 RubyCritic::RakeTask.new do |task|
   options = %w[
-    --branch master
-    --path rubycritc/
+    --path rubycritic/
     --no-browser
   ]
   task.options = options.join(' ')

@@ -28,4 +28,4 @@ jobs:
           command: scripts/check_readme.sh
       - run:
           name: Rubycritcs check
-          command: bundle exec rake rubycritic
+          command: scripts/rubycritic.sh

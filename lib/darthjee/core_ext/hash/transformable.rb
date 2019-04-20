@@ -4,8 +4,7 @@ module Darthjee
   module CoreExt
     module Hash
       module Transformable
-        # Merges both hashes not adding keys that don't
-        # exist in the original hash
+        # Merge only common keys
         #
         # @param [::Hash] other other hash to be merged
         #
@@ -15,14 +14,16 @@ module Darthjee
         #   hash = { a: 1, b: 2, c: 3 }
         #   other = { b: 4, 'c' => 5, e: 6 }
         #
-        #   hash.exclusive_merge(other) # returns { a: 1, b: 4, c: 3 }
-        #   hash                        # returns { a: 1, b: 2, c: 3 }
+        #   hash.exclusive_merge(other) # returns {
+        #                               #   a: 1,
+        #                               #   b: 4,
+        #                               #   c: 3
+        #                               # }
         def exclusive_merge(other)
           dup.exclusive_merge!(other)
         end
 
-        # Merges both hashes not adding keys that don't
-        # exist in the original hash
+        # Merge only common keys
         #
         # @param [::Hash] other other hash to be merged
         #
@@ -32,17 +33,23 @@ module Darthjee
         #   hash = { a: 1, b: 2, c: 3 }
         #   other = { b: 4, 'c' => 5, e: 6 }
         #
-        #   hash.exclusive_merge!(other) # returns { a: 1, b: 4, c: 3 }
-        #   hash                         # returns { a: 1, b: 4, c: 3 }
+        #   hash.exclusive_merge!(other) # changes hash to {
+        #                               #   a: 1,
+        #                               #   b: 4,
+        #                               #   c: 3
+        #                               # }
         def exclusive_merge!(other)
           merge!(other.slice(*keys))
         end
 
+        # Map returning a hash keeping the original keys
+        #
         # Run map block where each pair key, value is mapped
         # to a new value to be assigned in the same key on the
         # returned hash
         #
-        # @return new Hash made with the pairs key => mapped_value
+        # @return [::Hash] new Hash made with the pairs
+        #   key => mapped_value
         #
         # @yield (key, value) block returning the new value
         #
@@ -55,7 +62,11 @@ module Darthjee
         #     "#{key}->#{value.size}"
         #   end
         #
-        #   new_hash # returns { a: 'a->4', b: 'b->7', c: 'c->1' }
+        #   new_hash # returns {
+        #            #   a: 'a->4',
+        #            #   b: 'b->7',
+        #            #   c: 'c->1'
+        #            # }
         def map_to_hash
           map do |key, value|
             [key, yield(key, value)]
@@ -143,8 +154,7 @@ module Darthjee
           Hash::Squasher.new(joiner).squash(self)
         end
 
-        # Creates a new hash of multiple levels from a one level
-        # hash
+        # Creates a new hash of multiple levels
         #
         # this operation is the oposite from {#squash}
         #
