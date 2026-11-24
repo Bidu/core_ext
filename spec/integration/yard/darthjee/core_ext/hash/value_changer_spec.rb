@@ -36,7 +36,7 @@ describe Darthjee::CoreExt::Hash::ValueChanger do
 
           it 'transforms values' do
             expect(changer.change(hash)).to eq(
-              a: 2, b: 7, d: 11
+              a: 2, b: 6, d: 10
             )
           end
         end

@@ -23,7 +23,7 @@ services:
     command: /bin/bash -c 'rspec && yard && rake yardstick_measure && rake verify_measurements'
 
   core_ext_circleci:
-    image: darthjee/circleci_ruby_331:1.0.2
+    image: darthjee/circleci_ruby_3412:1.0.0
     container_name: core_ext_circleci
     command: /bin/bash
     volumes:

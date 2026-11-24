@@ -2,8 +2,6 @@
 
 require 'spec_helper'
 
-# frozen_string_literal: true
-
 describe Hash do
   describe 'readme' do
     describe '#chain_fetch' do
@@ -58,7 +56,7 @@ describe Hash do
         end
 
         it 'changes the values skipping inner' do
-          expect(result).to eq(a: '2', b: Array, d: '{:e=>3}')
+          expect(result).to eq(a: '2', b: Array, d: '{e: 3}')
         end
       end
     end
@@ -101,7 +99,7 @@ describe Hash do
         it 'changes the values skipping inner' do
           expect { result }
             .to change { hash }
-            .to(a: '2', b: Array, d: '{:e=>3}')
+            .to(a: '2', b: Array, d: '{e: 3}')
         end
       end
     end

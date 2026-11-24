@@ -25,7 +25,7 @@ describe Darthjee::CoreExt::Hash::Changeable do
 
       it 'changes the values' do
         expect(hash.change_values(skip_inner: false, &:to_s))
-          .to eq(a: '1', b: '{:c=>1}')
+          .to eq(a: '1', b: '{c: 1}')
       end
     end
   end
@@ -56,7 +56,7 @@ describe Darthjee::CoreExt::Hash::Changeable do
         expect { hash.change_values!(skip_inner: false, &:to_s) }
           .to change { hash }
           .from(a: 1, b: { c: 2 })
-          .to(a: '1', b: '{:c=>2}')
+          .to(a: '1', b: '{c: 2}')
       end
 
       it 'changes the inner hash' do

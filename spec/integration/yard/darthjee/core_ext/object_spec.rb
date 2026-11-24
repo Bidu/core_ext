@@ -24,7 +24,7 @@ describe Darthjee::CoreExt::Object do
       end
     end
 
-    # rubocop: disable RSpec/PredicateMatcher
+    # rubocop: disable-next RSpec/PredicateMatcher
     describe '#trueful?' do
       describe 'Calling on nil object' do
         it { expect(nil.trueful?).not_to be_truthy }
@@ -42,6 +42,5 @@ describe Darthjee::CoreExt::Object do
         it { expect(''.trueful?).to be_truthy }
       end
     end
-    # rubocop: enable RSpec/PredicateMatcher
   end
 end
