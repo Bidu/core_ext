@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Usage: scripts/bump_version.sh [major|minor|patch|X.Y.Z]
-# Without arguments, bumps the minor version of the current version.
+# Without arguments, bumps the patch version of the current version.
 
 set -euo pipefail
 
@@ -13,7 +13,7 @@ GEM="darthjee-core_ext"
 current=$(grep -oE "VERSION = '[0-9]+\.[0-9]+\.[0-9]+'" "$VERSION_FILE" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
 IFS='.' read -r cmajor cminor cpatch <<< "$current"
 
-arg="${1:-minor}"
+arg="${1:-patch}"
 
 case "$arg" in
   major) new_version="$((cmajor + 1)).0.0" ;;
