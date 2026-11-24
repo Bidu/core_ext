@@ -9,11 +9,11 @@ Darthjee/CoreExt
 
 Yard Documentation
 -------------------
-[https://www.rubydoc.info/gems/darthjee-core_ext/3.1.1](https://www.rubydoc.info/gems/darthjee-core_ext/3.1.1)
+[https://www.rubydoc.info/gems/darthjee-core_ext/3.2.0](https://www.rubydoc.info/gems/darthjee-core_ext/3.2.0)
 
-**Current Release**: [3.1.1](https://github.com/darthjee/core_ext/tree/3.1.1)
+**Current Release**: [3.2.0](https://github.com/darthjee/core_ext/tree/3.2.0)
 
-**Next release**: [3.2.0](https://github.com/darthjee/core_ext/compare/3.1.1...main)
+**Next release**: [3.3.0](https://github.com/darthjee/core_ext/compare/3.2.0...main)
 
 # Usage
 This project adds some new methods to the core ruby classes
